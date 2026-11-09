@@ -1,0 +1,9 @@
+task,kind,n_checks,passed,lint_errors
+T1,gold,9,9,0.0
+T1,alternative,9,9,0.0
+T2,gold,11,11,0.0
+T2,alternative,11,11,0.0
+T3,gold,16,16,0.0
+T3,alternative,16,16,0.0
+APP,gold,16,16,
+DES,gold,10,10,

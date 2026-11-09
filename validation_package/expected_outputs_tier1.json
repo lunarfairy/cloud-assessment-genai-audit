@@ -1,0 +1,2215 @@
+{
+ "checker_dir": "patched_copy/tier1",
+ "gold_all_pass": {
+  "APP": true,
+  "DES": true,
+  "T1": true,
+  "T2": true,
+  "T3": true
+ },
+ "gold_baseline": {
+  "APP": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": true,
+    "A04": true,
+    "A05": true,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": true,
+    "A12": true,
+    "A13": true,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "lint_errors": null,
+   "lint_rules": []
+  },
+  "DES": {
+   "checks": {
+    "D01": true,
+    "D02": true,
+    "D03": true,
+    "D04": true,
+    "D05": true,
+    "D06": true,
+    "D07": true,
+    "D08": true,
+    "D09": true,
+    "D10": true
+   },
+   "lint_errors": null,
+   "lint_rules": []
+  },
+  "T1": {
+   "checks": {
+    "T1.R1": true,
+    "T1.R2": true,
+    "T1.R3": true,
+    "T1.R4": true,
+    "T1.R5": true,
+    "T1.R6": true,
+    "T1.R7": true,
+    "T1.R8": true,
+    "T1.R9": true
+   },
+   "lint_errors": 0,
+   "lint_rules": []
+  },
+  "T2": {
+   "checks": {
+    "T2.R1": true,
+    "T2.R10": true,
+    "T2.R11": true,
+    "T2.R2": true,
+    "T2.R3": true,
+    "T2.R4": true,
+    "T2.R5": true,
+    "T2.R6": true,
+    "T2.R7": true,
+    "T2.R8": true,
+    "T2.R9": true
+   },
+   "lint_errors": 0,
+   "lint_rules": []
+  },
+  "T3": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "lint_errors": 0,
+   "lint_rules": []
+  }
+ },
+ "grader_sha256": {
+  "app_runner.py": "ae0da687b6103091ba77e2d28d5ec542dcfb0d6926b7bda4f39f9605c0c17f66",
+  "checks_des.py": "3497be5410e9d25c434c8bd76e37ceea0d69e3d8f81e8502945cb9a668031366",
+  "checks_iac.py": "d7aebbac938fa9d661c8f4f0f69521910f9526478a829d14aae88c4efdf411e2",
+  "runner.py": "fa182b480fe9aeec4fdf14d64f8ae0fc95a0bb3e865a5861a9367b8a1301071e"
+ },
+ "mutants": {
+  "APP_M01": {
+   "checks": {
+    "A01": false,
+    "A02": true,
+    "A03": true,
+    "A04": true,
+    "A05": true,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": true,
+    "A12": false,
+    "A13": false,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [
+    "A12",
+    "A13"
+   ],
+   "desc": "required function photo_url missing (renamed get_photo_url)",
+   "failed_checks": [
+    "A01",
+    "A12",
+    "A13"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A01",
+   "target_detected": true
+  },
+  "APP_M02": {
+   "checks": {
+    "A01": true,
+    "A02": false,
+    "A03": true,
+    "A04": true,
+    "A05": true,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": true,
+    "A12": true,
+    "A13": true,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [],
+   "desc": "no AUTOINCREMENT",
+   "failed_checks": [
+    "A02"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A02",
+   "target_detected": true
+  },
+  "APP_M03": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": false,
+    "A04": true,
+    "A05": true,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": true,
+    "A12": true,
+    "A13": true,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [],
+   "desc": "unordered search",
+   "failed_checks": [
+    "A03"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A03",
+   "target_detected": true
+  },
+  "APP_M04": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": false,
+    "A04": false,
+    "A05": false,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": true,
+    "A12": true,
+    "A13": true,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [
+    "A03",
+    "A05"
+   ],
+   "desc": "case-sensitive search",
+   "failed_checks": [
+    "A03",
+    "A04",
+    "A05"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A04",
+   "target_detected": true
+  },
+  "APP_M05": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": true,
+    "A04": true,
+    "A05": false,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": true,
+    "A12": true,
+    "A13": true,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [],
+   "desc": "string-built INSERT",
+   "failed_checks": [
+    "A05"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A05",
+   "target_detected": true
+  },
+  "APP_M06": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": true,
+    "A04": true,
+    "A05": false,
+    "A06": false,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": true,
+    "A12": true,
+    "A13": true,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [
+    "A05"
+   ],
+   "desc": "string-built SELECT",
+   "failed_checks": [
+    "A05",
+    "A06"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A06",
+   "target_detected": true
+  },
+  "APP_M07": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": true,
+    "A04": true,
+    "A05": true,
+    "A06": true,
+    "A07": false,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": true,
+    "A12": true,
+    "A13": true,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [],
+   "desc": "naive local timestamp",
+   "failed_checks": [
+    "A07"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A07",
+   "target_detected": true
+  },
+  "APP_M08": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": true,
+    "A04": true,
+    "A05": true,
+    "A06": true,
+    "A07": true,
+    "A08": false,
+    "A09": false,
+    "A10": true,
+    "A11": true,
+    "A12": true,
+    "A13": true,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [
+    "A09"
+   ],
+   "desc": "key without uuid",
+   "failed_checks": [
+    "A08",
+    "A09"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A08",
+   "target_detected": true
+  },
+  "APP_M09": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": true,
+    "A04": true,
+    "A05": true,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": false,
+    "A10": true,
+    "A11": true,
+    "A12": true,
+    "A13": true,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [],
+   "desc": "no filename sanitisation",
+   "failed_checks": [
+    "A09"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A09",
+   "target_detected": true
+  },
+  "APP_M10": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": true,
+    "A04": true,
+    "A05": true,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": false,
+    "A11": true,
+    "A12": true,
+    "A13": true,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [],
+   "desc": "no content-type check",
+   "failed_checks": [
+    "A10"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A10",
+   "target_detected": true
+  },
+  "APP_M11": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": true,
+    "A04": true,
+    "A05": true,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": false,
+    "A12": true,
+    "A13": true,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [],
+   "desc": "size check off by one",
+   "failed_checks": [
+    "A11"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A11",
+   "target_detected": true
+  },
+  "APP_M12": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": true,
+    "A04": true,
+    "A05": true,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": true,
+    "A12": false,
+    "A13": true,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [],
+   "desc": "presign put_object",
+   "failed_checks": [
+    "A12"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A12",
+   "target_detected": true
+  },
+  "APP_M13": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": true,
+    "A04": true,
+    "A05": true,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": true,
+    "A12": true,
+    "A13": false,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [],
+   "desc": "no expiry bound",
+   "failed_checks": [
+    "A13"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A13",
+   "target_detected": true
+  },
+  "APP_M14": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": true,
+    "A04": true,
+    "A05": true,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": true,
+    "A12": true,
+    "A13": true,
+    "A14": false,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [],
+   "desc": "no compensating delete",
+   "failed_checks": [
+    "A14"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A14",
+   "target_detected": true
+  },
+  "APP_M15": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": true,
+    "A04": true,
+    "A05": true,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": true,
+    "A12": true,
+    "A13": true,
+    "A14": true,
+    "A15": false,
+    "A16": true
+   },
+   "collateral": [],
+   "desc": "metadata stores filename not key",
+   "failed_checks": [
+    "A15"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A15",
+   "target_detected": true
+  },
+  "APP_M16": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": true,
+    "A04": true,
+    "A05": true,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": true,
+    "A12": true,
+    "A13": true,
+    "A14": true,
+    "A15": true,
+    "A16": false
+   },
+   "collateral": [],
+   "desc": "embedded credentials",
+   "failed_checks": [
+    "A16"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A16",
+   "target_detected": true
+  },
+  "APP_S01": {
+   "checks": {
+    "A01": true,
+    "A02": true,
+    "A03": false,
+    "A04": false,
+    "A05": true,
+    "A06": true,
+    "A07": true,
+    "A08": true,
+    "A09": true,
+    "A10": true,
+    "A11": true,
+    "A12": true,
+    "A13": true,
+    "A14": true,
+    "A15": true,
+    "A16": true
+   },
+   "collateral": [
+    "A03"
+   ],
+   "desc": "case-sensitive search (targeted: instr on raw columns, term unchanged)",
+   "failed_checks": [
+    "A03",
+    "A04"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "A04",
+   "target_detected": true
+  },
+  "DES_M01": {
+   "checks": {
+    "D01": false,
+    "D02": false,
+    "D03": true,
+    "D04": false,
+    "D05": true,
+    "D06": true,
+    "D07": true,
+    "D08": true,
+    "D09": true,
+    "D10": true
+   },
+   "collateral": [
+    "D02",
+    "D04"
+   ],
+   "desc": "unknown price item",
+   "failed_checks": [
+    "D01",
+    "D02",
+    "D04"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "D01",
+   "target_detected": true
+  },
+  "DES_M02": {
+   "checks": {
+    "D01": true,
+    "D02": false,
+    "D03": true,
+    "D04": true,
+    "D05": true,
+    "D06": true,
+    "D07": true,
+    "D08": true,
+    "D09": true,
+    "D10": true
+   },
+   "collateral": [],
+   "desc": "arithmetic error",
+   "failed_checks": [
+    "D02"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "D02",
+   "target_detected": true
+  },
+  "DES_M03": {
+   "checks": {
+    "D01": true,
+    "D02": true,
+    "D03": false,
+    "D04": true,
+    "D05": true,
+    "D06": true,
+    "D07": true,
+    "D08": true,
+    "D09": true,
+    "D10": true
+   },
+   "collateral": [],
+   "desc": "original mis-priced",
+   "failed_checks": [
+    "D03"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "D03",
+   "target_detected": true
+  },
+  "DES_M04": {
+   "checks": {
+    "D01": true,
+    "D02": true,
+    "D03": true,
+    "D04": false,
+    "D05": true,
+    "D06": true,
+    "D07": true,
+    "D08": true,
+    "D09": true,
+    "D10": true
+   },
+   "collateral": [],
+   "desc": "over budget",
+   "failed_checks": [
+    "D04"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "D04",
+   "target_detected": true
+  },
+  "DES_M05": {
+   "checks": {
+    "D01": true,
+    "D02": true,
+    "D03": true,
+    "D04": true,
+    "D05": false,
+    "D06": true,
+    "D07": true,
+    "D08": true,
+    "D09": true,
+    "D10": true
+   },
+   "collateral": [],
+   "desc": "insufficient peak capacity",
+   "failed_checks": [
+    "D05"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "D05",
+   "target_detected": true
+  },
+  "DES_M06": {
+   "checks": {
+    "D01": true,
+    "D02": true,
+    "D03": true,
+    "D04": true,
+    "D05": true,
+    "D06": false,
+    "D07": true,
+    "D08": true,
+    "D09": true,
+    "D10": true
+   },
+   "collateral": [],
+   "desc": "single-AZ database",
+   "failed_checks": [
+    "D06"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "D06",
+   "target_detected": true
+  },
+  "DES_M07": {
+   "checks": {
+    "D01": true,
+    "D02": true,
+    "D03": true,
+    "D04": true,
+    "D05": true,
+    "D06": true,
+    "D07": false,
+    "D08": true,
+    "D09": true,
+    "D10": true
+   },
+   "collateral": [],
+   "desc": "no PITR",
+   "failed_checks": [
+    "D07"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "D07",
+   "target_detected": true
+  },
+  "DES_M08": {
+   "checks": {
+    "D01": true,
+    "D02": true,
+    "D03": true,
+    "D04": true,
+    "D05": true,
+    "D06": true,
+    "D07": true,
+    "D08": false,
+    "D09": true,
+    "D10": true
+   },
+   "collateral": [],
+   "desc": "peak hours not costed",
+   "failed_checks": [
+    "D08"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "D08",
+   "target_detected": true
+  },
+  "DES_M09": {
+   "checks": {
+    "D01": true,
+    "D02": true,
+    "D03": true,
+    "D04": true,
+    "D05": true,
+    "D06": true,
+    "D07": true,
+    "D08": true,
+    "D09": false,
+    "D10": true
+   },
+   "collateral": [],
+   "desc": "CDN requests not costed",
+   "failed_checks": [
+    "D09"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "D09",
+   "target_detected": true
+  },
+  "DES_M10": {
+   "checks": {
+    "D01": true,
+    "D02": true,
+    "D03": true,
+    "D04": true,
+    "D05": true,
+    "D06": true,
+    "D07": true,
+    "D08": true,
+    "D09": true,
+    "D10": false
+   },
+   "collateral": [],
+   "desc": "sustainability pillar omitted",
+   "failed_checks": [
+    "D10"
+   ],
+   "lint_errors": null,
+   "lint_rules": [],
+   "target": "D10",
+   "target_detected": true
+  },
+  "T1_M01": {
+   "checks": {
+    "T1.R1": false,
+    "T1.R2": true,
+    "T1.R3": true,
+    "T1.R4": true,
+    "T1.R5": true,
+    "T1.R6": true,
+    "T1.R7": true,
+    "T1.R8": true,
+    "T1.R9": true
+   },
+   "collateral": [],
+   "desc": "key name not a parameter",
+   "failed_checks": [
+    "T1.R1"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T1.R1",
+   "target_detected": true
+  },
+  "T1_M02": {
+   "checks": {
+    "T1.R1": true,
+    "T1.R2": false,
+    "T1.R3": true,
+    "T1.R4": true,
+    "T1.R5": true,
+    "T1.R6": true,
+    "T1.R7": true,
+    "T1.R8": true,
+    "T1.R9": true
+   },
+   "collateral": [],
+   "desc": "hard-coded AMI ID",
+   "failed_checks": [
+    "T1.R2"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T1.R2",
+   "target_detected": true
+  },
+  "T1_M03": {
+   "checks": {
+    "T1.R1": true,
+    "T1.R2": false,
+    "T1.R3": true,
+    "T1.R4": true,
+    "T1.R5": true,
+    "T1.R6": true,
+    "T1.R7": true,
+    "T1.R8": true,
+    "T1.R9": true
+   },
+   "collateral": [],
+   "desc": "Amazon Linux 2 SSM path instead of AL2023",
+   "failed_checks": [
+    "T1.R2"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T1.R2",
+   "target_detected": true
+  },
+  "T1_M04": {
+   "checks": {
+    "T1.R1": true,
+    "T1.R2": true,
+    "T1.R3": false,
+    "T1.R4": true,
+    "T1.R5": true,
+    "T1.R6": true,
+    "T1.R7": true,
+    "T1.R8": true,
+    "T1.R9": true
+   },
+   "collateral": [],
+   "desc": "t2.micro",
+   "failed_checks": [
+    "T1.R3"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T1.R3",
+   "target_detected": true
+  },
+  "T1_M05": {
+   "checks": {
+    "T1.R1": true,
+    "T1.R2": true,
+    "T1.R3": true,
+    "T1.R4": false,
+    "T1.R5": true,
+    "T1.R6": false,
+    "T1.R7": true,
+    "T1.R8": true,
+    "T1.R9": true
+   },
+   "collateral": [
+    "T1.R6"
+   ],
+   "desc": "HTTPS rule replaced by HTTP",
+   "failed_checks": [
+    "T1.R4",
+    "T1.R6"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T1.R4",
+   "target_detected": true
+  },
+  "T1_M06": {
+   "checks": {
+    "T1.R1": false,
+    "T1.R2": true,
+    "T1.R3": true,
+    "T1.R4": true,
+    "T1.R5": false,
+    "T1.R6": false,
+    "T1.R7": true,
+    "T1.R8": true,
+    "T1.R9": true
+   },
+   "collateral": [
+    "T1.R1",
+    "T1.R6"
+   ],
+   "desc": "SSH open to world",
+   "failed_checks": [
+    "T1.R1",
+    "T1.R5",
+    "T1.R6"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T1.R5",
+   "target_detected": true
+  },
+  "T1_M07": {
+   "checks": {
+    "T1.R1": true,
+    "T1.R2": true,
+    "T1.R3": true,
+    "T1.R4": true,
+    "T1.R5": true,
+    "T1.R6": false,
+    "T1.R7": true,
+    "T1.R8": true,
+    "T1.R9": true
+   },
+   "collateral": [],
+   "desc": "extra HTTP rule",
+   "failed_checks": [
+    "T1.R6"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T1.R6",
+   "target_detected": true
+  },
+  "T1_M08": {
+   "checks": {
+    "T1.R1": true,
+    "T1.R2": true,
+    "T1.R3": true,
+    "T1.R4": true,
+    "T1.R5": true,
+    "T1.R6": true,
+    "T1.R7": false,
+    "T1.R8": true,
+    "T1.R9": true
+   },
+   "collateral": [],
+   "desc": "user data does not enable httpd",
+   "failed_checks": [
+    "T1.R7"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T1.R7",
+   "target_detected": true
+  },
+  "T1_M09": {
+   "checks": {
+    "T1.R1": true,
+    "T1.R2": true,
+    "T1.R3": true,
+    "T1.R4": true,
+    "T1.R5": true,
+    "T1.R6": true,
+    "T1.R7": false,
+    "T1.R8": true,
+    "T1.R9": true
+   },
+   "collateral": [],
+   "desc": "user data omits mod_ssl",
+   "failed_checks": [
+    "T1.R7"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T1.R7",
+   "target_detected": true
+  },
+  "T1_M10": {
+   "checks": {
+    "T1.R1": true,
+    "T1.R2": true,
+    "T1.R3": true,
+    "T1.R4": true,
+    "T1.R5": true,
+    "T1.R6": true,
+    "T1.R7": true,
+    "T1.R8": false,
+    "T1.R9": true
+   },
+   "collateral": [],
+   "desc": "creates a VPC",
+   "failed_checks": [
+    "T1.R8"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T1.R8",
+   "target_detected": true
+  },
+  "T1_M11": {
+   "checks": {
+    "T1.R1": true,
+    "T1.R2": true,
+    "T1.R3": true,
+    "T1.R4": true,
+    "T1.R5": true,
+    "T1.R6": true,
+    "T1.R7": true,
+    "T1.R8": true,
+    "T1.R9": false
+   },
+   "collateral": [],
+   "desc": "http URL output",
+   "failed_checks": [
+    "T1.R9"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T1.R9",
+   "target_detected": true
+  },
+  "T2_M01": {
+   "checks": {
+    "T2.R1": false,
+    "T2.R10": true,
+    "T2.R11": true,
+    "T2.R2": true,
+    "T2.R3": true,
+    "T2.R4": true,
+    "T2.R5": true,
+    "T2.R6": true,
+    "T2.R7": true,
+    "T2.R8": true,
+    "T2.R9": true
+   },
+   "collateral": [],
+   "desc": "DNS hostnames disabled",
+   "failed_checks": [
+    "T2.R1"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T2.R1",
+   "target_detected": true
+  },
+  "T2_M02": {
+   "checks": {
+    "T2.R1": true,
+    "T2.R10": true,
+    "T2.R11": true,
+    "T2.R2": false,
+    "T2.R3": true,
+    "T2.R4": true,
+    "T2.R5": true,
+    "T2.R6": true,
+    "T2.R7": true,
+    "T2.R8": true,
+    "T2.R9": true
+   },
+   "collateral": [],
+   "desc": "both private subnets in same AZ",
+   "failed_checks": [
+    "T2.R2"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T2.R2",
+   "target_detected": true
+  },
+  "T2_M03": {
+   "checks": {
+    "T2.R1": true,
+    "T2.R10": true,
+    "T2.R11": true,
+    "T2.R2": false,
+    "T2.R3": true,
+    "T2.R4": true,
+    "T2.R5": true,
+    "T2.R6": true,
+    "T2.R7": true,
+    "T2.R8": true,
+    "T2.R9": true
+   },
+   "collateral": [],
+   "desc": "hard-coded AZ name",
+   "failed_checks": [
+    "T2.R2"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T2.R2",
+   "target_detected": true
+  },
+  "T2_M04": {
+   "checks": {
+    "T2.R1": true,
+    "T2.R10": true,
+    "T2.R11": true,
+    "T2.R2": true,
+    "T2.R3": false,
+    "T2.R4": true,
+    "T2.R5": true,
+    "T2.R6": true,
+    "T2.R7": true,
+    "T2.R8": true,
+    "T2.R9": true
+   },
+   "collateral": [],
+   "desc": "public route table not associated with subnet 2",
+   "failed_checks": [
+    "T2.R3"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T2.R3",
+   "target_detected": true
+  },
+  "T2_M05": {
+   "checks": {
+    "T2.R1": true,
+    "T2.R10": true,
+    "T2.R11": true,
+    "T2.R2": true,
+    "T2.R3": true,
+    "T2.R4": false,
+    "T2.R5": true,
+    "T2.R6": true,
+    "T2.R7": true,
+    "T2.R8": false,
+    "T2.R9": true
+   },
+   "collateral": [
+    "T2.R8"
+   ],
+   "desc": "private subnet 1 associated with public route table",
+   "failed_checks": [
+    "T2.R4",
+    "T2.R8"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T2.R4",
+   "target_detected": true
+  },
+  "T2_M06": {
+   "checks": {
+    "T2.R1": true,
+    "T2.R10": true,
+    "T2.R11": true,
+    "T2.R2": true,
+    "T2.R3": true,
+    "T2.R4": true,
+    "T2.R5": false,
+    "T2.R6": true,
+    "T2.R7": true,
+    "T2.R8": true,
+    "T2.R9": true
+   },
+   "collateral": [],
+   "desc": "launch template instance type t2.micro",
+   "failed_checks": [
+    "T2.R5"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T2.R5",
+   "target_detected": true
+  },
+  "T2_M07": {
+   "checks": {
+    "T2.R1": true,
+    "T2.R10": true,
+    "T2.R11": true,
+    "T2.R2": true,
+    "T2.R3": true,
+    "T2.R4": true,
+    "T2.R5": true,
+    "T2.R6": false,
+    "T2.R7": true,
+    "T2.R8": true,
+    "T2.R9": true
+   },
+   "collateral": [],
+   "desc": "no Elastic IP association",
+   "failed_checks": [
+    "T2.R6"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T2.R6",
+   "target_detected": true
+  },
+  "T2_M08": {
+   "checks": {
+    "T2.R1": true,
+    "T2.R10": true,
+    "T2.R11": true,
+    "T2.R2": true,
+    "T2.R3": true,
+    "T2.R4": true,
+    "T2.R5": true,
+    "T2.R6": false,
+    "T2.R7": true,
+    "T2.R8": true,
+    "T2.R9": true
+   },
+   "collateral": [],
+   "desc": "instance in private subnet",
+   "failed_checks": [
+    "T2.R6"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T2.R6",
+   "target_detected": true
+  },
+  "T2_M09": {
+   "checks": {
+    "T2.R1": true,
+    "T2.R10": true,
+    "T2.R11": true,
+    "T2.R2": true,
+    "T2.R3": true,
+    "T2.R4": true,
+    "T2.R5": true,
+    "T2.R6": true,
+    "T2.R7": false,
+    "T2.R8": true,
+    "T2.R9": true
+   },
+   "collateral": [],
+   "desc": "SSH from world",
+   "failed_checks": [
+    "T2.R7"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T2.R7",
+   "target_detected": true
+  },
+  "T2_M10": {
+   "checks": {
+    "T2.R1": true,
+    "T2.R10": true,
+    "T2.R11": true,
+    "T2.R2": true,
+    "T2.R3": true,
+    "T2.R4": true,
+    "T2.R5": true,
+    "T2.R6": true,
+    "T2.R7": true,
+    "T2.R8": false,
+    "T2.R9": true
+   },
+   "collateral": [],
+   "desc": "database publicly accessible",
+   "failed_checks": [
+    "T2.R8"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T2.R8",
+   "target_detected": true
+  },
+  "T2_M11": {
+   "checks": {
+    "T2.R1": true,
+    "T2.R10": true,
+    "T2.R11": true,
+    "T2.R2": true,
+    "T2.R3": true,
+    "T2.R4": true,
+    "T2.R5": true,
+    "T2.R6": true,
+    "T2.R7": true,
+    "T2.R8": false,
+    "T2.R9": true
+   },
+   "collateral": [],
+   "desc": "storage not encrypted",
+   "failed_checks": [
+    "T2.R8"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T2.R8",
+   "target_detected": true
+  },
+  "T2_M12": {
+   "checks": {
+    "T2.R1": true,
+    "T2.R10": true,
+    "T2.R11": true,
+    "T2.R2": true,
+    "T2.R3": true,
+    "T2.R4": true,
+    "T2.R5": true,
+    "T2.R6": true,
+    "T2.R7": true,
+    "T2.R8": true,
+    "T2.R9": false
+   },
+   "collateral": [],
+   "desc": "literal master password",
+   "failed_checks": [
+    "T2.R9"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T2.R9",
+   "target_detected": true
+  },
+  "T2_M13": {
+   "checks": {
+    "T2.R1": true,
+    "T2.R10": false,
+    "T2.R11": true,
+    "T2.R2": true,
+    "T2.R3": true,
+    "T2.R4": true,
+    "T2.R5": true,
+    "T2.R6": true,
+    "T2.R7": true,
+    "T2.R8": true,
+    "T2.R9": true
+   },
+   "collateral": [],
+   "desc": "MySQL open to VPC CIDR",
+   "failed_checks": [
+    "T2.R10"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T2.R10",
+   "target_detected": true
+  },
+  "T2_M14": {
+   "checks": {
+    "T2.R1": true,
+    "T2.R10": true,
+    "T2.R11": false,
+    "T2.R2": true,
+    "T2.R3": true,
+    "T2.R4": true,
+    "T2.R5": true,
+    "T2.R6": true,
+    "T2.R7": true,
+    "T2.R8": true,
+    "T2.R9": true
+   },
+   "collateral": [],
+   "desc": "no DB endpoint output",
+   "failed_checks": [
+    "T2.R11"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T2.R11",
+   "target_detected": true
+  },
+  "T3_M01": {
+   "checks": {
+    "T3.R1": false,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": false,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": false,
+    "T3.R9": true
+   },
+   "collateral": [
+    "T3.R12",
+    "T3.R8"
+   ],
+   "desc": "private subnets in same AZ",
+   "failed_checks": [
+    "T3.R1",
+    "T3.R8",
+    "T3.R12"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R1",
+   "target_detected": true
+  },
+  "T3_M02": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": false,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "IGW not attached",
+   "failed_checks": [
+    "T3.R2"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R2",
+   "target_detected": true
+  },
+  "T3_M03": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": false,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": false,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": false,
+    "T3.R9": true
+   },
+   "collateral": [
+    "T3.R12",
+    "T3.R8"
+   ],
+   "desc": "private default route to IGW",
+   "failed_checks": [
+    "T3.R3",
+    "T3.R8",
+    "T3.R12"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R3",
+   "target_detected": true
+  },
+  "T3_M04": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": false,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "NAT gateway in private subnet",
+   "failed_checks": [
+    "T3.R3"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R3",
+   "target_detected": true
+  },
+  "T3_M05": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": false,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "internal load balancer",
+   "failed_checks": [
+    "T3.R4"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R4",
+   "target_detected": true
+  },
+  "T3_M06": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": false,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "health check on /",
+   "failed_checks": [
+    "T3.R4"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R4",
+   "target_detected": true
+  },
+  "T3_M07": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": false,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "ALB SG allows only 443",
+   "failed_checks": [
+    "T3.R5"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R5",
+   "target_detected": true
+  },
+  "T3_M08": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": false,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "web SG open to world",
+   "failed_checks": [
+    "T3.R6"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R6",
+   "target_detected": true
+  },
+  "T3_M09": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": false,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "no instance profile on launch template",
+   "failed_checks": [
+    "T3.R7"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R7",
+   "target_detected": true
+  },
+  "T3_M10": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": false,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "public IP on instances",
+   "failed_checks": [
+    "T3.R7"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R7",
+   "target_detected": true
+  },
+  "T3_M11": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": false,
+    "T3.R8": false,
+    "T3.R9": true
+   },
+   "collateral": [
+    "T3.R7"
+   ],
+   "desc": "ASG in public subnets",
+   "failed_checks": [
+    "T3.R7",
+    "T3.R8"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R8",
+   "target_detected": true
+  },
+  "T3_M12": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": false,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "EC2 health checks",
+   "failed_checks": [
+    "T3.R8"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R8",
+   "target_detected": true
+  },
+  "T3_M13": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": false,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "max size 3",
+   "failed_checks": [
+    "T3.R8"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R8",
+   "target_detected": true
+  },
+  "T3_M14": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": false
+   },
+   "collateral": [],
+   "desc": "target 85 percent",
+   "failed_checks": [
+    "T3.R9"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R9",
+   "target_detected": true
+  },
+  "T3_M15": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": false,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "one public access block setting off",
+   "failed_checks": [
+    "T3.R10"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R10",
+   "target_detected": true
+  },
+  "T3_M16": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": false,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "wildcard S3 action",
+   "failed_checks": [
+    "T3.R11"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R11",
+   "target_detected": true
+  },
+  "T3_M17": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": false,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "wildcard resource",
+   "failed_checks": [
+    "T3.R11"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R11",
+   "target_detected": true
+  },
+  "T3_M18": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": false,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "AmazonS3FullAccess managed policy",
+   "failed_checks": [
+    "T3.R11"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R11",
+   "target_detected": true
+  },
+  "T3_M19": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": false,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "single-AZ database",
+   "failed_checks": [
+    "T3.R12"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R12",
+   "target_detected": true
+  },
+  "T3_M20": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": false,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "literal master password",
+   "failed_checks": [
+    "T3.R12"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R12",
+   "target_detected": true
+  },
+  "T3_M21": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": false,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "MySQL open to VPC CIDR",
+   "failed_checks": [
+    "T3.R13"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R13",
+   "target_detected": true
+  },
+  "T3_M22": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": false,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "viewer policy allow-all",
+   "failed_checks": [
+    "T3.R14"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R14",
+   "target_detected": true
+  },
+  "T3_M23": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": false,
+    "T3.R15": true,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "origin protocol https-only",
+   "failed_checks": [
+    "T3.R14"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R14",
+   "target_detected": true
+  },
+  "T3_M24": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": false,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "fixed bucket name",
+   "failed_checks": [
+    "T3.R15"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R15",
+   "target_detected": true
+  },
+  "T3_M25": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": false,
+    "T3.R16": true,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "fixed role name",
+   "failed_checks": [
+    "T3.R15"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R15",
+   "target_detected": true
+  },
+  "T3_M26": {
+   "checks": {
+    "T3.R1": true,
+    "T3.R10": true,
+    "T3.R11": true,
+    "T3.R12": true,
+    "T3.R13": true,
+    "T3.R14": true,
+    "T3.R15": true,
+    "T3.R16": false,
+    "T3.R2": true,
+    "T3.R3": true,
+    "T3.R4": true,
+    "T3.R5": true,
+    "T3.R6": true,
+    "T3.R7": true,
+    "T3.R8": true,
+    "T3.R9": true
+   },
+   "collateral": [],
+   "desc": "no CloudFront output",
+   "failed_checks": [
+    "T3.R16"
+   ],
+   "lint_errors": 0,
+   "lint_rules": [],
+   "target": "T3.R16",
+   "target_detected": true
+  }
+ }
+}

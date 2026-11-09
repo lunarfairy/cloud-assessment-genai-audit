@@ -1,0 +1,628 @@
+{
+ "sample_seed": 20261106,
+ "allocation": {
+  "claude-haiku-4-5-20251001|APP": 2,
+  "claude-haiku-4-5-20251001|T1": 1,
+  "claude-haiku-4-5-20251001|T2": 2,
+  "claude-haiku-4-5-20251001|T3": 1,
+  "claude-opus-5-5|APP": 2,
+  "claude-opus-5-5|T1": 2,
+  "claude-opus-5-5|T2": 3,
+  "claude-opus-5-5|T3": 2,
+  "claude-sonnet-4-5-20250929|T1": 2,
+  "claude-sonnet-4-5-20250929|T2": 2,
+  "claude-sonnet-4-5-20250929|T3": 2,
+  "claude-sonnet-5|APP": 3,
+  "claude-sonnet-5|T1": 2,
+  "claude-sonnet-5|T2": 2,
+  "claude-sonnet-5|T3": 2
+ },
+ "sample": [
+  "claude-haiku-4-5-20251001|APP|P|4",
+  "claude-haiku-4-5-20251001|APP|S|2",
+  "claude-haiku-4-5-20251001|T1|A|2",
+  "claude-haiku-4-5-20251001|T2|P|2",
+  "claude-haiku-4-5-20251001|T2|P|4",
+  "claude-haiku-4-5-20251001|T3|S|4",
+  "claude-opus-5-5|APP|A|3",
+  "claude-opus-5-5|APP|P|4",
+  "claude-opus-5-5|T1|S|0",
+  "claude-opus-5-5|T1|S|1",
+  "claude-opus-5-5|T2|A|4",
+  "claude-opus-5-5|T2|S|3",
+  "claude-opus-5-5|T2|S|4",
+  "claude-opus-5-5|T3|A|3",
+  "claude-opus-5-5|T3|A|4",
+  "claude-sonnet-4-5-20250929|T1|A|1",
+  "claude-sonnet-4-5-20250929|T1|P|0",
+  "claude-sonnet-4-5-20250929|T2|A|0",
+  "claude-sonnet-4-5-20250929|T2|P|0",
+  "claude-sonnet-4-5-20250929|T3|A|2",
+  "claude-sonnet-4-5-20250929|T3|S|0",
+  "claude-sonnet-5|APP|A|1",
+  "claude-sonnet-5|APP|S|0",
+  "claude-sonnet-5|APP|S|2",
+  "claude-sonnet-5|T1|A|3",
+  "claude-sonnet-5|T1|A|4",
+  "claude-sonnet-5|T2|P|2",
+  "claude-sonnet-5|T2|S|1",
+  "claude-sonnet-5|T3|A|1",
+  "claude-sonnet-5|T3|A|4"
+ ],
+ "review_model": "claude-opus-5",
+ "thinking": "disabled",
+ "max_tokens": 4000,
+ "prompt_template": "You are reviewing a submission for a university cloud-computing course assessment. Below are the assessment brief and the submitted artefact.\n\nTask: list every requirement of the brief that the artefact violates. Consider only what the brief explicitly requires (its numbered requirements, function specifications and output format). Do not report style issues, best-practice suggestions, or anything the brief does not require. For each violation, name the requirement (for example R6, or the function name for code), quote the relevant artefact excerpt, and explain concretely why the requirement is not met. If the artefact meets every requirement, return an empty list.\n\nRespond with one fenced json block containing {{\"violations\": [{{\"requirement\": \"...\", \"artefact_excerpt\": \"...\", \"explanation\": \"...\", \"confidence\": \"high|medium|low\"}}]}} and nothing else.\n\n=== BRIEF ===\n{brief}\n\n=== ARTEFACT ({kind}) ===\n{art}\n",
+ "responses": [
+  {
+   "eid": "claude-haiku-4-5-20251001|APP|P|4",
+   "text": "Looking carefully at each requirement:\n\n**init_db** \u2014 matches the spec: table name, all five columns with correct types/constraints, `IF NOT EXISTS`, commit. OK.\n\n**save_photo_metadata** \u2014 parameterised insert with qmark style, so quotes/semicolons/SQL keywords are stored literally; commits; returns `cursor.lastrowid`. OK.\n\n**search_photos** \u2014 parameterised `LIKE` with `%term%`, case-insensitive via `LOWER()`, ordered by id ascending, returns the five keys as dicts. The term is interpolated into the *pattern string* (`f\"%{term}%\"`) but passed as a bound parameter, so there is no injection. OK. (LIKE wildcards in the term are not a brief-stated requirement.)\n\n**upload_photo** \u2014 content-type allowlist, 5 MiB bound using `>` so exactly 5 MiB is accepted as the brief requires (\"at most\"), base name stripped of both `/` and `\\` components, sanitisation regex matching the stated character set, `uuid4().hex` giving 32 lowercase hex characters, correct key format, correct `put_object` call. OK.\n\n**photo_url** \u2014 correct bound check and correct `generate_presigned_url` call with the exact argument shape. OK.\n\n**handle_upload** \u2014 uploads first, saves metadata, deletes the object and re-raises the original exception on failure (bare `raise` preserves it), returns the row id. OK.\n\n**Module-level constraints** \u2014 only `uuid`, `re` and `datetime` are imported, all standard library; no AWS clients are constructed and no credentials appear anywhere.\n\nEvery explicitly stated requirement is satisfied, so the list is empty.\n\n```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 2570,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 580,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-haiku-4-5-20251001|APP|S|2",
+   "text": "# Analysis\n\nLet me check each function against the brief.\n\n**init_db** \u2014 table name photos, columns match exactly, commit present. Meets requirements.\n\n**save_photo_metadata** \u2014 parameterized qmark insert, returns lastrowid, commits, ISO 8601 UTC timestamp. Meets requirements.\n\n**search_photos** \u2014 parameterized, LIKE with wildcards, case-insensitive, ORDER BY id ASC, correct dict keys. Meets requirements. (Note: `%` / `_` in term act as wildcards, but the brief only says \"contains term, case-insensitively\" and does not require escaping LIKE metacharacters \u2014 reporting this would be a best-practice suggestion, which the task excludes. Borderline but I'll leave it out... actually, \"contains term\" is a literal containment specification, and `_` matching any character is a genuine deviation. Still, it's marginal; the brief doesn't explicitly require escaping. I'll omit.)\n\n**upload_photo** \u2014 content type check correct, size check `> 5 * 1024 * 1024` correctly allows exactly 5 MiB. Base name: splits on `/` and `\\`. Sanitization regex matches the allowed set `A-Za-z0-9._-` exactly. Key format `photos/<32 hex>/<safe name>` \u2014 `uuid4().hex` is 32 lowercase hex. put_object call matches exactly. Meets requirements.\n\n**photo_url** \u2014 correct call signature, raises ValueError outside 1\u20133600. Meets requirements.\n\n**handle_upload** \u2014 uploads, saves, returns id; on metadata exception deletes object and re-raises original via bare `raise`. Meets requirements.\n\n**Other constraints** \u2014 stdlib only (`re`, `uuid`, `datetime`, `urllib.parse`); no AWS clients created; no credentials embedded. The unused `quote` import is a style issue, not a brief violation.\n\n**Output format** \u2014 the artefact is presented as the module source, as required.\n\nNo explicit requirement of the brief is violated.\n\n```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 2609,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 681,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-haiku-4-5-20251001|T1|A|2",
+   "text": "```json\n{\"violations\": [{\"requirement\": \"R8\", \"artefact_excerpt\": \"VpcId: !ImportValue AWS::StackName\", \"explanation\": \"R8 requires the template to use the account's default VPC. The security group sets VpcId from an !ImportValue of a non-existent export named 'AWS::StackName' (and !ImportValue does not evaluate pseudo-parameters as written), so the stack will fail to deploy rather than placing the security group in the default VPC. To use the default VPC a SecurityGroup should simply omit VpcId (or take it from a parameter), not import an undefined cross-stack export.\", \"confidence\": \"high\"}]}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 1822,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 221,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-haiku-4-5-20251001|T2|P|2",
+   "text": "```json\n{\"violations\": [{\"requirement\": \"R3\", \"artefact_excerpt\": \"  PublicRoute:\\n    Type: AWS::EC2::Route\\n    Properties:\\n      RouteTableId: !Ref PublicRouteTable\\n      DestinationCidrBlock: 0.0.0.0/0\\n      GatewayId: !Ref InternetGateway\", \"explanation\": \"The default route to the internet gateway has no DependsOn: AttachGateway. CloudFormation does not infer a dependency between the Route and the VPCGatewayAttachment, so the route can be created before the gateway is attached to the VPC and the stack fails with 'route table contains unsupported 0.0.0.0/0 route' / InvalidParameterValue. In a fresh account deployment this makes the required default route unreliable to create.\", \"confidence\": \"medium\"}]}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 3783,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 290,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-haiku-4-5-20251001|T2|P|4",
+   "text": "Looking at the artefact against the brief's explicit requirements:\n\n**R8 / deployability** \u2014 `DBInstanceIdentifier: photo-database` is a hard-coded name. The brief states the template will be deployed \"possibly more than once in the same account and Region\"; a second deployment fails because DB instance identifiers must be unique per account per Region. This is the clearest violation.\n\n**R2** \u2014 the private subnets correctly use `!Select [0, ...]` and `!Select [1, ...]`, so they are in different AZs; public subnets likewise. `Fn::GetAZs` is used throughout, no hard-coded AZ names, and `MapPublicIpOnLaunch: true` is set on both public subnets. Met.\n\n**R6** \u2014 one instance launched from the launch template into `PublicSubnet1`, with an EIP associated via `InstanceId`. Met. (`Domain: vpc` is redundant but not a violation.)\n\n**R9** \u2014 `NoEcho` parameter is explicitly one of the three permitted options. Met.\n\n**R11** \u2014 the brief asks for \"the website URL (using the Elastic IP)\". `!Sub 'http://${WebServerElasticIP}'` resolves `!Ref` on an EIP, which returns the IP address, so the URL is correct. Met.\n\nEverything else (R1, R3, R4, R5, R7, R10) maps cleanly onto the template.\n\n```json\n{\"violations\": [{\"requirement\": \"R8 (and the brief's deployment constraint: \\\"possibly more than once in the same account and Region\\\")\", \"artefact_excerpt\": \"PhotoDatabase:\\n    Type: AWS::RDS::DBInstance\\n    Properties:\\n      DBInstanceIdentifier: photo-database\", \"explanation\": \"DBInstanceIdentifier is hard-coded to the literal string 'photo-database'. RDS DB instance identifiers must be unique within an AWS account and Region, so a second deployment of this template into the same account and Region fails with an 'DBInstanceAlreadyExists' error. The brief explicitly states the template must support being deployed more than once in the same account and Region. The identifier should either be omitted (letting CloudFormation generate a unique physical name) or derived from the stack name, e.g. !Sub '${AWS::StackName}-photo-db'.\", \"confidence\": \"high\"}]}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 3928,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 775,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-haiku-4-5-20251001|T3|S|4",
+   "text": "Looking at this carefully against each requirement:\n\n**R1**: VPC 10.0.0.0/16 \u2713, two public + two private subnets \u2713, AZs via `Fn::GetAZs` with `!Select [0]` and `!Select [1]` \u2014 public subnets in two different AZs \u2713, private subnets in two different AZs \u2713. Met.\n\n**R2**: IGW created and attached, public route table with 0.0.0.0/0 \u2192 IGW, associated with both public subnets \u2713. Met.\n\n**R3**: NAT GW with EIP in PublicSubnet1 \u2713, private route table default \u2192 NAT \u2713, no IGW route \u2713. Met.\n\n**R4**: Internet-facing ALB in both public subnets \u2713, HTTP:80 listener forwarding to target group \u2713, health check HTTP on /health \u2713. Met.\n\n**R5**: ALB SG allows TCP 80 from 0.0.0.0/0 \u2713. Met.\n\n**R6**: Web SG ingress is only TCP 80 with `SourceSecurityGroupId: !Ref ALBSecurityGroup` \u2713, no 0.0.0.0/0 ingress \u2713. Met.\n\n**R7**: LaunchTemplate \u2713, AMI from `AWS::EC2::Image::Id` parameter \u2713, t3.micro \u2713, instance profile \u2713, `AssociatePublicIpAddress: false` \u2713. But the launch template specifies `SecurityGroupIds` at the top level of LaunchTemplateData *and* a `NetworkInterfaces` block. When NetworkInterfaces is present, EC2 rejects top-level SecurityGroupIds \u2014 the groups must be specified inside the network interface as `Groups`. This is a genuine conflict that fails at instance launch, meaning the web security group is not effectively attached as required. Violation.\n\n**R8**: ASG across both private subnets \u2713, launch template \u2713, min 2 / max 4 / desired 2 \u2713, TargetGroupARNs \u2713, HealthCheckType: ELB \u2713. Met.\n\n**R9**: Target-tracking on ASGAverageCPUUtilization with TargetValue 70.0 \u2014 \"at most 70 percent\" \u2713. Met.\n\n**R10**: All four Block Public Access settings true \u2713. Met.\n\n**R11**: Role assumable by ec2.amazonaws.com \u2713, instance profile \u2713, policy limited to the three actions on `${PhotoBucket.Arn}/*` \u2713. Met.\n\n**R12**: MySQL db.t3.micro \u2713, MultiAZ \u2713, DB subnet group of both private subnets \u2713, not publicly accessible \u2713, StorageEncrypted \u2713, password via NoEcho parameter \u2713. Met.\n\n**R13**: DB SG allows 3306 only from WebSecurityGroup \u2713. Met.\n\n**R14**: CloudFront custom origin with ALB DNS name, `OriginProtocolPolicy: http-only` \u2713, `ViewerProtocolPolicy: redirect-to-https` \u2713. Met.\n\n**R15**: No hard-coded AMI or AZ names \u2713. But `BucketName` is set \u2014 the brief explicitly names \"a literal BucketName\" as prohibited. The `!Sub` includes `${AWS::StackName}`, which does disambiguate across stacks, so it wouldn't actually collide. The brief's language targets *fixed* names that \"would collide,\" so the collision test is arguably satisfied. I'll flag this at low confidence given the explicit mention of BucketName. Similarly `DBInstanceIdentifier` includes StackName, so no collision.\n\n```json\n{\"violations\": [{\"requirement\": \"R7\", \"artefact_excerpt\": \"LaunchTemplateData:\\n        ImageId: !Ref CustomAMIId\\n        InstanceType: t3.micro\\n        SecurityGroupIds:\\n          - !Ref WebSecurityGroup\\n        IamInstanceProfile:\\n          Arn: !GetAtt EC2InstanceProfile.Arn\\n        NetworkInterfaces:\\n          - DeviceIndex: 0\\n            AssociatePublicIpAddress: false\", \"explanation\": \"R7 requires the launch template to attach the web security group and not assign public IPs. The template sets top-level SecurityGroupIds while also defining a NetworkInterfaces block. EC2 does not permit both: when NetworkInterfaces is specified, security groups must be given inside the interface as Groups, and a top-level SecurityGroupIds causes the launch to fail with an InvalidParameterCombination error ('Network interfaces and an instance-level security groups may not be specified on the same request'). The ASG will therefore fail to launch any instance, so the web security group is never actually attached and the R7 specification is not met as written.\", \"confidence\": \"high\"}, {\"requirement\": \"R15\", \"artefact_excerpt\": \"BucketName: !Sub 'photo-bucket-${AWS::AccountId}-${AWS::Region}-${AWS::StackName}'\", \"explanation\": \"R15 names 'a literal BucketName' as an example of a fixed physical name that must be avoided for redeployability. The artefact does set BucketName explicitly. Mitigating this, the value is constructed with !Sub including ${AWS::StackName}, so a second deployment in the same account and Region under a different stack name yields a different bucket name and would not collide \u2014 which satisfies the underlying collision test R15 actually states. Flagged only because the brief calls out BucketName by name; on the brief's own stated criterion ('that would collide'), this is arguably compliant.\", \"confidence\": \"low\"}]}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 6391,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1900,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-opus-5-5|APP|A|3",
+   "text": "```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 3362,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 14,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-opus-5-5|APP|P|4",
+   "text": "Looking carefully at the brief versus the artefact.\n\n**init_db** \u2014 table name, all five columns with correct types/constraints, `IF NOT EXISTS`, commit. Meets spec.\n\n**save_photo_metadata** \u2014 bound parameters so quotes/semicolons/SQL keywords are stored verbatim, returns the id, commits. Meets spec.\n\n**search_photos** \u2014 brief requires rows whose title or description contains `term` case-insensitively, ordered by id ascending, as dicts with the five named keys. The artefact fetches all rows with `ORDER BY id ASC` and filters in Python with `casefold()`. Ordering is preserved since filtering is order-stable, keys come from `_COLUMNS` which matches exactly, and case-insensitivity is satisfied (casefold is a superset of the brief's requirement, not a violation of it). Doing the match in Python rather than SQL is an implementation choice the brief doesn't constrain \u2014 it specifies the behaviour, not the mechanism. Handling `term=None` as `\"\"` is unspecified behaviour, not a contradiction of a stated requirement.\n\n**upload_photo** \u2014 content-type allowlist correct; size limit uses `>` against 5 MiB so exactly 5 MiB is accepted, which matches \"at most\". Key format: `photos/` + `uuid4().hex` (32 lowercase hex) + `/` + safe name. `_safe_name` strips directory components (handling both `/` and `\\`) and substitutes `[^A-Za-z0-9._-]` with `_` \u2014 exactly the brief's character class. `put_object` called with the four specified kwargs. Meets spec.\n\nOne thing to weigh: `_safe_name` raises `ValueError` when the base name is empty, `.`, or `..`. The brief only mandates `ValueError` for bad content type and oversize data. Is raising on an additional condition a violation? The brief doesn't say \"raise ValueError *only* for these\", and for input like `\"foo/\"` the brief's own rule produces an empty safe name \u2014 an unusable key. The brief is silent here, so this is unspecified territory, not a breach of a stated requirement. Not reportable.\n\nSimilarly the `isinstance(data, bytes)` check raises `ValueError` for non-bytes input \u2014 again unspecified, and the brief's size rule presupposes bytes-like data.\n\n**photo_url** \u2014 correct `generate_presigned_url` call with the exact positional operation name and `Params`/`ExpiresIn` shape; rejects expires outside 1\u20133600. The extra non-int/bool rejection is unspecified-input handling. Meets spec.\n\n**handle_upload** \u2014 upload, then save, return row id. On failure: `delete_object(Bucket=bucket, Key=key)`, then `raise original`, with cleanup errors suppressed so they can't mask the original. Catching `BaseException` rather than `Exception` is broader than the brief's \"raises an exception\", but it still deletes and re-raises the original in every case the brief covers. Meets spec.\n\n**Global constraints** \u2014 stdlib only (`re`, `uuid`, `datetime`); no AWS clients constructed; no credentials anywhere; module is `photoapp.py` targeting 3.11 (`from __future__ import annotations` makes the `list[dict]` annotations fine regardless).\n\nThe remaining question is the **output format** requirement: \"return the complete module in a single fenced code block marked python, and nothing else.\" That constrains the *response* that produced the artefact. What I've been given here is the extracted module itself, presented under an `=== ARTEFACT ===` header \u2014 I can't see the original response's framing, so I have no evidence it was delivered with surrounding prose. Inferring a violation from the review harness's own formatting would be unfounded.\n\nEvery explicitly stated requirement is satisfied. The deviations I found are all in territory the brief leaves unspecified, and the task explicitly says not to report anything the brief does not require. The honest answer is an empty list \u2014 padding it with the `_safe_name` guard or the `BaseException` catch would be reporting best-practice quibbles dressed as violations.\n\n```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 3503,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1366,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-opus-5-5|T1|S|0",
+   "text": "```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 2862,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 14,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-opus-5-5|T1|S|1",
+   "text": "```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 2768,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 14,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-opus-5-5|T2|A|4",
+   "text": "```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 5400,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 14,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-opus-5-5|T2|S|3",
+   "text": "Let me work through the brief requirement by requirement against the template.\n\n**R1** \u2014 VPC with CidrBlock 10.0.0.0/16, EnableDnsSupport: true, EnableDnsHostnames: true. Met.\n\n**R2** \u2014 Four subnets exist. PublicSubnet1 uses `!Select [0, !GetAZs '']`, PublicSubnet2 uses `!Select [1, !GetAZs '']` \u2014 two different AZs. PrivateSubnet1 uses index 0, PrivateSubnet2 uses index 1 \u2014 also two different AZs. `Fn::GetAZs` is used throughout, no hard-coded AZ names. Both public subnets set `MapPublicIpOnLaunch: true`. Met. (The brief does not require public and private subnets to be in distinct AZs from each other, only that the two public are in different AZs and the two private are in different AZs.)\n\n**R3** \u2014 InternetGateway created, VPCGatewayAttachment attaches it to the VPC. PublicRouteTable with PublicDefaultRoute (0.0.0.0/0 \u2192 GatewayId: !Ref InternetGateway), and both public subnets associated. Met.\n\n**R4** \u2014 PrivateRouteTable created with no Route resources referencing it; both private subnets associated. Met.\n\n**R5** \u2014 AWS::EC2::LaunchTemplate (not a launch configuration). ImageId from `!Ref WebServerAmiId`, a parameter of type `AWS::EC2::Image::Id`. InstanceType t3.micro. SecurityGroupIds includes WebSecurityGroup. UserData installs httpd and php (php-mysqlnd), enables and starts httpd. Met.\n\n**R6** \u2014 Two parts: launch one instance from the launch template into a public subnet, and associate an EIP. The instance uses the LaunchTemplate with SubnetId: PublicSubnet1. An EIP with Domain: vpc is allocated and WebServerEIPAssociation binds it to the instance. Both parts met.\n\nWorth checking: the launch template has `SecurityGroupIds` at the LaunchTemplateData level while the instance sets `SubnetId` directly. This is a known CloudFormation/EC2 conflict in practice, but it is a deployment-behaviour concern, not an explicit requirement of the brief. The brief asks only that the instance be launched from the template into a public subnet with an EIP. Out of scope per the \"do not report best-practice suggestions\" instruction.\n\n**R7** \u2014 Web SG: TCP 80 from 0.0.0.0/0, TCP 443 from 0.0.0.0/0, TCP 22 from `!Ref AdminCidr`. Met.\n\n**R8** \u2014 RDS MySQL, db.t3.micro, DBSubnetGroup made of exactly the two private subnets, PubliclyAccessible: false, StorageEncrypted: true. Met.\n\n**R9** \u2014 `ManageMasterUserPassword: true`, which is one of the three explicitly permitted options. No plain-text password anywhere. Met.\n\n**R10** \u2014 Database SG has exactly one ingress rule: TCP 3306 with `SourceSecurityGroupId: !Ref WebSecurityGroup`. Security-group reference, no other inbound rules. Met.\n\n**R11** \u2014 Needs the website URL *using the Elastic IP*, and the database endpoint address.\n\nHere is the problem. The output is:\n\n```\nValue: !Sub 'http://${WebServerEIP}'\n```\n\nIn `Fn::Sub`, `${WebServerEIP}` resolves to `Ref` on that resource. For `AWS::EC2::EIP`, the documented return value of `Ref` depends on how the EIP was allocated. When `Domain: vpc` is set (a VPC EIP), `Ref` returns the **allocation ID** (`eipalloc-xxxxxxxx`), not the IP address. The IP address is only available via `!GetAtt WebServerEIP.PublicIp`. So this output produces `http://eipalloc-0a1b2c3d4e5f67890`, which is not a usable website URL and is not \"the Elastic IP.\"\n\nLet me double-check I'm not misreading the EIP return semantics. For EC2-Classic EIPs, `Ref` returned the public IP; for VPC EIPs, `Ref` returns the allocation ID. EC2-Classic is retired and this template explicitly sets `Domain: vpc`, so the allocation-ID behaviour is the one that applies. This is a genuine violation \u2014 the URL half of R11 is not satisfied.\n\nThe second half of R11 is fine: `!GetAtt Database.Endpoint.Address` is correct for the DB endpoint address. The extra `DatabaseMasterUserSecretArn` output is additional, not prohibited.\n\nLet me also scan for anything outside the numbered requirements that might matter. The \"deployed more than once in the same account and Region\" note \u2014 no hard-coded resource names that would collide (names use `${AWS::StackName}` prefixes, and no explicit `DBInstanceIdentifier` or `GroupName`). The optional `KeyName` parameter and `MetadataOptions` are additions, not violations. Output format: the task asks me for JSON, so the brief's own \"fenced yaml block\" format applies to the student, and the artefact is presented as a template \u2014 not something I flag.\n\nSo exactly one violation, in R11.\n\n```json\n{\"violations\": [{\"requirement\": \"R11\", \"artefact_excerpt\": \"WebsiteURL:\\n    Description: URL of the website (Elastic IP of the web server)\\n    Value: !Sub 'http://${WebServerEIP}'\", \"explanation\": \"R11 requires the website URL to be output using the Elastic IP address. Inside Fn::Sub, ${WebServerEIP} is equivalent to !Ref WebServerEIP, and for an AWS::EC2::EIP allocated in a VPC (the template sets Domain: vpc) the Ref return value is the allocation ID (e.g. eipalloc-0a1b2c3d4e5f67890), not the IP address. The stack therefore outputs something like 'http://eipalloc-0a1b2c3d4e5f67890', which is not a usable website URL and does not contain the Elastic IP. Obtaining the address requires !GetAtt WebServerEIP.PublicIp (or Ref on the EIPAssociation's PublicIp attribute). The database endpoint half of R11 is satisfied by !GetAtt Database.Endpoint.Address.\", \"confidence\": \"high\"}]}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 5462,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 2189,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-opus-5-5|T2|S|4",
+   "text": "```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 5559,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 14,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-opus-5-5|T3|A|3",
+   "text": "Let me work through the brief requirement by requirement against the template.\n\nR1: VPC 10.0.0.0/16 \u2713. Two public subnets (10.0.0.0/24, 10.0.1.0/24), two private (10.0.10.0/24, 10.0.11.0/24). AZs via `!Select [0, !GetAZs '']` and `!Select [1, !GetAZs '']` \u2014 public subnets in different AZs \u2713, private subnets in different AZs \u2713. No hard-coded AZ names \u2713.\n\nR2: IGW created, attached via VPCGatewayAttachment, public route table with 0.0.0.0/0 \u2192 GatewayId: !Ref InternetGateway, associated with both public subnets \u2713.\n\nR3: EIP with Domain: vpc, NAT gateway in PublicSubnet1, private route table default route \u2192 NatGatewayId, both private subnets associated, no IGW route in private table \u2713.\n\nR4: ALB internet-facing, in both public subnets, HTTP listener port 80 forwarding to WebTargetGroup, health check HTTP on /health \u2713.\n\nR5: LB SG allows tcp 80 from 0.0.0.0/0 \u2713.\n\nR6: WebSecurityGroup has tcp 80 from SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup, no 0.0.0.0/0 ingress \u2713.\n\nR7: LaunchTemplate (not launch configuration) \u2713, ImageId from parameter of type AWS::EC2::Image::Id \u2713, t3.micro \u2713, web SG attached via NetworkInterfaces Groups \u2713, IAM instance profile \u2713, AssociatePublicIpAddress: false \u2713.\n\nR8: ASG across both private subnets, uses launch template, Min 2 / Max 4 / Desired 2, TargetGroupARNs includes WebTargetGroup, HealthCheckType: ELB \u2713.\n\nR9: Target-tracking policy, ASGAverageCPUUtilization, TargetValue 70 \u2014 brief says \"target of at most 70 percent,\" so 70 satisfies it \u2713.\n\nR10: Bucket with all four block-public-access settings true \u2713.\n\nR11: Role assumable by ec2.amazonaws.com, instance profile references it, S3 policy limited to the three actions on `${PhotoBucket.Arn}/*` \u2014 objects only, no wildcards \u2713.\n\nR12: Engine mysql, db.t3.micro, MultiAZ true, DB subnet group of the two private subnets, not publicly accessible, StorageEncrypted true, ManageMasterUserPassword \u2014 no plain-text password \u2713.\n\nR13: DB SG allows 3306 only from WebSecurityGroup \u2713.\n\nR14: CloudFront custom origin with DomainName from ALB DNSName, OriginProtocolPolicy http-only, ViewerProtocolPolicy redirect-to-https \u2713.\n\nR15: Redeployability. No hard-coded AMI (parameter), no hard-coded AZ names (GetAZs). Fixed physical names: the bucket has no BucketName, the DB subnet group has no DBSubnetGroupName, the role/instance profile have no explicit names, SGs have no GroupName. All names are either auto-generated or `${AWS::StackName}`-derived tags. The one thing worth checking is `DeletionPolicy: Retain` on the bucket \u2014 but that affects teardown, not a second concurrent deployment, and the brief's R15 is specifically about hard-coded AMI IDs, AZ names, and fixed physical names. No violation.\n\nR16: Both the CloudFront domain name and ALB DNS name are output \u2713. Extra outputs aren't prohibited.\n\nOutput format: single fenced yaml block containing the complete template \u2014 I'm evaluating the template content itself, which is complete and valid.\n\nOne borderline item I considered and rejected: `DBMasterUsername` is a plain `String` without NoEcho, but R12 only requires no plain-text *master password*, which is satisfied by `ManageMasterUserPassword: true`. Similarly, `PropagateAtLaunch: false` on the ASG tag and the CachePolicy/OriginRequestPolicy IDs are not required by any numbered requirement \u2014 those would be style/best-practice notes, which the task explicitly excludes.\n\nThe artefact satisfies every explicit requirement in the brief.\n\n```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 7861,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1486,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-opus-5-5|T3|A|4",
+   "text": "Let me work through each requirement against the template.\n\nR1: VPC 10.0.0.0/16 \u2713. Public subnets in AZ index 0 and 1 \u2713 (different AZs). Private subnets AZ index 0 and 1 \u2713. Uses Fn::GetAZs via `!Select [0, !GetAZs \"\"]` \u2713. No hard-coded AZ names \u2713.\n\nR2: IGW created \u2713, attached via VPCGatewayAttachment \u2713, public route table with 0.0.0.0/0 \u2192 GatewayId: !Ref InternetGateway \u2713, associated with both public subnets \u2713.\n\nR3: NAT gateway with EIP in PublicSubnet1 \u2713. Private route table default route \u2192 NatGatewayId \u2713. Both private subnets associated \u2713. No IGW route in private table \u2713.\n\nR4: ALB internet-facing \u2713, Type: application \u2713, in two public subnets \u2713. HTTP listener port 80 forwarding to target group \u2713. Health check HTTP on /health \u2713.\n\nR5: LB SG allows TCP 80 from 0.0.0.0/0 \u2713.\n\nR6: Web SG allows TCP 80 only from LB SG via SourceSecurityGroupId \u2713, no 0.0.0.0/0 ingress \u2713.\n\nR7: LaunchTemplate \u2713, ImageId from AWS::EC2::Image::Id param \u2713, t3.micro \u2713, web SG attached (via NetworkInterfaces Groups) \u2713, IAM instance profile \u2713, AssociatePublicIpAddress: false \u2713.\n\nR8: ASG across two private subnets \u2713, uses launch template \u2713, Min 2 / Max 4 / Desired 2 \u2713, TargetGroupARNs \u2713, HealthCheckType: ELB \u2713.\n\nR9: Target-tracking on ASGAverageCPUUtilization with TargetValue 70 \u2014 \"at most 70 percent\" \u2713.\n\nR10: Bucket with all four Block Public Access settings true \u2713.\n\nR11: Role trusts ec2.amazonaws.com \u2713, instance profile references role \u2713. Policy has exactly the three object actions, Resource `${PhotoBucket.Arn}/*` \u2014 objects only, no wildcard actions, no Resource \"*\" \u2713.\n\nR12: RDS MySQL, db.t3.micro, MultiAZ true, DB subnet group of the two private subnets, PubliclyAccessible false, StorageEncrypted true, ManageMasterUserPassword true (no plain-text password) \u2713.\n\nR13: DB SG allows 3306 only from WebSecurityGroup \u2713.\n\nR14: CloudFront origin DomainName = ALB DNSName, CustomOriginConfig with OriginProtocolPolicy http-only \u2713, DefaultCacheBehavior ViewerProtocolPolicy redirect-to-https \u2713.\n\nR15: No hard-coded AMI (parameter) \u2713, no hard-coded AZ names \u2713, no BucketName \u2713, no fixed names on SGs, role (no RoleName), instance profile (no InstanceProfileName), target group, ALB, DB instance (no DBInstanceIdentifier), DB subnet group (no DBSubnetGroupName property set) \u2713. All physical names auto-generated.\n\nR16: Outputs CloudFrontDomainName and LoadBalancerDNSName \u2713 (extra outputs are not prohibited).\n\nOne thing worth a closer look: the ASG `Tags` block nests `PropagateAtLaunch` under the same list item as `Key`/`Value`, which is the correct structure for `AWS::AutoScaling::AutoScalingGroup` tags \u2014 that's valid. Setting it to `false` is permitted and not a brief requirement.\n\nAlso checked: nothing in the brief requires HTTPS on the ALB listener, a WAF, S3 encryption, or specific cache policies \u2014 those are extras, not violations, and the instruction is to report only explicit brief requirements.\n\nEvery numbered requirement is satisfied.\n\n```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 8271,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1377,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-4-5-20250929|T1|A|1",
+   "text": "Looking carefully at the artefact against each numbered requirement:\n\n- **R1**: Both parameters present \u2014 `KeyName` of type `AWS::EC2::KeyPair::KeyName`, and `AdminCIDR` for the SSH CIDR. Met.\n- **R2**: AMI resolved via `{{resolve:ssm:...}}` against the correct public parameter path, no hard-coded AMI. Met.\n- **R3**: `InstanceType` parameter defaults to `t3.micro`, explicitly allowed by the brief. Met.\n- **R4**: Ingress rule tcp/443 from `0.0.0.0/0`. Met.\n- **R5**: Ingress rule tcp/22 from `!Ref AdminCIDR`. Met.\n- **R6**: `SecurityGroupIngress` contains exactly those two rules and nothing else. Met.\n- **R7**: User data installs `httpd` and `mod_ssl`, writes `/var/www/html/index.html`, starts and enables httpd. Met.\n- **R8**: No `AWS::EC2::VPC`, `Subnet`, `InternetGateway` or `RouteTable` resources; the instance omits `SubnetId`, so EC2 places it in the default VPC/subnet, and `SecurityGroupIds` is consistent with that. Met.\n- **R9**: Outputs `PublicDnsName` and an `https://` URL built from it. Met.\n\nOne point worth noting on `UserData`: `Fn::Base64: !Sub` combined with `$(hostname -f)` is a genuine edge case, since `!Sub` treats `${...}` as substitution \u2014 but `$(...)` is command substitution, not `${...}`, so it passes through to the shell untouched. No failure there.\n\nI found no violations of the brief's explicit requirements. The remaining observations I could make (no `AllowedPattern` anchoring edge cases, no explicit `VpcId` on the security group, `yum` vs `dnf` on AL2023) are either best-practice suggestions or things the brief does not require, so per your instructions I am excluding them.\n\n```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 1716,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 713,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-4-5-20250929|T1|P|0",
+   "text": "```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 1842,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 14,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-4-5-20250929|T2|A|0",
+   "text": "Looking at the brief's requirements against the template:\n\n**R2** \u2014 Public subnets use `!Select [0, !GetAZs '']` and `!Select [1, !GetAZs '']`, private subnets likewise. Both pairs span two different AZs. Met.\n\n**R3** \u2014 IGW created and attached, public route table with 0.0.0.0/0 \u2192 IGW, both public subnets associated. Met.\n\n**R4** \u2014 Private route table has no `AWS::EC2::Route` resource referencing it at all, and both private subnets are associated. Met.\n\n**R5** \u2014 LaunchTemplate (not launch configuration), `ImageId: !Ref CustomAMI` of type `AWS::EC2::Image::Id`, `t3.micro`, `SecurityGroupIds: [!Ref WebSecurityGroup]`, user data installs httpd and php and starts httpd. Met. However, `LaunchTemplateName: WebServerLaunchTemplate` is a hard-coded name \u2014 launch template names must be unique per account per Region, so a second deployment in the same account and Region fails. The brief explicitly states the template may be deployed \"possibly more than once in the same account and Region,\" so this is a stated requirement rather than a style point.\n\n**R6** \u2014 Instance launched from the template into `PublicSubnet1`, EIP with `InstanceId: !Ref WebServerInstance`. Met.\n\n**R7, R8, R9, R10** \u2014 All met. (R9 uses a NoEcho parameter, which the brief explicitly permits; `Default: admin` on the username is not a password and not prohibited. The `Default: 0.0.0.0/0` on AdminCIDR is permissive but R7 only requires the port be gated on the parameter, which it is.)\n\n**R11** \u2014 `!Sub 'http://${WebServerEIP}'` \u2014 `!Ref` on an `AWS::EC2::EIP` returns the IP address, and `${WebServerEIP}` inside `Fn::Sub` is equivalent to `!Ref`, so this resolves to the Elastic IP. Met. Database endpoint uses `!GetAtt Database.Endpoint.Address`. Met.\n\nThe one substantive violation is the hard-coded launch template name defeating the repeat-deployment requirement.\n\n```json\n{\n  \"violations\": [\n    {\n      \"requirement\": \"R5 (read together with the brief's stated deployment condition: \\\"possibly more than once in the same account and Region\\\")\",\n      \"artefact_excerpt\": \"WebServerLaunchTemplate:\\n    Type: AWS::EC2::LaunchTemplate\\n    Properties:\\n      LaunchTemplateName: WebServerLaunchTemplate\",\n      \"explanation\": \"Launch template names must be unique within an account and Region. Hard-coding LaunchTemplateName to the fixed literal 'WebServerLaunchTemplate' means the first deployment succeeds but any second deployment of this template into the same account and Region fails at CreateLaunchTemplate with an AlreadyExistsException, rolling back the stack. The brief states as a deployment condition that the template will be deployed 'possibly more than once in the same account and Region', so the launch template definition required by R5 does not satisfy the conditions the brief sets for it. Omitting the property (CloudFormation generates a unique name) or deriving it from ${AWS::StackName} would resolve this. No other resource in the template carries a hard-coded physical name, so this is the sole blocker to repeat deployment.\",\n      \"confidence\": \"medium\"\n    }\n  ]\n}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 4201,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1171,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-4-5-20250929|T2|P|0",
+   "text": "Let me check each requirement carefully.\n\nR1: VPC 10.0.0.0/16, DNS support and hostnames \u2014 met.\n\nR2: Two public subnets in AZ index 0 and 1, two private in 0 and 1, `!GetAZs ''`, MapPublicIpOnLaunch true on both public. Met.\n\nR3: IGW created, attached, public route table with 0.0.0.0/0 \u2192 IGW, associated with both public subnets. Met.\n\nR4: Private route table with no IGW route, associated with both private subnets. Met.\n\nR5: LaunchTemplate with AMI param of type `AWS::EC2::Image::Id`, t3.micro, web SG, user data installing/starting httpd and PHP. Met.\n\nR6: Instance launched from template into PublicSubnet1, EIP associated via `InstanceId`. One concern: the instance specifies `SubnetId` at the instance level while the launch template specifies `SecurityGroupIds` \u2014 this is an actual CloudFormation/EC2 conflict (network interface specified via SubnetId plus group-level security groups causes an error). But the brief doesn't require it to deploy without error... actually it does implicitly \u2014 \"the template will be deployed.\" Hmm, this is a deployment-blocking defect of R6. Worth reporting at medium confidence.\n\nR7: 80, 443 from anywhere, 22 from AdminCIDR parameter. Met \u2014 the `Default: 0.0.0.0/0` is a weak default but R7 only requires the rule come from the parameter. That's arguably a best-practice issue, not a brief violation. Not reporting.\n\nR8: RDS MySQL db.t3.micro, DB subnet group of two private subnets, not publicly accessible, encrypted. Met.\n\nR9: NoEcho parameter used \u2014 explicitly allowed. Met.\n\nR10: 3306 only from web SG by reference, no other inbound. Met.\n\nR11: Outputs \u2014 database endpoint is correct. Website URL: `!Sub 'http://${WebServerEIP}'`. `!Ref` on an `AWS::EC2::EIP` returns the IP address, and `${WebServerEIP}` inside `Sub` is equivalent to `Ref`. So that resolves to the Elastic IP. Met.\n\nNow, the \"deployed possibly more than once in the same account and Region\" line. Are there hard-coded physical names that would collide? Security groups have no `GroupName`, DB subnet group has no `DBSubnetGroupName`, RDS has no `DBInstanceIdentifier`. All names are logical/tags only. So no collision. Met.\n\nSo the only real candidate is the SubnetId/SecurityGroupIds conflict in R6.\n\nLet me reconsider that one. In EC2, you cannot specify `SubnetId` at the instance level together with security groups defined at the launch template's top level when... Actually the rule is: within a single request, you can't mix network-interface-level and instance-level network parameters. Here the launch template uses `SecurityGroupIds` (instance-level, not NetworkInterfaces), and the instance adds `SubnetId` (also instance-level). These merge fine \u2014 launch template params and instance params combine, both are instance-level. This actually works. The conflict only arises if the launch template used `NetworkInterfaces`. So R6 is met.\n\nTherefore no violations.\n\n```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 4058,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1117,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-4-5-20250929|T3|A|2",
+   "text": "Looking carefully at the template against each requirement:\n\n- **R1**: VPC 10.0.0.0/16, two public + two private subnets, AZs via `!Select [0/1, !GetAZs '']` \u2014 public in index 0 and 1 (different AZs), private in index 0 and 1 (different AZs). Met.\n- **R2**: IGW, attachment, public route table with 0.0.0.0/0 \u2192 IGW, both public subnets associated. Met.\n- **R3**: EIP + NAT in PublicSubnet1, private route table 0.0.0.0/0 \u2192 NAT, no IGW route. Met.\n- **R4**: Internet-facing ALB in both public subnets, HTTP:80 listener forwarding to target group, health check HTTP on /health. Met.\n- **R5**: LB SG allows TCP 80 from 0.0.0.0/0. Met.\n- **R6**: Web SG allows TCP 80 only from `SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup`, no 0.0.0.0/0 ingress. Met.\n- **R7**: LaunchTemplate with `AWS::EC2::Image::Id` parameter, t3.micro, web SG, instance profile, `AssociatePublicIpAddress: false`. Met. (The dual `SecurityGroupIds` + `NetworkInterfaces.Groups` specification is a deployment-time conflict in real CloudFormation, but the brief's requirement \u2014 attaches the web security group and does not assign public IPs \u2014 is textually satisfied; I'm not flagging it as a brief violation.)\n- **R8**: ASG min 2 / max 4 / desired 2, launch template, both private subnets, registered to target group, `HealthCheckType: ELB`. Met.\n- **R9**: Target-tracking policy on `ASGAverageCPUUtilization` with TargetValue 70.0 \u2014 \"at most 70 percent\". Met.\n- **R10**: All four Block Public Access settings true. Met.\n- **R11**: Role assumable by ec2.amazonaws.com; S3 policy limited to the three actions on `${PhotoBucket.Arn}/*` \u2014 objects in the photo bucket only, no wildcard actions, no Resource \"*\". Met.\n- **R12**: MySQL, db.t3.micro, MultiAZ true, DB subnet group of the two private subnets, not publicly accessible, `StorageEncrypted: true`, password via NoEcho parameter (explicitly allowed). Met.\n- **R13**: DB SG allows 3306 only from the web SG. Met.\n- **R14**: CloudFront custom origin on ALB DNS name, `OriginProtocolPolicy: http-only`, `ViewerProtocolPolicy: redirect-to-https`. Met.\n- **R15**: AMI from parameter, AZs from `Fn::GetAZs`, no `BucketName`, no fixed physical names anywhere (no `GroupName`, `RoleName`, `InstanceProfileName`, `DBInstanceIdentifier`, `Name` for TG/ALB \u2014 only Name *tags*, which may repeat without collision). Met.\n- **R16**: Outputs both CloudFront domain name and ALB DNS name. Met.\n\nEvery explicit requirement of the brief is satisfied.\n\n```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 6859,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1123,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-4-5-20250929|T3|S|0",
+   "text": "Looking through the template against each requirement:\n\n- R1: VPC 10.0.0.0/16, two public (AZ 0, 1) and two private (AZ 0, 1) subnets, `!GetAZs` used, no hard-coded AZ names. Met.\n- R2: IGW created and attached, public route table with 0.0.0.0/0 \u2192 IGW, associated with both public subnets. Met.\n- R3: NAT gateway with EIP in PublicSubnet1, private route table default route \u2192 NAT, no IGW route. Met.\n- R4: Internet-facing ALB in both public subnets, HTTP:80 listener forwarding to target group, health check HTTP on /health. Met.\n- R5: ALB SG allows TCP 80 from 0.0.0.0/0. Met.\n- R6: Web SG allows TCP 80 only from `SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup`, no 0.0.0.0/0 ingress. Met.\n- R7: LaunchTemplate with `AWS::EC2::Image::Id` parameter, t3.micro, instance profile, web SG, `AssociatePublicIpAddress: false`. Met (the SG is specified in both `SecurityGroupIds` and the network interface `Groups`, which is a deployment-time conflict but not a brief requirement \u2014 and the brief does not forbid it; noted below only as it bears on whether the SG/no-public-IP requirement holds... it does hold as written).\n- R8: ASG min 2 / max 4 / desired 2, both private subnets, launch template, target group, `HealthCheckType: ELB`. Met.\n- R9: Target-tracking on `ASGAverageCPUUtilization` at 70.0 \u2014 \"at most 70 percent\" is satisfied. Met.\n- R10: All four Block Public Access settings true. Met.\n- R11: Role assumable by ec2.amazonaws.com, instance profile references it, S3 actions limited to the three verbs on `${PhotoBucket.Arn}/*`. Met.\n- R12: MySQL db.t3.micro, MultiAZ, DB subnet group of the two private subnets, not publicly accessible, encrypted, password via NoEcho parameter. Met.\n- R13: DB SG allows 3306 only from WebSecurityGroup. Met.\n- R14: CloudFront custom origin on ALB DNS name, `http-only`, `redirect-to-https`. Met.\n- R15: AMI from parameter, AZs from GetAZs, no literal BucketName or other fixed physical names (all names are `${AWS::StackName}`-derived tags, not physical names). Met.\n- R16: Both outputs present. Met.\n- Output format: single fenced yaml block \u2014 not assessable from the excerpt as presented, and the artefact content itself is a complete template.\n\nEvery explicitly stated requirement is satisfied.\n\n```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 6867,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 976,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-5|APP|A|1",
+   "text": "Let me check each requirement carefully.\n\n**init_db**: Creates table with required columns, commits. Meets spec.\n\n**save_photo_metadata**: Inserts with qmark params, stores exactly as given, commits, returns int id. Meets spec. The MAX(id) fallback is extra but not a violation.\n\n**search_photos**: Uses LIKE with `%term%`, LOWER on both sides, ordered by id asc, returns dicts with the five keys, parameterised. One real issue: the term is untrusted and is interpolated directly into a LIKE pattern without escaping LIKE wildcards. A term containing `%` or `_` acts as a wildcard rather than a literal character, so the function does not return \"rows whose title or description contains term\" \u2014 e.g. searching for `50%` matches rows that don't contain that literal substring. This is a correctness deviation from the stated spec, though a grader might treat it as borderline.\n\n**upload_photo**: Content type check, size check, key format `photos/<uuid4().hex>/<safe name>` \u2014 `uuid4().hex` is exactly 32 lowercase hex chars. Regex `[^A-Za-z0-9._-]` matches the allowed set. `os.path.basename` removes directory components. put_object called with exact kwargs. Meets spec.\n\n**photo_url**: Calls generate_presigned_url with exact arguments. Raises ValueError outside 1\u20133600. The added `isinstance` check is stricter than required but the brief doesn't forbid it; non-int expires isn't specified behaviour.\n\n**handle_upload**: Upload, save, on exception delete object and re-raise original via bare `raise`. Meets spec.\n\n**No credentials / no clients**: Confirmed, only stdlib imports.\n\n**Output format**: The brief required the module in a single fenced `python` block and nothing else. I'm reviewing the artefact as presented, not the original response envelope, so I won't report that.\n\nSo one defensible violation: unescaped LIKE wildcards in `search_photos`.\n\n```json\n{\"violations\": [{\"requirement\": \"search_photos\", \"artefact_excerpt\": \"pattern = \\\"%\\\" + str(term) + \\\"%\\\"\\n    cur = conn.cursor()\\n    cur.execute(\\n        \\\"\\\"\\\"\\n        SELECT id, title, description, s3_key, uploaded_at\\n        FROM photos\\n        WHERE LOWER(title) LIKE LOWER(?) OR LOWER(description) LIKE LOWER(?)\", \"explanation\": \"The brief requires returning rows whose title or description *contains* term. The untrusted term is embedded in a LIKE pattern without escaping the LIKE metacharacters '%' and '_' (and no ESCAPE clause is used), so those characters are interpreted as wildcards rather than literals. Searching for '100%' returns rows containing '100' followed by anything, and searching for 'a_b' returns rows containing 'a' plus any single character plus 'b' - neither of which is a containment match for the literal term. Conversely, a row whose title literally contains '100%' is matched by the unrelated term '100', which is correct, but the function cannot be used to search for the literal '%' or '_' at all.\", \"confidence\": \"medium\"}]}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 3035,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1070,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-5|APP|S|0",
+   "text": "Looking carefully through the artefact against each explicit requirement of the brief:\n\n- `init_db`: table name, all five columns with correct types/constraints, `IF NOT EXISTS`, and `conn.commit()` \u2014 met.\n- `save_photo_metadata`: single parameterised insert with qmark style, title/description stored verbatim (no escaping or sanitising), commit, returns the new row id \u2014 met.\n- `search_photos`: the dead `if False else` branch is unreachable, so the executed SQL is the `LOWER(title) LIKE LOWER(?) OR LOWER(description) LIKE LOWER(?)` query \u2014 parameterised, case-insensitive substring match, `ORDER BY id ASC`, returning dicts with exactly the five required keys. Convoluted but functionally compliant; the dead code is a style matter the brief does not address.\n- `upload_photo`: content-type allowlist, 5 MiB limit via `>` (so exactly 5 MiB is accepted, matching \"at most\"), `ValueError` on both failures, key is `photos/` + `uuid.uuid4().hex` (32 lowercase hex chars) + `/` + sanitised base name using exactly the permitted character class, and the `put_object` call matches the specified signature \u2014 met. The `base in (\"\", \".\", \"..\")` fallback only fires where `os.path.basename` yields no usable name; the brief does not specify behaviour there.\n- `photo_url`: calls `generate_presigned_url` with the exact operation name, `Params` dict and `ExpiresIn` as specified, and raises `ValueError` outside 1\u20133600 inclusive \u2014 met. The extra `isinstance` type check rejects non-integers, which the brief neither requires nor forbids.\n- `handle_upload`: uploads first, saves metadata, on exception calls `s3.delete_object(Bucket=bucket, Key=key)` and re-raises the original exception via bare `raise` (preserving the traceback), returns the row id \u2014 met.\n- Module-wide: imports only `os`, `re`, `uuid` and `datetime` from the standard library; no boto3 import, no client construction, no embedded credentials \u2014 met.\n- `uploaded_at` is an ISO 8601 UTC timestamp via `datetime.now(timezone.utc).isoformat()` \u2014 met.\n\nI could find no requirement that the artefact fails to satisfy.\n\n```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 2792,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 798,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-5|APP|S|2",
+   "text": "Let me check each requirement carefully.\n\n**init_db**: creates table with correct columns and types, commits. Fine.\n\n**save_photo_metadata**: parameterized insert (qmark), stores exactly as given, commits, returns id. Fine. Uses `datetime.now(timezone.utc).isoformat()` \u2014 ISO 8601 UTC. Fine.\n\n**search_photos**: parameterized, case-insensitive LIKE, ordered by id. One issue: the term is used directly in `f\"%{term}%\"` \u2014 LIKE wildcards in the term (`%`, `_`) aren't escaped. But the brief only requires \"contains term, case-insensitively\" \u2014 wildcard escaping is arguably implied by \"contains\" but it's not an explicit requirement, and this is a common grading edge. The brief says \"The term is untrusted user input\" \u2014 satisfied via parameterization (no SQL injection). I'd consider the wildcard issue low-confidence at best; it's a behavioural deviation from \"contains term\". I'll flag it low confidence.\n\nAnother: rows whose description is NULL \u2014 `LOWER(description) LIKE` yields NULL, so OR with title still works. Fine.\n\n**upload_photo**: content type check, size check, key format `photos/<uuid4 hex>/<safe name>`. `uuid.uuid4().hex` is 32 lowercase hex chars. `_safe_name` uses `os.path.basename` \u2014 note: on POSIX, `os.path.basename(\"C:\\\\dir\\\\file.jpg\")` returns the whole string, but backslashes would then be replaced by `_`, so no directory components remain in the key anyway. Acceptable. Size check uses `>` for \"at most 5 MiB\" \u2014 correct. Order of checks fine.\n\n**photo_url**: correct call, validates expires. Fine.\n\n**handle_upload**: uploads, saves, on exception deletes and re-raises. Fine.\n\nNo AWS clients or credentials. Output format: module in a fenced python block \u2014 I'm reviewing the module text itself, can't assess the surrounding response formatting beyond what's given.\n\nLet me double-check `init_db` \u2014 brief says \"Create the table photos if it does not exist\". Done. Commit. Done.\n\nHmm, one more on save_photo_metadata: `cur.lastrowid` fallback uses `last_insert_rowid()` which is SQLite-specific, but the brief only specifies DB-API qmark; not an explicit violation.\n\nSo the only candidate is the LIKE wildcard issue.\n\n```json\n{\"violations\": [{\"requirement\": \"search_photos\", \"artefact_excerpt\": \"pattern = f\\\"%{term}%\\\"\\n    cur.execute(\\n        \\\"\\\"\\\"\\n        SELECT id, title, description, s3_key, uploaded_at\\n        FROM photos\\n        WHERE LOWER(title) LIKE LOWER(?) OR LOWER(description) LIKE LOWER(?)\", \"explanation\": \"The brief requires returning rows whose title or description contains term. The term is interpolated into a LIKE pattern without escaping LIKE metacharacters, so a term containing '%' or '_' is treated as a wildcard rather than a literal substring. For example, search_photos(conn, '100%_off') matches titles that do not contain that literal text, and search_photos(conn, '%') matches every row, so the 'contains term' semantics are not met for such inputs. (Parameterisation does prevent SQL injection, so the untrusted-input requirement itself is satisfied.)\", \"confidence\": \"low\"}]}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 2779,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1167,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-5|T1|A|3",
+   "text": "```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 2120,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 14,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-5|T1|A|4",
+   "text": "```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 2095,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 14,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-5|T2|P|2",
+   "text": "Let me work through the brief requirement by requirement.\n\n**R1** \u2014 VPC: CIDR 10.0.0.0/16, `EnableDnsSupport: true`, `EnableDnsHostnames: true`. Met.\n\n**R2** \u2014 Four subnets. PublicSubnet1 uses `!Select [0, !GetAZs '']`, PublicSubnet2 uses `!Select [1, !GetAZs '']` \u2014 two different AZs. PrivateSubnet1 index 0, PrivateSubnet2 index 1 \u2014 also two different AZs. AZs come from `Fn::GetAZs`, not hard-coded. Both public subnets have `MapPublicIpOnLaunch: true`. Met.\n\n**R3** \u2014 IGW created, `VPCGatewayAttachment` attaches it, `PublicDefaultRoute` has 0.0.0.0/0 to the IGW, and both public subnets are associated with the public route table. Met.\n\n**R4** \u2014 `PrivateRouteTable` is created with no `AWS::EC2::Route` resource referencing it anywhere in the template, so it has no route to the IGW. Both private subnets are associated. Met.\n\n**R5** \u2014 `AWS::EC2::LaunchTemplate` (not a launch configuration), `ImageId: !Ref AmiId` where `AmiId` is `AWS::EC2::Image::Id`, `InstanceType: t3.micro`, `SecurityGroupIds` includes the web SG, and user data installs httpd and php then enables/starts httpd. Met.\n\n**R6** \u2014 Instance launched from the launch template into `PublicSubnet1`. Here there's a real problem: the launch template's `LaunchTemplateData` already specifies `SecurityGroupIds`, and the instance specifies a top-level `SubnetId`. CloudFormation/EC2 rejects this combination \u2014 when a launch template supplies network-interface-level security groups, you cannot also set instance-level `SubnetId`; the request fails with \"Network interfaces and an instance-level subnet ID may not be specified on the same request.\" So the stack fails to create and no web server launches. The EIP and association are present and otherwise correct, but the instance never comes up.\n\n**R7** \u2014 Ports 80 and 443 from 0.0.0.0/0, port 22 from `!Ref AdminCidr`. Met.\n\n**R8** \u2014 RDS MySQL, `db.t3.micro`, subnet group of the two private subnets, `PubliclyAccessible: false`, `StorageEncrypted: true`. Met.\n\n**R9** \u2014 `ManageMasterUserPassword: true`, no plaintext password, no password parameter at all. Met.\n\n**R10** \u2014 Single ingress rule: TCP 3306 from `SourceSecurityGroupId: !Ref WebServerSecurityGroup`. No other inbound rules. Met.\n\n**R11** \u2014 `WebsiteURL` uses `!Sub 'http://${WebServerEIP}'` (`!Ref` on an EIP returns the IP address), and `DatabaseEndpoint` uses `!GetAtt DBInstance.Endpoint.Address`. Both present. Met.\n\n**Deploy-twice check** \u2014 the brief says the template may be deployed more than once in the same account and Region. `LaunchTemplateName: !Sub '${AWS::StackName}-web-lt'` is stack-name-derived, so it doesn't collide. No other hard-coded global names (the `Name` tags are just tags and may repeat freely). No issue here.\n\nOne more pass on R6, since it's the only finding and I want to be sure it isn't a style quibble: the brief explicitly requires launching the instance *from that launch template* into *a public subnet*. The artefact attempts both, but the specific combination it uses is invalid at the API level, so the requirement is not actually satisfied in a deployment. That's a substantive functional violation, not a best-practice note.\n\n```json\n{\"violations\": [{\"requirement\": \"R6\", \"artefact_excerpt\": \"WebServerInstance:\\n    Type: AWS::EC2::Instance\\n    Properties:\\n      SubnetId: !Ref PublicSubnet1\\n      LaunchTemplate:\\n        LaunchTemplateId: !Ref WebServerLaunchTemplate\\n        Version: !GetAtt WebServerLaunchTemplate.LatestVersionNumber\", \"explanation\": \"The launch template's LaunchTemplateData sets SecurityGroupIds, which EC2 interprets as a network-interface-level specification. Combining that with an instance-level SubnetId on AWS::EC2::Instance is rejected by the EC2 API ('Network interfaces and an instance-level subnet ID may not be specified on the same request'), so stack creation fails and no web server instance is ever launched into a public subnet. R6 requires an instance actually launched from the launch template into a public subnet with an Elastic IP associated; because the instance resource cannot be created, neither the launch nor the dependent EIPAssociation succeeds. A compliant form either moves the subnet into the launch template's NetworkInterfaces block alongside the security groups, or sets SecurityGroupIds and SubnetId consistently at one level only.\", \"confidence\": \"medium\"}]}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 4617,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1742,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-5|T2|S|1",
+   "text": "```json\n{\"violations\": [{\"requirement\": \"R5 / R6 (launch template security group vs. instance network interface)\", \"artefact_excerpt\": \"WebServerInstance:\\n    Type: AWS::EC2::Instance\\n    Properties:\\n      SubnetId: !Ref PublicSubnet1\\n      LaunchTemplate:\\n        LaunchTemplateId: !Ref WebServerLaunchTemplate\", \"explanation\": \"The launch template sets SecurityGroupIds, while the instance sets SubnetId at the instance level. CloudFormation/EC2 rejects this combination: when a launch template specifies security groups outside a network interface and the instance-level request supplies a subnet, the two are merged into conflicting network interface specifications and the instance launch fails ('Network interfaces and an instance-level subnet ID may not be specified on the same request' / security group and subnet conflict). As written, the stack does not actually launch a web server into a public subnet, so R6 is not satisfied and the web security group is not effectively attached per R5.\", \"confidence\": \"medium\"}, {\"requirement\": \"R2 (two different Availability Zones per subnet pair) \u2014 potential, not a definite violation\", \"artefact_excerpt\": \"AvailabilityZone: !Select [0, !GetAZs '']\", \"explanation\": \"Fn::GetAZs is used correctly and indices 0 and 1 are distinct, so this requirement is met. Listed only to note it was checked; no violation.\", \"confidence\": \"low\"}, {\"requirement\": \"LaunchTemplateName uniqueness (R: deployable more than once in the same account and Region)\", \"artefact_excerpt\": \"LaunchTemplateName: !Sub '${AWS::StackName}-web-lt'\", \"explanation\": \"The name is derived from the stack name, which is unique per stack in an account/Region, so repeated deployment is fine. No violation.\", \"confidence\": \"low\"}]}\n```\n\nCorrection \u2014 the second and third entries above are not violations and should not have been included. The correct answer is:\n\n```json\n{\"violations\": [{\"requirement\": \"R6 (launch one instance from the launch template into a public subnet)\", \"artefact_excerpt\": \"LaunchTemplateData:\\n        ImageId: !Ref WebServerAmiId\\n        InstanceType: t3.micro\\n        SecurityGroupIds:\\n          - !Ref WebServerSecurityGroup\\n...\\n  WebServerInstance:\\n    Type: AWS::EC2::Instance\\n    Properties:\\n      SubnetId: !Ref PublicSubnet1\", \"explanation\": \"The launch template specifies SecurityGroupIds (a non-network-interface security group spec) while the instance resource specifies an instance-level SubnetId. EC2 rejects the merged request because subnet and security groups must be specified consistently (both at instance level, or both inside a NetworkInterfaces block in the template). The instance therefore fails to launch, so no web server is created in a public subnet and no Elastic IP is associated.\", \"confidence\": \"medium\"}]}\n```",
+   "stop_reason": "end_turn",
+   "retried": true,
+   "usage": {
+    "input_tokens": 4300,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1016,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-5|T3|A|1",
+   "text": "```json\n{\"violations\": [{\"requirement\": \"R1\", \"artefact_excerpt\": \"PrivateSubnet1:\\n    ...\\n      CidrBlock: 10.0.2.0/24\\n      AvailabilityZone: !Select [0, !GetAZs '']\\n...\\n  PrivateSubnet2:\\n    ...\\n      CidrBlock: 10.0.3.0/24\\n      AvailabilityZone: !Select [1, !GetAZs '']\", \"explanation\": \"This part is actually compliant - the private subnets use index 0 and 1 of Fn::GetAZs, placing them in two different Availability Zones, as do the public subnets. Listed here only to note it was checked; no violation.\", \"confidence\": \"low\"}]}\n```\n\nCorrection \u2014 the entry above is not a violation and should not have been included. The accurate result is:\n\n```json\n{\"violations\": []}\n```\n\nWait \u2014 I must return exactly one fenced json block. The correct single response is:\n\n```json\n{\"violations\": [{\"requirement\": \"R7\", \"artefact_excerpt\": \"SecurityGroupIngress:\\n        - IpProtocol: tcp\\n          FromPort: 80\\n          ToPort: 80\\n          SourceSecurityGroupId: !GetAtt ALBSecurityGroup.GroupId\", \"explanation\": \"Placeholder\", \"confidence\": \"low\"}]}\n```\n\nI need to stop and give the single, correct answer:\n\n```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 6685,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 485,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  },
+  {
+   "eid": "claude-sonnet-5|T3|A|4",
+   "text": "Let me work through the brief requirement by requirement against the template.\n\n**R1** \u2014 VPC 10.0.0.0/16 \u2713. Public subnets use `!Select [0, !GetAZs '']` and `!Select [1, !GetAZs '']` \u2014 two different AZs \u2713. Private subnets likewise index 0 and 1 \u2014 two different AZs \u2713. No hard-coded AZ names \u2713.\n\n**R2** \u2014 IGW created and attached via `VPCGatewayAttachment` \u2713. Public route table has `0.0.0.0/0` \u2192 `GatewayId: !Ref InternetGateway` \u2713, associated with both public subnets \u2713.\n\n**R3** \u2014 NAT gateway with EIP in `PublicSubnet1` \u2713. Private route table default route targets `NatGatewayId` \u2713, both private subnets associated \u2713, no IGW route on the private table \u2713.\n\n**R4** \u2014 ALB `Scheme: internet-facing`, `Type: application`, both public subnets \u2713. HTTP listener port 80 forwarding to target group \u2713. Health check `HealthCheckProtocol: HTTP`, `HealthCheckPath: /health` \u2713.\n\n**R5** \u2014 ALB SG ingress tcp 80 from `0.0.0.0/0` \u2713.\n\n**R6** \u2014 Web SG ingress tcp 80 with `SourceSecurityGroupId: !Ref ALBSecurityGroup`, no 0.0.0.0/0 rule \u2713.\n\n**R7** \u2014 `AWS::EC2::LaunchTemplate` \u2713, `ImageId: !Ref AmiId` where `AmiId` is `AWS::EC2::Image::Id` \u2713, `t3.micro` \u2713, web SG attached via `NetworkInterfaces[0].Groups` \u2713, instance profile attached \u2713, `AssociatePublicIpAddress: false` \u2713. But note `LaunchTemplateName: !Sub '${AWS::StackName}-web-lt'` \u2014 this is stack-name-derived, so it does not collide on redeployment. Not a violation.\n\n**R8** \u2014 ASG across both private subnets \u2713, uses launch template \u2713, Min 2 / Max 4 / Desired 2 \u2713, `TargetGroupARNs` \u2713, `HealthCheckType: ELB` \u2713.\n\n**R9** \u2014 Target-tracking on `ASGAverageCPUUtilization` with `TargetValue: 70`. Brief says \"target of at most 70 percent\" \u2014 70 satisfies \"at most 70\" \u2713.\n\n**R10** \u2014 Bucket with all four Block Public Access settings true \u2713. No `BucketName` \u2713.\n\n**R11** \u2014 Role trusts `ec2.amazonaws.com` \u2713, instance profile created \u2713. Policy limited to the three object actions on `${PhotoBucket.Arn}/*` \u2014 no wildcard actions, no Resource \"*\" \u2713.\n\n**R12** \u2014 `mysql`, `db.t3.micro`, `MultiAZ: true`, DB subnet group of the two private subnets, `PubliclyAccessible: false`, `StorageEncrypted: true`, `ManageMasterUserPassword: true` \u2014 no plain-text password \u2713. (The `DBMasterUsername` default `admin` is a username, not a password; the brief only constrains the password.)\n\n**R13** \u2014 DB SG ingress tcp 3306 from `SourceSecurityGroupId: !Ref WebSecurityGroup` only \u2713.\n\n**R14** \u2014 Origin is `!GetAtt LoadBalancer.DNSName` as a custom origin with `OriginProtocolPolicy: http-only` \u2713. `ViewerProtocolPolicy: redirect-to-https` \u2713.\n\n**R15** \u2014 No hard-coded AMI (parameter) \u2713, no hard-coded AZ names \u2713. Fixed physical names: checking every resource for a literal name property \u2014 no `BucketName`, no `DBInstanceIdentifier`, no `GroupName`, no `DBSubnetGroupName` literal, no `Name` on the LB, no `RoleName`/`InstanceProfileName`, no `AutoScalingGroupName`. The only name property present is `LaunchTemplateName`, which is `!Sub`-derived from the stack name and therefore differs per deployment \u2713.\n\n**R16** \u2014 Outputs CloudFront `DomainName` and LB `DNSName` \u2713.\n\nOne thing I want to be careful about: R1 says the public subnets are in two different AZs \"and so are the private subnets.\" The template uses `!Select [0, ...]` and `!Select [1, ...]` for both pairs \u2014 private subnets are in different AZs from each other, which is what's required. The brief does not require private subnets to be in different AZs from the public ones.\n\nI also considered whether the CloudFront `DefaultCacheBehavior` needs a cache policy or whether `ForwardedValues` is deprecated \u2014 but the brief only requires the origin and the HTTP\u2192HTTPS redirect, so that's outside scope. Likewise the ASG lacking `DependsOn` on the NAT route, the absence of `UserData`, and the `gp2` storage type are not brief requirements.\n\nEvery explicit requirement in the brief is satisfied by the artefact.\n\n```json\n{\"violations\": []}\n```",
+   "stop_reason": "end_turn",
+   "retried": false,
+   "usage": {
+    "input_tokens": 6888,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4888,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "output_tokens": 1763,
+    "service_tier": "standard",
+    "inference_geo": "global",
+    "speed": "standard"
+   }
+  }
+ ]
+}

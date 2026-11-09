@@ -1,0 +1,19 @@
+\begin{table*}[t]
+\caption{Student-reported challenge themes in the anchor course and failures of the mapped static checks in first submissions of all six models (grader v1.1). Student counts are theme occurrences in reflections without denominators; model counts are failed check evaluations out of evaluations. Lint-gated counts treat every mapped template check as failed when the template fails the lint gate. The last column excludes the host-dependent filename test A09. The two indicators are not commensurable, and the comparison is descriptive.}
+\label{tab:themes}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{p{5.2cm}cccccc}
+\toprule
+Theme & Student occurrences & Mapped checks & Model failures [95\% CI] & Lint-gated & Excluding A09\\
+\midrule
+Security vs functionality behind the load balancer & 39 & 5 & 5/450 {\scriptsize[0.005, 0.026]} & 49 & 5/450\\
+SDK coding for upload and retrieval & 33 & 6 & 34/540 {\scriptsize[0.045, 0.087]} & 34 & 0/450\\
+IAM roles and policies for EC2/S3 access & 17 & 2 & 1/180 {\scriptsize[0.001, 0.031]} & 13 & 1/180\\
+Auto Scaling, scaling policies, target groups & 13 & 3 & 3/270 {\scriptsize[0.004, 0.032]} & 39 & 3/270\\
+Presigned URL for S3 access & 9 & 2 & 0/180 {\scriptsize[0.000, 0.021]} & 0 & 0/180\\
+Private-subnet access through NAT & 6 & 1 & 1/90 {\scriptsize[0.002, 0.060]} & 13 & 1/90\\
+Escaping characters in SQL queries & 6 & 2 & 0/180 {\scriptsize[0.000, 0.021]} & 0 & 0/180\\
+\bottomrule
+\end{tabular}
+\end{table*}

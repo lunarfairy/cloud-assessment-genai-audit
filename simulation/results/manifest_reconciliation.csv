@@ -1,0 +1,15 @@
+family,scenarios,simulated_trials,contrast_cells,confirmatory_contrast_cells
+S10_noncompliance,18,18000,54,36
+S1_R2_by_level,8,12000,24,16
+S2_low_R2,8,12000,24,16
+S3_bounded,4,6000,12,8
+S4_missing,12,18000,36,24
+S5_consent,12,18000,36,24
+S6_arm_variance,4,6000,12,8
+S7_unequal,6,8000,18,12
+S8_offering,8,12000,24,16
+S9_tutors,4,6000,12,8
+base,384,480000,1152,768
+legacy_check,32,40000,96,64
+partial_null,16,32000,48,32
+ssize,26,52000,78,52

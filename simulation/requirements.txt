@@ -1,0 +1,6 @@
+# Python interpreter: 3.11.16 (not a pip package)
+numpy==2.4.6
+scipy==1.17.1
+pandas==2.3.3
+statsmodels==0.15.0
+matplotlib==3.11.1

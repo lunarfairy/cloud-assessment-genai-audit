@@ -1,0 +1,11 @@
+family,model,tin,tout
+branch,claude-haiku-4-5-20251001,132104,39295
+branch,claude-haiku-5-5,0,0
+branch,claude-sonnet-4-5-20250929,757151,304804
+branch,claude-sonnet-5,335336,253073
+main,claude-haiku-4-5-20251001,29912,8384
+main,claude-haiku-5-5,0,0
+main,claude-opus-5-5,0,0
+main,claude-sonnet-4-5-20250929,152963,58272
+main,claude-sonnet-5,37861,9520
+main,claude-sonnet-5-5,0,0

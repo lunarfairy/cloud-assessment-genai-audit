@@ -1,0 +1,79 @@
+{
+ "proposed_bom": [
+  {
+   "item": "ec2_t3.small_hour",
+   "quantity": 2610,
+   "purpose": "3 baseline instances (one per AZ) x 730 h + 7 extra for 60 peak hours"
+  },
+  {
+   "item": "alb_hour",
+   "quantity": 730,
+   "purpose": "load balancer"
+  },
+  {
+   "item": "alb_lcu_hour",
+   "quantity": 4380,
+   "purpose": "6 LCU average"
+  },
+  {
+   "item": "nat_gateway_hour",
+   "quantity": 730,
+   "purpose": "one NAT gateway"
+  },
+  {
+   "item": "nat_gateway_gb_processed",
+   "quantity": 100,
+   "purpose": "egress"
+  },
+  {
+   "item": "rds_mysql_db.r6g.large_singleaz_hour",
+   "quantity": 730,
+   "multi_az": true,
+   "purpose": "Multi-AZ Graviton database"
+  },
+  {
+   "item": "rds_storage_gb_month_singleaz",
+   "quantity": 50,
+   "multi_az": true,
+   "purpose": "database storage"
+  },
+  {
+   "item": "s3_standard_gb_month",
+   "quantity": 500,
+   "purpose": "photos"
+  },
+  {
+   "item": "cloudfront_gb_out",
+   "quantity": 1200,
+   "purpose": "edge delivery (images)"
+  },
+  {
+   "item": "cloudfront_gb_out",
+   "quantity": 800,
+   "purpose": "edge delivery (pages)"
+  },
+  {
+   "item": "cloudfront_requests_per_10000",
+   "quantity": 4000,
+   "purpose": "40 million requests"
+  }
+ ],
+ "compute": {
+  "instance_type": "t3.small",
+  "asg_min": 3,
+  "asg_max": 12,
+  "availability_zones": 3
+ },
+ "database": {
+  "engine": "mysql",
+  "instance_class": "db.r6g.large",
+  "multi_az": true,
+  "point_in_time_recovery": true,
+  "backup_retention_days": 14,
+  "read_replicas": 0
+ },
+ "stated_original_monthly_cost_usd": 133.21,
+ "stated_proposed_monthly_cost_usd": 704.6,
+ "justification": "The original web tier tops out at 160 requests per second. The redesign spreads t3.small instances (80 requests per second each) across three Availability Zones with a minimum of three and a maximum of twelve, so ten instances meet the 750 requests per second origin peak; database load is handled by a larger db.r6g.large instead of a cache. Operational excellence: the stack is defined in CloudFormation and scaling is automatic. Security: instances stay in private subnets behind the load balancer and use a scoped instance role. Reliability: three Availability Zones keep at least two instances running after an AZ loss, and a Multi-AZ db.r6g.large with 14-day backups and point-in-time recovery meets the RPO and RTO. Performance efficiency: many small instances let target tracking add capacity in fine steps, and the memory-optimised database removes the need for ElastiCache. Cost optimisation: about US$705 per month, within the US$750 budget; burst instances are paid only during peaks. Sustainability: fine-grained scaling keeps utilisation high and idle capacity low.",
+ "comparison": "The original costs US$133.21 and cannot reach the peak; the proposal costs US$704.60 and spans three Availability Zones."
+}

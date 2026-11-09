@@ -1,0 +1,9 @@
+{
+ "model": "claude-sonnet-5-5",
+ "select_starts_seed": 20261106,
+ "cap": 8,
+ "n_round1_submissions": 70,
+ "n_failing_round1": 0,
+ "starts": [],
+ "note": "BR.select_starts returned an empty list: every round-1 submission passed all checks, so run_branching was not called."
+}

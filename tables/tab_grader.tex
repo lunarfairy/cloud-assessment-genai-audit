@@ -1,0 +1,19 @@
+\begin{table}[t]
+\caption{Grader verification under the original (v1.0) and corrected (v1.1) graders. FA, false accept; FR, false reject. Adversarial expected verdicts were fixed before grading; three cases are ambiguous under the brief and are not scored. The targeted probes test the three corrections added after the brief-variant runs.}
+\label{tab:grader}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lcc}
+\toprule
+Test set & v1.0 & v1.1\\
+\midrule
+Single-fault mutants detected & 77/77 & 77/77\\
+Alternative valid solutions accepted & 9/9 & 9/9\\
+Targeted probes, valid variants accepted & 0/4 & 4/4\\
+Targeted probes, invalid variants rejected & 4/4 & 4/4\\
+Adversarial cases, FA & 28 & 4\\
+Adversarial cases, FR & 4 & 0\\
+Adversarial cases, correct (of 56 scored) & 24 & 52\\
+\bottomrule
+\end{tabular}
+\end{table}

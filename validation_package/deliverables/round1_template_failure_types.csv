@@ -1,0 +1,181 @@
+model,task,cond,rep,eid,lint_errors,lint_rules,n_failed_checks,failed_checks,class
+claude-haiku-4-5-20251001,T1,A,0,claude-haiku-4-5-20251001|T1|A|0,0,,1,T1.R8,requirement violation only
+claude-haiku-4-5-20251001,T1,A,1,claude-haiku-4-5-20251001|T1|A|1,1,E3014,1,T1.R8,both
+claude-haiku-4-5-20251001,T1,A,2,claude-haiku-4-5-20251001|T1|A|2,0,,0,,passed
+claude-haiku-4-5-20251001,T1,A,3,claude-haiku-4-5-20251001|T1|A|3,0,,0,,passed
+claude-haiku-4-5-20251001,T1,A,4,claude-haiku-4-5-20251001|T1|A|4,0,,1,T1.R8,requirement violation only
+claude-haiku-4-5-20251001,T1,P,0,claude-haiku-4-5-20251001|T1|P|0,0,,1,T1.R8,requirement violation only
+claude-haiku-4-5-20251001,T1,P,1,claude-haiku-4-5-20251001|T1|P|1,0,,1,T1.R8,requirement violation only
+claude-haiku-4-5-20251001,T1,P,2,claude-haiku-4-5-20251001|T1|P|2,1,E3014,1,T1.R8,both
+claude-haiku-4-5-20251001,T1,P,3,claude-haiku-4-5-20251001|T1|P|3,0,,1,T1.R8,requirement violation only
+claude-haiku-4-5-20251001,T1,P,4,claude-haiku-4-5-20251001|T1|P|4,1,E3014,1,T1.R8,both
+claude-haiku-4-5-20251001,T1,S,0,claude-haiku-4-5-20251001|T1|S|0,0,,0,,passed
+claude-haiku-4-5-20251001,T1,S,1,claude-haiku-4-5-20251001|T1|S|1,0,,1,T1.R8,requirement violation only
+claude-haiku-4-5-20251001,T1,S,2,claude-haiku-4-5-20251001|T1|S|2,0,,1,T1.R8,requirement violation only
+claude-haiku-4-5-20251001,T1,S,3,claude-haiku-4-5-20251001|T1|S|3,0,,1,T1.R8,requirement violation only
+claude-haiku-4-5-20251001,T1,S,4,claude-haiku-4-5-20251001|T1|S|4,0,,1,T1.R8,requirement violation only
+claude-haiku-4-5-20251001,T2,A,0,claude-haiku-4-5-20251001|T2|A|0,1,E3002,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T2,A,1,claude-haiku-4-5-20251001|T2|A|1,0,,0,,passed
+claude-haiku-4-5-20251001,T2,A,2,claude-haiku-4-5-20251001|T2|A|2,0,,0,,passed
+claude-haiku-4-5-20251001,T2,A,3,claude-haiku-4-5-20251001|T2|A|3,1,E3002,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T2,A,4,claude-haiku-4-5-20251001|T2|A|4,1,E3002,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T2,P,0,claude-haiku-4-5-20251001|T2|P|0,0,,0,,passed
+claude-haiku-4-5-20251001,T2,P,1,claude-haiku-4-5-20251001|T2|P|1,0,,0,,passed
+claude-haiku-4-5-20251001,T2,P,2,claude-haiku-4-5-20251001|T2|P|2,0,,0,,passed
+claude-haiku-4-5-20251001,T2,P,3,claude-haiku-4-5-20251001|T2|P|3,0,,0,,passed
+claude-haiku-4-5-20251001,T2,P,4,claude-haiku-4-5-20251001|T2|P|4,0,,0,,passed
+claude-haiku-4-5-20251001,T2,S,0,claude-haiku-4-5-20251001|T2|S|0,0,,0,,passed
+claude-haiku-4-5-20251001,T2,S,1,claude-haiku-4-5-20251001|T2|S|1,0,,0,,passed
+claude-haiku-4-5-20251001,T2,S,2,claude-haiku-4-5-20251001|T2|S|2,0,,0,,passed
+claude-haiku-4-5-20251001,T2,S,3,claude-haiku-4-5-20251001|T2|S|3,1,E3002,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T2,S,4,claude-haiku-4-5-20251001|T2|S|4,0,,0,,passed
+claude-haiku-4-5-20251001,T3,A,0,claude-haiku-4-5-20251001|T3|A|0,4,E3002;E3006;E3019,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T3,A,1,claude-haiku-4-5-20251001|T3|A|1,0,,0,,passed
+claude-haiku-4-5-20251001,T3,A,2,claude-haiku-4-5-20251001|T3|A|2,1,E3002,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T3,A,3,claude-haiku-4-5-20251001|T3|A|3,1,E3030,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T3,A,4,claude-haiku-4-5-20251001|T3|A|4,2,E3006,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T3,P,0,claude-haiku-4-5-20251001|T3|P|0,1,E3002,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T3,P,1,claude-haiku-4-5-20251001|T3|P|1,1,E3002,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T3,P,2,claude-haiku-4-5-20251001|T3|P|2,4,E3002;E3003;E3006,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T3,P,3,claude-haiku-4-5-20251001|T3|P|3,2,E3002;E3030,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T3,P,4,claude-haiku-4-5-20251001|T3|P|4,1,E3002,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T3,S,0,claude-haiku-4-5-20251001|T3|S|0,1,E3006,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T3,S,1,claude-haiku-4-5-20251001|T3|S|1,0,,0,,passed
+claude-haiku-4-5-20251001,T3,S,2,claude-haiku-4-5-20251001|T3|S|2,3,E3002;E3006,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T3,S,3,claude-haiku-4-5-20251001|T3|S|3,1,E3002,0,,lint/schema failure only
+claude-haiku-4-5-20251001,T3,S,4,claude-haiku-4-5-20251001|T3|S|4,0,,0,,passed
+claude-opus-5-5,T1,A,0,claude-opus-5-5|T1|A|0,0,,0,,passed
+claude-opus-5-5,T1,A,1,claude-opus-5-5|T1|A|1,0,,0,,passed
+claude-opus-5-5,T1,A,2,claude-opus-5-5|T1|A|2,0,,0,,passed
+claude-opus-5-5,T1,A,3,claude-opus-5-5|T1|A|3,0,,0,,passed
+claude-opus-5-5,T1,A,4,claude-opus-5-5|T1|A|4,0,,0,,passed
+claude-opus-5-5,T1,P,0,claude-opus-5-5|T1|P|0,0,,0,,passed
+claude-opus-5-5,T1,P,1,claude-opus-5-5|T1|P|1,0,,0,,passed
+claude-opus-5-5,T1,P,2,claude-opus-5-5|T1|P|2,0,,0,,passed
+claude-opus-5-5,T1,P,3,claude-opus-5-5|T1|P|3,0,,0,,passed
+claude-opus-5-5,T1,P,4,claude-opus-5-5|T1|P|4,0,,0,,passed
+claude-opus-5-5,T1,S,0,claude-opus-5-5|T1|S|0,0,,0,,passed
+claude-opus-5-5,T1,S,1,claude-opus-5-5|T1|S|1,0,,0,,passed
+claude-opus-5-5,T1,S,2,claude-opus-5-5|T1|S|2,0,,0,,passed
+claude-opus-5-5,T1,S,3,claude-opus-5-5|T1|S|3,0,,0,,passed
+claude-opus-5-5,T1,S,4,claude-opus-5-5|T1|S|4,0,,0,,passed
+claude-opus-5-5,T2,A,0,claude-opus-5-5|T2|A|0,0,,0,,passed
+claude-opus-5-5,T2,A,1,claude-opus-5-5|T2|A|1,0,,0,,passed
+claude-opus-5-5,T2,A,2,claude-opus-5-5|T2|A|2,0,,0,,passed
+claude-opus-5-5,T2,A,3,claude-opus-5-5|T2|A|3,0,,0,,passed
+claude-opus-5-5,T2,A,4,claude-opus-5-5|T2|A|4,0,,0,,passed
+claude-opus-5-5,T2,P,0,claude-opus-5-5|T2|P|0,0,,0,,passed
+claude-opus-5-5,T2,P,1,claude-opus-5-5|T2|P|1,0,,0,,passed
+claude-opus-5-5,T2,P,2,claude-opus-5-5|T2|P|2,0,,0,,passed
+claude-opus-5-5,T2,P,3,claude-opus-5-5|T2|P|3,0,,0,,passed
+claude-opus-5-5,T2,P,4,claude-opus-5-5|T2|P|4,0,,0,,passed
+claude-opus-5-5,T2,S,0,claude-opus-5-5|T2|S|0,0,,0,,passed
+claude-opus-5-5,T2,S,1,claude-opus-5-5|T2|S|1,0,,0,,passed
+claude-opus-5-5,T2,S,2,claude-opus-5-5|T2|S|2,0,,0,,passed
+claude-opus-5-5,T2,S,3,claude-opus-5-5|T2|S|3,0,,0,,passed
+claude-opus-5-5,T2,S,4,claude-opus-5-5|T2|S|4,0,,0,,passed
+claude-opus-5-5,T3,A,0,claude-opus-5-5|T3|A|0,0,,0,,passed
+claude-opus-5-5,T3,A,1,claude-opus-5-5|T3|A|1,0,,0,,passed
+claude-opus-5-5,T3,A,2,claude-opus-5-5|T3|A|2,0,,0,,passed
+claude-opus-5-5,T3,A,3,claude-opus-5-5|T3|A|3,0,,0,,passed
+claude-opus-5-5,T3,A,4,claude-opus-5-5|T3|A|4,0,,0,,passed
+claude-opus-5-5,T3,P,0,claude-opus-5-5|T3|P|0,0,,0,,passed
+claude-opus-5-5,T3,P,1,claude-opus-5-5|T3|P|1,0,,0,,passed
+claude-opus-5-5,T3,P,2,claude-opus-5-5|T3|P|2,0,,0,,passed
+claude-opus-5-5,T3,P,3,claude-opus-5-5|T3|P|3,0,,0,,passed
+claude-opus-5-5,T3,P,4,claude-opus-5-5|T3|P|4,0,,0,,passed
+claude-opus-5-5,T3,S,0,claude-opus-5-5|T3|S|0,0,,0,,passed
+claude-opus-5-5,T3,S,1,claude-opus-5-5|T3|S|1,0,,0,,passed
+claude-opus-5-5,T3,S,2,claude-opus-5-5|T3|S|2,0,,0,,passed
+claude-opus-5-5,T3,S,3,claude-opus-5-5|T3|S|3,0,,0,,passed
+claude-opus-5-5,T3,S,4,claude-opus-5-5|T3|S|4,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,A,0,claude-sonnet-4-5-20250929|T1|A|0,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,A,1,claude-sonnet-4-5-20250929|T1|A|1,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,A,2,claude-sonnet-4-5-20250929|T1|A|2,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,A,3,claude-sonnet-4-5-20250929|T1|A|3,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,A,4,claude-sonnet-4-5-20250929|T1|A|4,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,P,0,claude-sonnet-4-5-20250929|T1|P|0,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,P,1,claude-sonnet-4-5-20250929|T1|P|1,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,P,2,claude-sonnet-4-5-20250929|T1|P|2,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,P,3,claude-sonnet-4-5-20250929|T1|P|3,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,P,4,claude-sonnet-4-5-20250929|T1|P|4,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,S,0,claude-sonnet-4-5-20250929|T1|S|0,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,S,1,claude-sonnet-4-5-20250929|T1|S|1,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,S,2,claude-sonnet-4-5-20250929|T1|S|2,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,S,3,claude-sonnet-4-5-20250929|T1|S|3,0,,0,,passed
+claude-sonnet-4-5-20250929,T1,S,4,claude-sonnet-4-5-20250929|T1|S|4,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,A,0,claude-sonnet-4-5-20250929|T2|A|0,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,A,1,claude-sonnet-4-5-20250929|T2|A|1,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,A,2,claude-sonnet-4-5-20250929|T2|A|2,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,A,3,claude-sonnet-4-5-20250929|T2|A|3,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,A,4,claude-sonnet-4-5-20250929|T2|A|4,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,P,0,claude-sonnet-4-5-20250929|T2|P|0,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,P,1,claude-sonnet-4-5-20250929|T2|P|1,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,P,2,claude-sonnet-4-5-20250929|T2|P|2,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,P,3,claude-sonnet-4-5-20250929|T2|P|3,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,P,4,claude-sonnet-4-5-20250929|T2|P|4,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,S,0,claude-sonnet-4-5-20250929|T2|S|0,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,S,1,claude-sonnet-4-5-20250929|T2|S|1,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,S,2,claude-sonnet-4-5-20250929|T2|S|2,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,S,3,claude-sonnet-4-5-20250929|T2|S|3,0,,0,,passed
+claude-sonnet-4-5-20250929,T2,S,4,claude-sonnet-4-5-20250929|T2|S|4,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,A,0,claude-sonnet-4-5-20250929|T3|A|0,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,A,1,claude-sonnet-4-5-20250929|T3|A|1,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,A,2,claude-sonnet-4-5-20250929|T3|A|2,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,A,3,claude-sonnet-4-5-20250929|T3|A|3,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,A,4,claude-sonnet-4-5-20250929|T3|A|4,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,P,0,claude-sonnet-4-5-20250929|T3|P|0,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,P,1,claude-sonnet-4-5-20250929|T3|P|1,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,P,2,claude-sonnet-4-5-20250929|T3|P|2,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,P,3,claude-sonnet-4-5-20250929|T3|P|3,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,P,4,claude-sonnet-4-5-20250929|T3|P|4,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,S,0,claude-sonnet-4-5-20250929|T3|S|0,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,S,1,claude-sonnet-4-5-20250929|T3|S|1,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,S,2,claude-sonnet-4-5-20250929|T3|S|2,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,S,3,claude-sonnet-4-5-20250929|T3|S|3,0,,0,,passed
+claude-sonnet-4-5-20250929,T3,S,4,claude-sonnet-4-5-20250929|T3|S|4,0,,0,,passed
+claude-sonnet-5,T1,A,0,claude-sonnet-5|T1|A|0,0,,0,,passed
+claude-sonnet-5,T1,A,1,claude-sonnet-5|T1|A|1,0,,0,,passed
+claude-sonnet-5,T1,A,2,claude-sonnet-5|T1|A|2,0,,0,,passed
+claude-sonnet-5,T1,A,3,claude-sonnet-5|T1|A|3,0,,0,,passed
+claude-sonnet-5,T1,A,4,claude-sonnet-5|T1|A|4,0,,0,,passed
+claude-sonnet-5,T1,P,0,claude-sonnet-5|T1|P|0,0,,0,,passed
+claude-sonnet-5,T1,P,1,claude-sonnet-5|T1|P|1,1,PARSE,9,T1.R1;T1.R2;T1.R3;T1.R4;T1.R5;T1.R6;T1.R7;T1.R8;T1.R9,unparseable or no template (schema failure; checks not evaluable)
+claude-sonnet-5,T1,P,2,claude-sonnet-5|T1|P|2,0,,0,,passed
+claude-sonnet-5,T1,P,3,claude-sonnet-5|T1|P|3,0,,0,,passed
+claude-sonnet-5,T1,P,4,claude-sonnet-5|T1|P|4,0,,0,,passed
+claude-sonnet-5,T1,S,0,claude-sonnet-5|T1|S|0,0,,0,,passed
+claude-sonnet-5,T1,S,1,claude-sonnet-5|T1|S|1,0,,0,,passed
+claude-sonnet-5,T1,S,2,claude-sonnet-5|T1|S|2,0,,0,,passed
+claude-sonnet-5,T1,S,3,claude-sonnet-5|T1|S|3,0,,0,,passed
+claude-sonnet-5,T1,S,4,claude-sonnet-5|T1|S|4,0,,0,,passed
+claude-sonnet-5,T2,A,0,claude-sonnet-5|T2|A|0,0,,0,,passed
+claude-sonnet-5,T2,A,1,claude-sonnet-5|T2|A|1,0,,0,,passed
+claude-sonnet-5,T2,A,2,claude-sonnet-5|T2|A|2,0,,0,,passed
+claude-sonnet-5,T2,A,3,claude-sonnet-5|T2|A|3,0,,0,,passed
+claude-sonnet-5,T2,A,4,claude-sonnet-5|T2|A|4,0,,0,,passed
+claude-sonnet-5,T2,P,0,claude-sonnet-5|T2|P|0,0,,0,,passed
+claude-sonnet-5,T2,P,1,claude-sonnet-5|T2|P|1,0,,0,,passed
+claude-sonnet-5,T2,P,2,claude-sonnet-5|T2|P|2,0,,0,,passed
+claude-sonnet-5,T2,P,3,claude-sonnet-5|T2|P|3,0,,0,,passed
+claude-sonnet-5,T2,P,4,claude-sonnet-5|T2|P|4,0,,0,,passed
+claude-sonnet-5,T2,S,0,claude-sonnet-5|T2|S|0,0,,0,,passed
+claude-sonnet-5,T2,S,1,claude-sonnet-5|T2|S|1,0,,0,,passed
+claude-sonnet-5,T2,S,2,claude-sonnet-5|T2|S|2,0,,0,,passed
+claude-sonnet-5,T2,S,3,claude-sonnet-5|T2|S|3,0,,0,,passed
+claude-sonnet-5,T2,S,4,claude-sonnet-5|T2|S|4,0,,0,,passed
+claude-sonnet-5,T3,A,0,claude-sonnet-5|T3|A|0,0,,0,,passed
+claude-sonnet-5,T3,A,1,claude-sonnet-5|T3|A|1,0,,0,,passed
+claude-sonnet-5,T3,A,2,claude-sonnet-5|T3|A|2,0,,0,,passed
+claude-sonnet-5,T3,A,3,claude-sonnet-5|T3|A|3,0,,0,,passed
+claude-sonnet-5,T3,A,4,claude-sonnet-5|T3|A|4,0,,0,,passed
+claude-sonnet-5,T3,P,0,claude-sonnet-5|T3|P|0,0,,0,,passed
+claude-sonnet-5,T3,P,1,claude-sonnet-5|T3|P|1,0,,0,,passed
+claude-sonnet-5,T3,P,2,claude-sonnet-5|T3|P|2,0,,0,,passed
+claude-sonnet-5,T3,P,3,claude-sonnet-5|T3|P|3,0,,0,,passed
+claude-sonnet-5,T3,P,4,claude-sonnet-5|T3|P|4,0,,0,,passed
+claude-sonnet-5,T3,S,0,claude-sonnet-5|T3|S|0,0,,0,,passed
+claude-sonnet-5,T3,S,1,claude-sonnet-5|T3|S|1,0,,0,,passed
+claude-sonnet-5,T3,S,2,claude-sonnet-5|T3|S|2,0,,0,,passed
+claude-sonnet-5,T3,S,3,claude-sonnet-5|T3|S|3,0,,0,,passed
+claude-sonnet-5,T3,S,4,claude-sonnet-5|T3|S|4,0,,0,,passed

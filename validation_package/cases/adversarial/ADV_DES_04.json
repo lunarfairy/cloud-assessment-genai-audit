@@ -1,0 +1,79 @@
+{
+ "proposed_bom": [
+  {
+   "item": "ec2_t3.medium_hour",
+   "quantity": 1640,
+   "purpose": "2 baseline instances x 730 h + 3 extra during 60 peak hours"
+  },
+  {
+   "item": "alb_hour",
+   "quantity": 730,
+   "purpose": "load balancer"
+  },
+  {
+   "item": "alb_lcu_hour",
+   "quantity": 3650,
+   "purpose": "5 LCU average"
+  },
+  {
+   "item": "nat_gateway_hour",
+   "quantity": 1460,
+   "purpose": "one NAT gateway per AZ"
+  },
+  {
+   "item": "nat_gateway_gb_processed",
+   "quantity": 200,
+   "purpose": "egress for updates and API calls"
+  },
+  {
+   "item": "rds_mysql_db.t3.medium_singleaz_hour",
+   "quantity": 730,
+   "multi_az": true,
+   "purpose": "primary with synchronous standby"
+  },
+  {
+   "item": "rds_storage_gb_month_singleaz",
+   "quantity": 100,
+   "multi_az": true,
+   "purpose": "database storage"
+  },
+  {
+   "item": "elasticache_cache.t3.medium_hour",
+   "quantity": 730,
+   "purpose": "session and query cache"
+  },
+  {
+   "item": "s3_standard_gb_month",
+   "quantity": 500,
+   "purpose": "photos"
+  },
+  {
+   "item": "cloudfront_gb_out",
+   "quantity": 2000,
+   "purpose": "edge delivery"
+  },
+  {
+   "item": "cloudfront_requests_per_10000",
+   "quantity": 4000,
+   "purpose": "40 million requests"
+  }
+ ],
+ "compute": {
+  "instance_type": "t3.medium",
+  "asg_min": 2,
+  "asg_max": 6,
+  "availability_zones": 2
+ },
+ "database": {
+  "engine": "mysql",
+  "instance_class": "db.t3.medium",
+  "multi_az": true,
+  "point_in_time_recovery": true,
+  "backup_retention_days": 7,
+  "read_replicas": 0
+ },
+ "stated_original_monthly_cost_usd": 133.21,
+ "stated_proposed_monthly_cost_usd": 581.97,
+ "justification": "We scale the web tier to t3.medium instances (2 to 6) and keep a Multi-AZ database. The pillars considered are operational excellence, security, reliability, performance efficiency, cost optimisation and sustainability.",
+ "comparison": "The original costs US$133.21 per month but supports only 160 requests per second at maximum scale and depends on one NAT gateway; the proposal costs US$581.97, supports 960 requests per second and tolerates the loss of an Availability Zone."
+}

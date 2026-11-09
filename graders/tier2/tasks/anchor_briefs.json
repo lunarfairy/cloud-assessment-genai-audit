@@ -1,0 +1,59 @@
+{
+ "briefs": {
+  "T1": "# Assessment task: Stage 1 (Quadrant A) - Web server in the default VPC\n\nUsing AWS CloudFormation (YAML), deploy a Linux web server on a single t3.micro EC2 instance in your account's default VPC. Use the current Amazon Linux 2023 image without hard-coding an AMI ID, so that the template works in any commercial AWS Region. The instance should run the Apache web server with TLS enabled and serve a simple home page over HTTPS to anyone on the internet, and it should keep serving after a reboot. Administrators connect over SSH with an existing key pair, and only from their own network, which is supplied when the stack is created; no other access to the instance should be possible. Do not build any new network infrastructure for this stage. When the stack is created, it should report the server's public DNS name and the website address.\n\nOutput format: return the complete template in a single fenced code block marked yaml, and nothing else.",
+  "T2": "# Assessment task: Stage 2 (Quadrant B) - Custom VPC, database tier and launch template\n\nUsing AWS CloudFormation (YAML), move the photo-sharing website from the default VPC into your own network and add a database tier. The template will be deployed in a fresh account in any commercial AWS Region, possibly more than once in the same account and Region. Build a VPC (10.0.0.0/16) with working DNS, with public subnets for the web tier and private subnets for the database, spread over two Availability Zones; instances launched in the public subnets should receive public addresses, and the private subnets must have no route to the internet. Define the web server once, as a reusable launch definition built from the custom AMI that you created in the labs (supplied when the stack is created), on t3.micro, installing and starting Apache and PHP. Run one web server from it in a public subnet with a fixed public IP address. The web server accepts HTTP and HTTPS from anyone and SSH only from the administrators' network. Add an Amazon RDS for MySQL database (db.t3.micro) in the private subnets. It must not be reachable from the internet, only the web server may connect to it, its storage must be encrypted, and the master password must not appear in the template. When the stack is created, it should report the website URL and the database endpoint.\n\nOutput format: return the complete template in a single fenced code block marked yaml, and nothing else.",
+  "T3": "# Assessment task: Stage 3 (Quadrant C) - Secure, scalable, highly available deployment\n\nUsing AWS CloudFormation (YAML), rebuild the photo-sharing website as a secure, scalable and highly available deployment. The template will be deployed in a fresh account in any commercial AWS Region, possibly more than once in the same account and Region, so it must not depend on Region-specific names, fixed AMI IDs or physical names that would collide. Use a VPC (10.0.0.0/16) with public and private subnets in two Availability Zones. The web servers run in the private subnets and must be reachable only through an internet-facing Application Load Balancer listening for HTTP; instances in the private subnets reach the internet for updates through a NAT gateway. Launch the web servers from the custom AMI (supplied when the stack is created) on t3.micro, without public IP addresses, in an Auto Scaling group that normally runs two instances, can grow to four, scales out when CPU load is high, and relies on the load balancer's health checks. Uploaded photos are stored in an S3 bucket that can never be made public. The web servers receive, through an instance role, only the permissions they need to upload, read and delete photos in that bucket. Use a Multi-AZ Amazon RDS for MySQL database (db.t3.micro) in the private subnets that only the web servers can reach, with encrypted storage and no password in the template. Put an Amazon CloudFront distribution in front of the load balancer and redirect viewers from HTTP to HTTPS. When the stack is created, it should report the CloudFront domain name and the load balancer's DNS name.\n\nOutput format: return the complete template in a single fenced code block marked yaml, and nothing else."
+ },
+ "check_specification": {
+  "T1": {
+   "T1.R1": "implied",
+   "T1.R2": "implied",
+   "T1.R3": "stated",
+   "T1.R4": "stated",
+   "T1.R5": "stated",
+   "T1.R6": "stated",
+   "T1.R7": "implied",
+   "T1.R8": "stated",
+   "T1.R9": "stated"
+  },
+  "T2": {
+   "T2.R1": "stated",
+   "T2.R2": "implied",
+   "T2.R3": "implied",
+   "T2.R4": "implied",
+   "T2.R5": "implied",
+   "T2.R6": "stated",
+   "T2.R7": "stated",
+   "T2.R8": "stated",
+   "T2.R9": "stated",
+   "T2.R10": "stated",
+   "T2.R11": "stated"
+  },
+  "T3": {
+   "T3.R1": "stated",
+   "T3.R2": "implied",
+   "T3.R3": "stated",
+   "T3.R4": "unspecified",
+   "T3.R5": "implied",
+   "T3.R6": "stated",
+   "T3.R7": "implied",
+   "T3.R8": "stated",
+   "T3.R9": "implied",
+   "T3.R10": "stated",
+   "T3.R11": "stated",
+   "T3.R12": "stated",
+   "T3.R13": "stated",
+   "T3.R14": "unspecified",
+   "T3.R15": "stated",
+   "T3.R16": "stated"
+  }
+ },
+ "notes": {
+  "T3.R4": "health-check path /health is not given in the anchor-style brief",
+  "T3.R14": "origin protocol http-only is not given",
+  "T1.R2": "SSM public parameter path not given; resolving the current AL2023 AMI at deploy time is implied",
+  "T2.R5": "resource type AWS::EC2::LaunchTemplate not named; launch configurations are unavailable to new accounts",
+  "T3.R9": "target value not given (\"scales out when CPU load is high\")"
+ },
+ "design": "Anchor-style briefs keep the architecture and course-typical constraints (sizes, CIDR, scaling bounds) but drop the numbered one-requirement-per-check structure and implementation hints (SSM path, resource type names, intrinsic functions, security-group-reference wording, password mechanisms, health-check path, origin protocol). check_specification: stated = requirement explicit in the brief; implied = follows from stated goals or platform constraints; unspecified = an exact value the brief does not give."
+}

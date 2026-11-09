@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+regrade_rerun/
+validation_package/patched_copy/
+*.log

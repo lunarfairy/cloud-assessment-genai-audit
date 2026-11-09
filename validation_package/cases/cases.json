@@ -1,0 +1,1087 @@
+[
+ {
+  "id": "ADV_T1_01",
+  "set": "adversarial",
+  "task": "T1",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T1.R5",
+   "T1.R6"
+  ],
+  "probes": [
+   "T1.R5",
+   "T1.R6"
+  ],
+  "rationale": "Adds SSH from ::/0 (IPv6 anywhere) beside the admin-CIDR rule; SSH is no longer limited to the admin CIDR.",
+  "path": "cases/adversarial/ADV_T1_01.yaml"
+ },
+ {
+  "id": "ADV_T1_02",
+  "set": "adversarial",
+  "task": "T1",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T1.R6"
+  ],
+  "probes": [
+   "T1.R4",
+   "T1.R6"
+  ],
+  "rationale": "Adds HTTPS from ::/0; R6 requires exactly the two listed inbound rules.",
+  "path": "cases/adversarial/ADV_T1_02.yaml"
+ },
+ {
+  "id": "ADV_T1_03",
+  "set": "adversarial",
+  "task": "T1",
+  "category": "unusual but valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [
+   "T1.R7"
+  ],
+  "rationale": "User data written as cloud-init #cloud-config (packages, write_files, runcmd) instead of a shell script; it installs httpd and mod_ssl, writes index.html and enables and starts httpd.",
+  "path": "cases/adversarial/ADV_T1_03.yaml"
+ },
+ {
+  "id": "ADV_T1_04",
+  "set": "adversarial",
+  "task": "T1",
+  "category": "unusual but valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [
+   "T1.R7"
+  ],
+  "rationale": "Shell user data splits the install command over continuation lines (dnf install -y \\ / httpd \\ / mod_ssl).",
+  "path": "cases/adversarial/ADV_T1_04.yaml"
+ },
+ {
+  "id": "ADV_T1_05",
+  "set": "adversarial",
+  "task": "T1",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T1.R5",
+   "T1.R6"
+  ],
+  "probes": [
+   "T1.R5",
+   "T1.R6"
+  ],
+  "rationale": "The admin rule opens TCP 0-65535 (not just 22) to the admin CIDR: extra inbound traffic beyond SSH.",
+  "path": "cases/adversarial/ADV_T1_05.yaml"
+ },
+ {
+  "id": "ADV_T1_06",
+  "set": "adversarial",
+  "task": "T1",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T1.R4",
+   "T1.R5",
+   "T1.R6"
+  ],
+  "probes": [
+   "T1.R4",
+   "T1.R6"
+  ],
+  "rationale": "HTTPS rule replaced by IpProtocol -1 (all traffic) from 0.0.0.0/0.",
+  "path": "cases/adversarial/ADV_T1_06.yaml"
+ },
+ {
+  "id": "ADV_T1_07",
+  "set": "adversarial",
+  "task": "T1",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "intent",
+  "expect_fail": [
+   "T1.R5"
+  ],
+  "probes": [
+   "T1.R1",
+   "T1.R5"
+  ],
+  "rationale": "Admin CIDR parameter defaults to 0.0.0.0/0, so a default deployment opens SSH to the world while the rule still references the parameter.",
+  "path": "cases/adversarial/ADV_T1_07.yaml"
+ },
+ {
+  "id": "ADV_T1_08",
+  "set": "adversarial",
+  "task": "T1",
+  "category": "interacting double fault",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T1.R4",
+   "T1.R6",
+   "T1.R7"
+  ],
+  "probes": [
+   "T1.R4",
+   "T1.R6",
+   "T1.R7"
+  ],
+  "rationale": "Double fault: HTTPS rule changed to HTTP and mod_ssl dropped (an HTTP-only server whose faults are mutually consistent).",
+  "path": "cases/adversarial/ADV_T1_08.yaml"
+ },
+ {
+  "id": "ADV_T2_01",
+  "set": "adversarial",
+  "task": "T2",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T2.R8"
+  ],
+  "probes": [
+   "T2.R8"
+  ],
+  "rationale": "PubliclyAccessible taken from a parameter whose default is 'true': a default deployment creates a publicly accessible database.",
+  "path": "cases/adversarial/ADV_T2_01.yaml"
+ },
+ {
+  "id": "ADV_T2_02",
+  "set": "adversarial",
+  "task": "T2",
+  "category": "unusual but valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [
+   "T2.R8"
+  ],
+  "rationale": "StorageEncrypted taken from a parameter whose default is 'true' (encrypted by default).",
+  "path": "cases/adversarial/ADV_T2_02.yaml"
+ },
+ {
+  "id": "ADV_T2_03",
+  "set": "adversarial",
+  "task": "T2",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T2.R2",
+   "T2.R3"
+  ],
+  "probes": [
+   "T2.R2",
+   "T2.R3"
+  ],
+  "rationale": "PublicSubnet2 and its route-table association carry a Condition that is false by default, so a default deployment has only one public subnet.",
+  "path": "cases/adversarial/ADV_T2_03.yaml"
+ },
+ {
+  "id": "ADV_T2_04",
+  "set": "adversarial",
+  "task": "T2",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T2.R9"
+  ],
+  "probes": [
+   "T2.R9"
+  ],
+  "rationale": "Master password is a NoEcho parameter, but the parameter has a literal Default, so the password is in plain text in the template.",
+  "path": "cases/adversarial/ADV_T2_04.yaml"
+ },
+ {
+  "id": "ADV_T2_05",
+  "set": "adversarial",
+  "task": "T2",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T2.R2"
+  ],
+  "probes": [
+   "T2.R2"
+  ],
+  "rationale": "Availability Zones chosen with Fn::Select over a literal list [us-east-1a, us-east-1b]: hard-coded AZ names that fail outside us-east-1.",
+  "path": "cases/adversarial/ADV_T2_05.yaml"
+ },
+ {
+  "id": "ADV_T2_06",
+  "set": "adversarial",
+  "task": "T2",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "intent",
+  "expect_fail": [
+   "T2.R7"
+  ],
+  "probes": [
+   "T2.R7"
+  ],
+  "rationale": "Web SG allows 80/443 only from ::/0. The VPC has no IPv6 CIDR, so the site is unreachable from anywhere over IPv4.",
+  "path": "cases/adversarial/ADV_T2_06.yaml"
+ },
+ {
+  "id": "ADV_T2_07",
+  "set": "adversarial",
+  "task": "T2",
+  "category": "unusual but valid",
+  "expected": "ambiguous",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [
+   "T2.R9"
+  ],
+  "rationale": "Master password from an SSM SecureString dynamic reference ({{resolve:ssm-secure:...}}). It is not plain text, but it is not one of the three mechanisms the brief lists.",
+  "path": "cases/adversarial/ADV_T2_07.yaml"
+ },
+ {
+  "id": "ADV_T2_08",
+  "set": "adversarial",
+  "task": "T2",
+  "category": "interacting double fault",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T2.R2",
+   "T2.R4",
+   "T2.R8"
+  ],
+  "probes": [
+   "T2.R2",
+   "T2.R4",
+   "T2.R6",
+   "T2.R8"
+  ],
+  "rationale": "Double fault: PrivateSubnet1 maps public IPs and is routed through the public route table, and the web server is launched into it. The 'private' subnet is effectively public, so only one private subnet remains (R2, R4) and the DB subnet group contains a public subnet (R8). R6 is met because the instance is now in a genuinely public subnet.",
+  "path": "cases/adversarial/ADV_T2_08.yaml"
+ },
+ {
+  "id": "ADV_T2_09",
+  "set": "adversarial",
+  "task": "T2",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T2.R10"
+  ],
+  "probes": [
+   "T2.R10"
+  ],
+  "rationale": "Database SG allows all protocols and ports (IpProtocol -1) from the web SG rather than only TCP 3306.",
+  "path": "cases/adversarial/ADV_T2_09.yaml"
+ },
+ {
+  "id": "ADV_T3_01",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T3.R11"
+  ],
+  "probes": [
+   "T3.R11"
+  ],
+  "rationale": "Adds an Allow statement with NotAction iam:* on Resource '*', which grants s3:* and every other non-IAM action.",
+  "path": "cases/adversarial/ADV_T3_01.yaml"
+ },
+ {
+  "id": "ADV_T3_02",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T3.R11"
+  ],
+  "probes": [
+   "T3.R11"
+  ],
+  "rationale": "Object resource written as !Sub 'arn:${AWS::Partition}:s3:::*', i.e. every bucket, through Fn::Sub.",
+  "path": "cases/adversarial/ADV_T3_02.yaml"
+ },
+ {
+  "id": "ADV_T3_03",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T3.R11"
+  ],
+  "probes": [
+   "T3.R11"
+  ],
+  "rationale": "Resource !Sub '${PhotoBucket.Arn}*/*': the inserted wildcard covers objects in every bucket whose name starts with the photo bucket's name.",
+  "path": "cases/adversarial/ADV_T3_03.yaml"
+ },
+ {
+  "id": "ADV_T3_04",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T3.R11"
+  ],
+  "probes": [
+   "T3.R11"
+  ],
+  "rationale": "s3:Put* wildcard (PutObject plus PutObjectAcl, PutBucketPolicy, ...).",
+  "path": "cases/adversarial/ADV_T3_04.yaml"
+ },
+ {
+  "id": "ADV_T3_05",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "unusual but valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [
+   "T3.R15"
+  ],
+  "rationale": "BucketName !Sub '${AWS::StackName}-photos'. Stack names are unique within an account and Region, so a second deployment does not collide. Caveat: a stack name with upper-case letters would fail S3 naming rules.",
+  "path": "cases/adversarial/ADV_T3_05.yaml"
+ },
+ {
+  "id": "ADV_T3_06",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T3.R15"
+  ],
+  "probes": [
+   "T3.R15"
+  ],
+  "rationale": "BucketName !Sub '${AWS::AccountId}-${AWS::Region}-photos' looks dynamic but is fixed per account and Region, so a second deployment collides.",
+  "path": "cases/adversarial/ADV_T3_06.yaml"
+ },
+ {
+  "id": "ADV_T3_07",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T3.R12"
+  ],
+  "probes": [
+   "T3.R12"
+  ],
+  "rationale": "PubliclyAccessible from a parameter whose default is 'true'.",
+  "path": "cases/adversarial/ADV_T3_07.yaml"
+ },
+ {
+  "id": "ADV_T3_08",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "unusual but valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [
+   "T3.R12"
+  ],
+  "rationale": "MultiAZ from a parameter whose only allowed value and default is 'true'.",
+  "path": "cases/adversarial/ADV_T3_08.yaml"
+ },
+ {
+  "id": "ADV_T3_09",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T3.R1",
+   "T3.R4",
+   "T3.R8",
+   "T3.R12",
+   "T3.R15"
+  ],
+  "probes": [
+   "T3.R1",
+   "T3.R15"
+  ],
+  "rationale": "AZs chosen with Fn::Select over a literal list of us-east-1 AZ names (subnets, ALB, ASG and DB subnet group all inherit the hard-coding).",
+  "path": "cases/adversarial/ADV_T3_09.yaml"
+ },
+ {
+  "id": "ADV_T3_10",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "intent",
+  "expect_fail": [
+   "T3.R11"
+  ],
+  "probes": [
+   "T3.R11"
+  ],
+  "rationale": "The role's identity policy is compliant, but a bucket policy grants the role s3:* on the bucket and its objects, so its effective S3 permissions exceed Put/Get/Delete.",
+  "path": "cases/adversarial/ADV_T3_10.yaml"
+ },
+ {
+  "id": "ADV_T3_11",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "interacting double fault",
+  "expected": "reject",
+  "basis": "intent",
+  "expect_fail": [
+   "T3.R6",
+   "T3.R7",
+   "T3.R8"
+  ],
+  "probes": [
+   "T3.R6",
+   "T3.R7",
+   "T3.R8"
+  ],
+  "rationale": "Masking double fault: the compliant ASG is left in place and a second 'shadow' ASG launches t3.large instances with public IPs, in the public subnets, behind an SG open to the world. The web tier becomes publicly reachable without the load balancer.",
+  "path": "cases/adversarial/ADV_T3_11.yaml"
+ },
+ {
+  "id": "ADV_T3_12",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "interacting double fault",
+  "expected": "reject",
+  "basis": "intent",
+  "expect_fail": [
+   "T3.R12"
+  ],
+  "probes": [
+   "T3.R12"
+  ],
+  "rationale": "Masking double fault: a second RDS instance (listed after the compliant one) is publicly accessible, unencrypted and has a literal password.",
+  "path": "cases/adversarial/ADV_T3_12.yaml"
+ },
+ {
+  "id": "ADV_T3_13",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "interacting double fault",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T3.R10"
+  ],
+  "probes": [
+   "T3.R10"
+  ],
+  "rationale": "Masking double fault: a decoy bucket with all four Block Public Access settings is declared first, while the photo bucket the role and user data use has RestrictPublicBuckets off.",
+  "path": "cases/adversarial/ADV_T3_13.yaml"
+ },
+ {
+  "id": "ADV_T3_14",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "intent",
+  "expect_fail": [
+   "T3.R9"
+  ],
+  "probes": [
+   "T3.R9"
+  ],
+  "rationale": "Step-scaling policy driven by a CloudWatch alarm on the DATABASE's CPUUtilization (AWS/RDS), not the web tier's CPU.",
+  "path": "cases/adversarial/ADV_T3_14.yaml"
+ },
+ {
+  "id": "ADV_T3_15",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T3.R7"
+  ],
+  "probes": [
+   "T3.R7",
+   "T3.R8"
+  ],
+  "rationale": "The ASG uses a MixedInstancesPolicy whose Overrides launch t3.large, although the launch template says t3.micro.",
+  "path": "cases/adversarial/ADV_T3_15.yaml"
+ },
+ {
+  "id": "ADV_T3_16",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "interacting double fault",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T3.R8"
+  ],
+  "probes": [
+   "T3.R1",
+   "T3.R3",
+   "T3.R7",
+   "T3.R8"
+  ],
+  "rationale": "Collateral probe: ASG in the public subnets, but the launch template explicitly sets AssociatePublicIpAddress false. Only R8 (ASG across the private subnets) is violated: the VPC, subnets and NAT routing (R1, R3) are unchanged and instances get no public IP (R7).",
+  "path": "cases/adversarial/ADV_T3_16.yaml"
+ },
+ {
+  "id": "ADV_T3_17",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "intent",
+  "expect_fail": [
+   "T3.R14"
+  ],
+  "probes": [
+   "T3.R14"
+  ],
+  "rationale": "The default cache behaviour redirects to HTTPS, but an ordered cache behaviour for path /* uses allow-all, so viewers can use plain HTTP for every non-root path.",
+  "path": "cases/adversarial/ADV_T3_17.yaml"
+ },
+ {
+  "id": "ADV_T3_18",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "unusual but valid",
+  "expected": "ambiguous",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [
+   "T3.R6"
+  ],
+  "rationale": "Web SG additionally allows SSH (22) from the VPC CIDR. R6 restricts TCP 80 and forbids 0.0.0.0/0 but says nothing about other ports from inside the VPC.",
+  "path": "cases/adversarial/ADV_T3_18.yaml"
+ },
+ {
+  "id": "ADV_T3_19",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "interacting double fault",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T3.R3",
+   "T3.R8",
+   "T3.R12"
+  ],
+  "probes": [
+   "T3.R3",
+   "T3.R8",
+   "T3.R12"
+  ],
+  "rationale": "Double fault: NAT gateway placed in a private subnet and the private default route sent to the IGW.",
+  "path": "cases/adversarial/ADV_T3_19.yaml"
+ },
+ {
+  "id": "ADV_T3_20",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "T3.R1",
+   "T3.R4",
+   "T3.R8",
+   "T3.R12",
+   "T3.R15"
+  ],
+  "probes": [
+   "T3.R1",
+   "T3.R15"
+  ],
+  "rationale": "Subnets pinned with literal AvailabilityZoneId values (use1-az1/use1-az2): hard-coded AZ identifiers that exist only in us-east-1.",
+  "path": "cases/adversarial/ADV_T3_20.yaml"
+ },
+ {
+  "id": "ADV_T3_21",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "intent",
+  "expect_fail": [
+   "T3.R15"
+  ],
+  "probes": [
+   "T3.R7",
+   "T3.R15"
+  ],
+  "rationale": "The AMI parameter (type AWS::EC2::Image::Id) has a literal default ami-0abcdef1234567890: a hard-coded, Region-specific AMI ID in a template meant for any Region.",
+  "path": "cases/adversarial/ADV_T3_21.yaml"
+ },
+ {
+  "id": "ADV_T3_22",
+  "set": "adversarial",
+  "task": "T3",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "intent",
+  "expect_fail": [
+   "T3.R6"
+  ],
+  "probes": [
+   "T3.R6"
+  ],
+  "rationale": "Web SG allows TCP 80 from ::/0 in addition to the ALB SG reference (IPv6 anywhere).",
+  "path": "cases/adversarial/ADV_T3_22.yaml"
+ },
+ {
+  "id": "ADV_APP_01",
+  "set": "adversarial",
+  "task": "APP",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "A06"
+  ],
+  "probes": [
+   "A05",
+   "A06"
+  ],
+  "rationale": "search_photos builds SQL with an f-string using {like!r}. Python repr quoting looks like parameterisation and defeats the three A06 probe terms, but a term containing both quote types escapes the literal.",
+  "path": "cases/adversarial/ADV_APP_01.py"
+ },
+ {
+  "id": "ADV_APP_02",
+  "set": "adversarial",
+  "task": "APP",
+  "category": "unusual but valid",
+  "expected": "ambiguous",
+  "basis": "intent",
+  "expect_fail": [],
+  "probes": [
+   "A05",
+   "A06"
+  ],
+  "rationale": "search_photos interpolates the term after doubling single quotes (correct SQLite string escaping). It is safe for SQLite but not parameterised; the brief only says the term is untrusted.",
+  "path": "cases/adversarial/ADV_APP_02.py"
+ },
+ {
+  "id": "ADV_APP_03",
+  "set": "adversarial",
+  "task": "APP",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "intent",
+  "expect_fail": [
+   "A09"
+  ],
+  "probes": [
+   "A09"
+  ],
+  "rationale": "Sanitiser uses os.path.basename, which strips backslash directories only on Windows. On the Linux EC2 target, 'C:\\Users\\me\\my photo (1).png' keeps its directory components.",
+  "path": "cases/adversarial/ADV_APP_03.py"
+ },
+ {
+  "id": "ADV_APP_04",
+  "set": "adversarial",
+  "task": "APP",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "A08"
+  ],
+  "probes": [
+   "A08"
+  ],
+  "rationale": "Key uses uuid1().hex: 32 lowercase hex characters, but not from uuid4 (time and host based).",
+  "path": "cases/adversarial/ADV_APP_04.py"
+ },
+ {
+  "id": "ADV_APP_05",
+  "set": "adversarial",
+  "task": "APP",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "A03"
+  ],
+  "probes": [
+   "A03"
+  ],
+  "rationale": "search_photos sets conn.row_factory = sqlite3.Row on the caller's connection and returns sqlite3.Row objects, not dicts.",
+  "path": "cases/adversarial/ADV_APP_05.py"
+ },
+ {
+  "id": "ADV_APP_06",
+  "set": "adversarial",
+  "task": "APP",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "A16"
+  ],
+  "probes": [
+   "A16"
+  ],
+  "rationale": "A fallback helper creates an AWS client with importlib.import_module('boto3').client('s3') when s3 is None (client construction in the module, obfuscated).",
+  "path": "cases/adversarial/ADV_APP_06.py"
+ },
+ {
+  "id": "ADV_APP_07",
+  "set": "adversarial",
+  "task": "APP",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "A16"
+  ],
+  "probes": [
+   "A16"
+  ],
+  "rationale": "Module embeds temporary-credential constants (ASIA... key id and a secret) under neutral names.",
+  "path": "cases/adversarial/ADV_APP_07.py"
+ },
+ {
+  "id": "ADV_APP_08",
+  "set": "adversarial",
+  "task": "APP",
+  "category": "unusual but valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [
+   "A12",
+   "A13"
+  ],
+  "rationale": "Presigned expiry taken from a module constant and passed through a local variable (ExpiresIn=ttl).",
+  "path": "cases/adversarial/ADV_APP_08.py"
+ },
+ {
+  "id": "ADV_APP_09",
+  "set": "adversarial",
+  "task": "APP",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "A13"
+  ],
+  "probes": [
+   "A13"
+  ],
+  "rationale": "photo_url applies 'expires = expires or 3600' before validating, so expires=0 silently becomes 3600 instead of raising ValueError.",
+  "path": "cases/adversarial/ADV_APP_09.py"
+ },
+ {
+  "id": "ADV_APP_10",
+  "set": "adversarial",
+  "task": "APP",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "A03"
+  ],
+  "probes": [
+   "A03",
+   "A04"
+  ],
+  "rationale": "The gold reference itself, unchanged: LIKE without ESCAPE treats '%' and '_' in the term as wildcards, so search_photos(conn, '_') returns every row rather than rows containing '_'.",
+  "path": "cases/adversarial/ADV_APP_10.py"
+ },
+ {
+  "id": "ADV_APP_11",
+  "set": "adversarial",
+  "task": "APP",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "A14"
+  ],
+  "probes": [
+   "A14"
+  ],
+  "rationale": "handle_upload deletes the object but raises a new RuntimeError instead of re-raising the original exception.",
+  "path": "cases/adversarial/ADV_APP_11.py"
+ },
+ {
+  "id": "ADV_DES_01",
+  "set": "adversarial",
+  "task": "DES",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "D01",
+   "D04"
+  ],
+  "probes": [
+   "D01",
+   "D02",
+   "D04"
+  ],
+  "rationale": "Over-budget design (db.r6g.large Multi-AZ) brought under US$750 by a negative-quantity 'credit' line (-1460 NAT gateway hours).",
+  "path": "cases/adversarial/ADV_DES_01.json"
+ },
+ {
+  "id": "ADV_DES_02",
+  "set": "adversarial",
+  "task": "DES",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "D01",
+   "D08"
+  ],
+  "probes": [
+   "D01",
+   "D08"
+  ],
+  "rationale": "Database instance line has quantity 0 (flagged multi_az true), so the declared Multi-AZ database is not costed at all.",
+  "path": "cases/adversarial/ADV_DES_02.json"
+ },
+ {
+  "id": "ADV_DES_03",
+  "set": "adversarial",
+  "task": "DES",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "D08"
+  ],
+  "probes": [
+   "D08"
+  ],
+  "rationale": "Declares read_replicas = 2 but costs no replica (the price sheet prices a replica as an extra single-AZ instance).",
+  "path": "cases/adversarial/ADV_DES_03.json"
+ },
+ {
+  "id": "ADV_DES_04",
+  "set": "adversarial",
+  "task": "DES",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "intent",
+  "expect_fail": [
+   "D10"
+  ],
+  "probes": [
+   "D10"
+  ],
+  "rationale": "Justification is two sentences that only list the six pillar names; it does not justify the design against them.",
+  "path": "cases/adversarial/ADV_DES_04.json"
+ },
+ {
+  "id": "ADV_DES_05",
+  "set": "adversarial",
+  "task": "DES",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "D10"
+  ],
+  "probes": [
+   "D10"
+  ],
+  "rationale": "Justification exceeds the 800-word limit of the output format.",
+  "path": "cases/adversarial/ADV_DES_05.json"
+ },
+ {
+  "id": "ADV_DES_06",
+  "set": "adversarial",
+  "task": "DES",
+  "category": "unusual but valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [
+   "D09"
+  ],
+  "rationale": "CloudFront transfer split across two BoM lines (1500 + 500 GB).",
+  "path": "cases/adversarial/ADV_DES_06.json"
+ },
+ {
+  "id": "ADV_DES_07",
+  "set": "adversarial",
+  "task": "DES",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "D08"
+  ],
+  "probes": [
+   "D06",
+   "D08"
+  ],
+  "rationale": "Database declared multi_az true but costed single-AZ (BoM inconsistent with the declared design).",
+  "path": "cases/adversarial/ADV_DES_07.json"
+ },
+ {
+  "id": "ADV_DES_08",
+  "set": "adversarial",
+  "task": "DES",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "D01"
+  ],
+  "probes": [
+   "D01"
+  ],
+  "rationale": "All BoM quantities are JSON strings ('1640'), not numbers as the output format requires.",
+  "path": "cases/adversarial/ADV_DES_08.json"
+ },
+ {
+  "id": "ADV_DES_09",
+  "set": "adversarial",
+  "task": "DES",
+  "category": "superficially valid but wrong",
+  "expected": "reject",
+  "basis": "letter",
+  "expect_fail": [
+   "D07"
+  ],
+  "probes": [
+   "D07"
+  ],
+  "rationale": "point_in_time_recovery true but backup_retention_days 0 (which disables automated backups and PITR on RDS).",
+  "path": "cases/adversarial/ADV_DES_09.json"
+ },
+ {
+  "id": "POS_T1_01",
+  "set": "positive",
+  "task": "T1",
+  "category": "alternative valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [],
+  "rationale": "separate AWS::EC2::SecurityGroupIngress resources (GroupId GetAtt), {{resolve:ssm:...}} AMI, Fn::Sub user data with heredoc, enable --now, Fn::Join https URL",
+  "path": "cases/positive/POS_T1_01.yaml"
+ },
+ {
+  "id": "POS_T1_02",
+  "set": "positive",
+  "task": "T1",
+  "category": "alternative valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [],
+  "rationale": "numeric IpProtocol '6', SecurityGroups by name (default VPC), AllowedValues instance-type parameter, Fn::Join user data, yum, restart, Fn::Sub variable map URL",
+  "path": "cases/positive/POS_T1_02.yaml"
+ },
+ {
+  "id": "POS_T2_01",
+  "set": "positive",
+  "task": "T2",
+  "category": "alternative valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [],
+  "rationale": "generated AWS::SecretsManager::Secret with dynamic references, EIPAssociation, separate ingress resources, one private route table per private subnet, Fn::GetAZs !Ref AWS::Region, string booleans, EnableDnsSupport omitted (default true)",
+  "path": "cases/positive/POS_T2_01.yaml"
+ },
+ {
+  "id": "POS_T3_01",
+  "set": "positive",
+  "task": "T3",
+  "category": "alternative valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [],
+  "rationale": "two NAT gateways and two private route tables, StepScaling policies with CloudWatch CPU alarms, Fn::Sub partition ARNs, separate AWS::IAM::Policy, NoEcho password, ForwardConfig listener, NetworkInterfaces without public IP, profile by Name",
+  "path": "cases/positive/POS_T3_01.yaml"
+ },
+ {
+  "id": "POS_T3_02",
+  "set": "positive",
+  "task": "T3",
+  "category": "alternative valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [],
+  "rationale": "Block Public Access left at the post-2023 default, AWS::IAM::RolePolicy with upper-case S3: actions and Fn::Join ARN, MixedInstancesPolicy without overrides, SubnetMappings, inline flow-style SG rules, ManageMasterUserPassword, target tracking at exactly 70",
+  "path": "cases/positive/POS_T3_02.yaml"
+ },
+ {
+  "id": "POS_APP_01",
+  "set": "positive",
+  "task": "APP",
+  "category": "alternative valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [],
+  "rationale": "strict DB-API cursor use, instr()-based search (literal containment), character-loop sanitiser with rpartition basename, strftime Z timestamp, cursor.description dicts",
+  "path": "cases/positive/POS_APP_01.py"
+ },
+ {
+  "id": "POS_APP_02",
+  "set": "positive",
+  "task": "APP",
+  "category": "alternative valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [],
+  "rationale": "repository class, LIKE with ESCAPE (literal containment), ntpath.basename + regex sanitiser, isoformat timestamp, type() expiry check",
+  "path": "cases/positive/POS_APP_02.py"
+ },
+ {
+  "id": "POS_DES_01",
+  "set": "positive",
+  "task": "DES",
+  "category": "alternative valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [],
+  "rationale": "m6g.large fleet (2-4) across 2 AZs, two NAT gateways, no ElastiCache, S3 request lines costed",
+  "path": "cases/positive/POS_DES_01.json"
+ },
+ {
+  "id": "POS_DES_02",
+  "set": "positive",
+  "task": "DES",
+  "category": "alternative valid",
+  "expected": "accept",
+  "basis": "letter",
+  "expect_fail": [],
+  "probes": [],
+  "rationale": "t3.small fleet (3-12) across 3 AZs, db.r6g.large Multi-AZ instead of a cache, single NAT, CloudFront transfer split over two lines",
+  "path": "cases/positive/POS_DES_02.json"
+ }
+]

@@ -1,0 +1,18 @@
+\begin{table*}[t]
+\caption{Static full pass at the first submission, by model and deliverable (grader v1.1). Cells give passing submissions out of first submissions with Wilson 95\% intervals; the fifteen first submissions per implementation task are pooled over the three conditions, whose first prompts are identical, and the design task has ten. A full pass means that every requirement check of the deliverable passes and, for templates, that the template passes the lint gate; for the design it means the ten deterministic checks. A superscript gives the count under the original graders (v1.0) where it differs. Intervals describe repeated generation for a fixed brief and model configuration.}
+\label{tab:primary}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lccccc}
+\toprule
+Model & Stage 1 template & Stage 2 template & Stage 3 template & Application & Stage 4 design\\
+\midrule
+Haiku 4.5 & 0/15 {\scriptsize[0.00, 0.20]}$^{3}$ & 11/15 {\scriptsize[0.48, 0.89]} & 0/15 {\scriptsize[0.00, 0.20]}$^{3}$ & 10/15 {\scriptsize[0.42, 0.85]}$^{11}$ & 0/10 {\scriptsize[0.00, 0.28]}\\
+Sonnet 4.5 & 15/15 {\scriptsize[0.80, 1.00]} & 15/15 {\scriptsize[0.80, 1.00]} & 0/15 {\scriptsize[0.00, 0.20]}$^{15}$ & 0/15 {\scriptsize[0.00, 0.20]} & 0/10 {\scriptsize[0.00, 0.28]}\\
+Sonnet 5 & 14/15 {\scriptsize[0.70, 0.99]} & 15/15 {\scriptsize[0.80, 1.00]} & 15/15 {\scriptsize[0.80, 1.00]} & 1/15 {\scriptsize[0.01, 0.30]}$^{15}$ & 9/10 {\scriptsize[0.60, 0.98]}\\
+Haiku 5.5 & 15/15 {\scriptsize[0.80, 1.00]} & 14/15 {\scriptsize[0.70, 0.99]}$^{12}$ & 14/15 {\scriptsize[0.70, 0.99]}$^{12}$ & 15/15 {\scriptsize[0.80, 1.00]} & 9/10 {\scriptsize[0.60, 0.98]}\\
+Sonnet 5.5 & 15/15 {\scriptsize[0.80, 1.00]} & 15/15 {\scriptsize[0.80, 1.00]} & 15/15 {\scriptsize[0.80, 1.00]} & 15/15 {\scriptsize[0.80, 1.00]} & 10/10 {\scriptsize[0.72, 1.00]}\\
+Opus 5.5 & 15/15 {\scriptsize[0.80, 1.00]} & 15/15 {\scriptsize[0.80, 1.00]} & 15/15 {\scriptsize[0.80, 1.00]} & 15/15 {\scriptsize[0.80, 1.00]} & 10/10 {\scriptsize[0.72, 1.00]}\\
+\bottomrule
+\end{tabular}
+\end{table*}

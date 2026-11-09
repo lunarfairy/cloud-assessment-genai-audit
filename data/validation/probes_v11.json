@@ -1,0 +1,67 @@
+{
+ "v11": {
+  "P19_T2_ok": {
+   "accepted": true,
+   "failed": [],
+   "lint": 0
+  },
+  "P19_T2_bad": {
+   "accepted": false,
+   "failed": [
+    "T2.R8"
+   ],
+   "lint": 0
+  },
+  "P19_T3_ok": {
+   "accepted": true,
+   "failed": [],
+   "lint": 0
+  },
+  "P19_T3_bad": {
+   "accepted": false,
+   "failed": [
+    "T3.R1"
+   ],
+   "lint": 0
+  },
+  "P20_T1_ok": {
+   "accepted": true,
+   "failed": [],
+   "lint": 0
+  },
+  "P20_T1_bad": {
+   "accepted": false,
+   "failed": [
+    "T1.R1",
+    "T1.R4",
+    "T1.R5",
+    "T1.R6"
+   ],
+   "lint": 0
+  },
+  "P21_T3_ok": {
+   "accepted": true,
+   "failed": [],
+   "lint": 0
+  },
+  "P21_T3_bad": {
+   "accepted": false,
+   "failed": [
+    "T3.R15"
+   ],
+   "lint": 0
+  }
+ },
+ "expected": {
+  "P19_T2_ok": "accept",
+  "P19_T2_bad": "reject",
+  "P19_T3_ok": "accept",
+  "P19_T3_bad": "reject",
+  "P20_T1_ok": "accept",
+  "P20_T1_bad": "reject",
+  "P21_T3_ok": "accept",
+  "P21_T3_bad": "reject"
+ },
+ "v10_false_rejects": 4,
+ "v11_errors": 0
+}

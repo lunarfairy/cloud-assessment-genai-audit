@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Stage 1 web server - separate ingress resources, SSM dynamic reference, Fn::Sub user data
+Parameters:
+  KeyPairName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Existing EC2 key pair
+  AdminIpCidr:
+    Type: String
+    Description: Administrator IPv4 CIDR allowed to use SSH
+    AllowedPattern: '^(\d{1,3}\.){3}\d{1,3}/\d{1,2}$'
+Resources:
+  WebSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Web server security group
+  HttpsIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !GetAtt WebSG.GroupId
+      IpProtocol: tcp
+      FromPort: 443
+      ToPort: 443
+      CidrIp: 0.0.0.0/0
+  SshIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !GetAtt WebSG.GroupId
+      IpProtocol: tcp
+      FromPort: 22
+      ToPort: 22
+      CidrIp: !Ref AdminIpCidr
+  Server:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: '{{resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64}}'
+      InstanceType: t3.micro
+      KeyName: !Ref KeyPairName
+      SecurityGroupIds:
+        - !GetAtt WebSG.GroupId
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          set -euo pipefail
+          dnf -y install httpd mod_ssl
+          cat > /var/www/html/index.html <<'EOF'
+          <h1>${AWS::StackName}</h1>
+          EOF
+          systemctl enable --now httpd
+Outputs:
+  InstancePublicDns:
+    Value: !GetAtt Server.PublicDnsName
+  SiteUrl:
+    Value: !Join ['', ['https://', !GetAtt Server.PublicDnsName]]

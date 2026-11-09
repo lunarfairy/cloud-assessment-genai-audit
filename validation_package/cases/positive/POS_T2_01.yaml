@@ -1,0 +1,193 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Stage 2 - generated Secrets Manager password, EIPAssociation, separate ingress resources, one private route table per subnet
+Parameters:
+  WebAmiId:
+    Type: AWS::EC2::Image::Id
+  AdminSshCidr:
+    Type: String
+    Default: 198.51.100.0/24
+Resources:
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+  PubA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: 10.0.0.0/24
+      AvailabilityZone: !Select [0, !GetAZs {Ref: 'AWS::Region'}]
+      MapPublicIpOnLaunch: 'true'
+  PubB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: !Select [1, !GetAZs {Ref: 'AWS::Region'}]
+      MapPublicIpOnLaunch: 'true'
+  PrivA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: 10.0.10.0/24
+      AvailabilityZone: !Select [0, !GetAZs {Ref: 'AWS::Region'}]
+  PrivB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: 10.0.11.0/24
+      AvailabilityZone: !Select [1, !GetAZs {Ref: 'AWS::Region'}]
+  Igw:
+    Type: AWS::EC2::InternetGateway
+  IgwAttach:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref Igw
+  PublicRT:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+  PublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: IgwAttach
+    Properties:
+      RouteTableId: !Ref PublicRT
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref Igw
+  PubAAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PubA
+      RouteTableId: !Ref PublicRT
+  PubBAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PubB
+      RouteTableId: !Ref PublicRT
+  PrivRTA:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+  PrivRTB:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+  PrivAAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivA
+      RouteTableId: !Ref PrivRTA
+  PrivBAssoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivB
+      RouteTableId: !Ref PrivRTB
+  WebSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Web tier
+      VpcId: !Ref Vpc
+  WebHttp:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref WebSG
+      IpProtocol: tcp
+      FromPort: 80
+      ToPort: 80
+      CidrIp: 0.0.0.0/0
+  WebHttps:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref WebSG
+      IpProtocol: tcp
+      FromPort: 443
+      ToPort: 443
+      CidrIp: 0.0.0.0/0
+  WebSsh:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref WebSG
+      IpProtocol: tcp
+      FromPort: 22
+      ToPort: 22
+      CidrIp: !Ref AdminSshCidr
+  DbSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Database tier
+      VpcId: !Ref Vpc
+  DbFromWeb:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !GetAtt DbSG.GroupId
+      IpProtocol: tcp
+      FromPort: 3306
+      ToPort: 3306
+      SourceSecurityGroupId: !GetAtt WebSG.GroupId
+  WebLT:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        ImageId: !Ref WebAmiId
+        InstanceType: t3.micro
+        SecurityGroupIds:
+          - !GetAtt WebSG.GroupId
+        UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash
+            dnf install -y httpd php php-mysqlnd
+            systemctl start httpd
+            systemctl enable httpd
+            echo "stack ${AWS::StackName}" > /var/www/html/info.txt
+  Web:
+    Type: AWS::EC2::Instance
+    Properties:
+      LaunchTemplate:
+        LaunchTemplateId: !Ref WebLT
+        Version: !GetAtt WebLT.LatestVersionNumber
+      SubnetId: !Ref PubA
+  WebIp:
+    Type: AWS::EC2::EIP
+    DependsOn: IgwAttach
+    Properties:
+      Domain: vpc
+  WebIpAssoc:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      AllocationId: !GetAtt WebIp.AllocationId
+      InstanceId: !Ref Web
+  DbSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: Database master credentials
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "photoadmin"}'
+        GenerateStringKey: password
+        PasswordLength: 24
+        ExcludeCharacters: '"@/\'
+  DbSubnets:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Private subnets
+      SubnetIds: [!Ref PrivA, !Ref PrivB]
+  Db:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Snapshot
+    UpdateReplacePolicy: Snapshot
+    Properties:
+      Engine: MySQL
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: '20'
+      MasterUsername: !Sub '{{resolve:secretsmanager:${DbSecret}:SecretString:username}}'
+      MasterUserPassword: !Sub '{{resolve:secretsmanager:${DbSecret}:SecretString:password}}'
+      DBSubnetGroupName: !Ref DbSubnets
+      VPCSecurityGroups: [!GetAtt DbSG.GroupId]
+      PubliclyAccessible: 'false'
+      StorageEncrypted: 'true'
+Outputs:
+  SiteUrl:
+    Value: !Join ['', ['http://', !Ref WebIp]]
+  DbEndpoint:
+    Value: !GetAtt Db.Endpoint.Address

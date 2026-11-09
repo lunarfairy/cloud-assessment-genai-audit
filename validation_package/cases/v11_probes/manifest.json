@@ -1,0 +1,58 @@
+[
+ {
+  "id": "P19_T2_ok",
+  "task": "T2",
+  "path": "cases/v11_probes/P19_T2_ok.yaml",
+  "expected": "accept",
+  "target": "T2.R8"
+ },
+ {
+  "id": "P19_T2_bad",
+  "task": "T2",
+  "path": "cases/v11_probes/P19_T2_bad.yaml",
+  "expected": "reject",
+  "target": "T2.R8"
+ },
+ {
+  "id": "P19_T3_ok",
+  "task": "T3",
+  "path": "cases/v11_probes/P19_T3_ok.yaml",
+  "expected": "accept",
+  "target": "T3.R1"
+ },
+ {
+  "id": "P19_T3_bad",
+  "task": "T3",
+  "path": "cases/v11_probes/P19_T3_bad.yaml",
+  "expected": "reject",
+  "target": "T3.R1"
+ },
+ {
+  "id": "P20_T1_ok",
+  "task": "T1",
+  "path": "cases/v11_probes/P20_T1_ok.yaml",
+  "expected": "accept",
+  "target": "T1.R4"
+ },
+ {
+  "id": "P20_T1_bad",
+  "task": "T1",
+  "path": "cases/v11_probes/P20_T1_bad.yaml",
+  "expected": "reject",
+  "target": "T1.R4"
+ },
+ {
+  "id": "P21_T3_ok",
+  "task": "T3",
+  "path": "cases/v11_probes/P21_T3_ok.yaml",
+  "expected": "accept",
+  "target": "T3.R15"
+ },
+ {
+  "id": "P21_T3_bad",
+  "task": "T3",
+  "path": "cases/v11_probes/P21_T3_bad.yaml",
+  "expected": "reject",
+  "target": "T3.R15"
+ }
+]

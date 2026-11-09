@@ -1,0 +1,160 @@
+{
+ "C0R_revised_reference": {
+  "proposed_bom": [
+   {
+    "item": "ec2_t3.medium_hour",
+    "quantity": 1640,
+    "purpose": "2 baseline instances x 730 h + 3 extra during 60 peak hours"
+   },
+   {
+    "item": "alb_hour",
+    "quantity": 730,
+    "purpose": "load balancer"
+   },
+   {
+    "item": "alb_lcu_hour",
+    "quantity": 3650,
+    "purpose": "5 LCU average"
+   },
+   {
+    "item": "nat_gateway_hour",
+    "quantity": 1460,
+    "purpose": "one NAT gateway per AZ"
+   },
+   {
+    "item": "nat_gateway_gb_processed",
+    "quantity": 200,
+    "purpose": "egress for updates and API calls"
+   },
+   {
+    "item": "rds_mysql_db.t3.medium_singleaz_hour",
+    "quantity": 730,
+    "multi_az": true,
+    "purpose": "primary with synchronous standby"
+   },
+   {
+    "item": "rds_storage_gb_month_singleaz",
+    "quantity": 100,
+    "multi_az": true,
+    "purpose": "database storage"
+   },
+   {
+    "item": "elasticache_cache.t3.medium_hour",
+    "quantity": 730,
+    "purpose": "session and query cache"
+   },
+   {
+    "item": "s3_standard_gb_month",
+    "quantity": 500,
+    "purpose": "photos"
+   },
+   {
+    "item": "cloudfront_gb_out",
+    "quantity": 2000,
+    "purpose": "edge delivery"
+   },
+   {
+    "item": "cloudfront_requests_per_10000",
+    "quantity": 4000,
+    "purpose": "40 million requests"
+   }
+  ],
+  "compute": {
+   "instance_type": "t3.medium",
+   "asg_min": 2,
+   "asg_max": 6,
+   "availability_zones": 2
+  },
+  "database": {
+   "engine": "mysql",
+   "instance_class": "db.t3.medium",
+   "multi_az": true,
+   "point_in_time_recovery": true,
+   "backup_retention_days": 7,
+   "read_replicas": 0
+  },
+  "stated_original_monthly_cost_usd": 133.21,
+  "stated_proposed_monthly_cost_usd": 581.97,
+  "justification": "Diagnosis. The existing architecture cannot meet N1: its Auto Scaling group of t3.micro instances (40 requests per second each at 70 percent CPU) reaches only 160 requests per second at its maximum of four instances, against an origin peak of 750. It has a single NAT gateway, so the loss of that gateway's Availability Zone also removes outbound access for the private subnets in the other zone, and its CloudFront allowance (200 GB and 5 million requests) is a tenth of the new demand in N4. Compute and scaling. The web tier moves to t3.medium (160 requests per second each) in an Auto Scaling group across two Availability Zones with a minimum of two instances and a maximum of six. Five instances (800 requests per second) cover the 750 requests per second peak, so the bill of materials prices two instances for the whole 730-hour month plus three additional instances for the 60 peak hours (1,640 instance-hours). The sixth instance is headroom that is not normally used and is therefore not budgeted. If one Availability Zone fails during a peak, capacity falls to the instances in the surviving zone until the group launches replacements there; because the maximum is six, the group can restore 750 requests per second within one zone, so the design tolerates a zone loss after a short period of reduced capacity rather than without any degradation. Reliability and recovery. A NAT gateway in each Availability Zone removes the single-zone dependency for outbound traffic. The database becomes a Multi-AZ db.t3.medium instance: Multi-AZ provides automatic failover to the synchronous standby, typically within minutes, which satisfies the one-hour recovery time objective in N3. The five-minute recovery point objective is met by automated backups with point-in-time recovery (transaction logs are retained continuously), with a seven-day retention period; the standby itself is not a backup. Performance efficiency. CloudFront serves half of all requests from the edge, which is what reduces the origin peak to 750 requests per second, and an ElastiCache node absorbs repeated metadata queries so that the larger database instance is not driven by read traffic; read replicas are not needed at this load. Security. Instances remain in private subnets, accept traffic only from the load balancer, and use an instance role limited to the photo bucket; the database accepts connections only from the web tier and uses encrypted storage. Operational excellence. The whole architecture remains defined in CloudFormation, and Auto Scaling, load-balancer health checks and Multi-AZ failover replace manual recovery. Cost optimisation. The proposal costs US$581.97 per month, within the US$750 budget. The largest items are CloudFront (US$170.00 for 2,000 GB and US$40.00 for 40 million requests, both fixed by N4), the Multi-AZ database (US$99.28 for the instance and US$23.00 for 100 GB of storage), EC2 (US$68.22), the two NAT gateways (US$65.70 plus US$9.00 for 200 GB processed), ElastiCache (US$49.64), the load balancer (US$16.43 plus US$29.20 for an assumed average of 5 LCU, up from 2 LCU because of the ten-fold traffic growth) and S3 (US$11.50 for an assumed 500 GB of photos). Paying for the additional instances only during the 60 peak hours, rather than for five instances all month, is the main saving available on compute. Sustainability. Scaling in after the peak, using right-sized instances and serving half of the traffic from the edge reduce the resources provisioned per request.",
+  "comparison": "At its own, smaller workload the original architecture costs US$133.21 per month, but it supports only 160 requests per second at maximum scale, depends on one NAT gateway and has a single-AZ failure mode for outbound access; it cannot meet N1 at any price. The proposal costs US$581.97 per month at the new workload, supports up to 960 requests per second (800 as budgeted at peak), fails over its database automatically, and recovers full peak capacity within the surviving zone after an Availability Zone failure. Most of the cost increase comes from the ten-fold growth in CloudFront demand and the Multi-AZ database, not from compute."
+ },
+ "C5_padded_gold": {
+  "proposed_bom": [
+   {
+    "item": "ec2_t3.medium_hour",
+    "quantity": 1640,
+    "purpose": "2 baseline instances x 730 h + 3 extra during 60 peak hours"
+   },
+   {
+    "item": "alb_hour",
+    "quantity": 730,
+    "purpose": "load balancer"
+   },
+   {
+    "item": "alb_lcu_hour",
+    "quantity": 3650,
+    "purpose": "5 LCU average"
+   },
+   {
+    "item": "nat_gateway_hour",
+    "quantity": 1460,
+    "purpose": "one NAT gateway per AZ"
+   },
+   {
+    "item": "nat_gateway_gb_processed",
+    "quantity": 200,
+    "purpose": "egress for updates and API calls"
+   },
+   {
+    "item": "rds_mysql_db.t3.medium_singleaz_hour",
+    "quantity": 730,
+    "multi_az": true,
+    "purpose": "primary with synchronous standby"
+   },
+   {
+    "item": "rds_storage_gb_month_singleaz",
+    "quantity": 100,
+    "multi_az": true,
+    "purpose": "database storage"
+   },
+   {
+    "item": "elasticache_cache.t3.medium_hour",
+    "quantity": 730,
+    "purpose": "session and query cache"
+   },
+   {
+    "item": "s3_standard_gb_month",
+    "quantity": 500,
+    "purpose": "photos"
+   },
+   {
+    "item": "cloudfront_gb_out",
+    "quantity": 2000,
+    "purpose": "edge delivery"
+   },
+   {
+    "item": "cloudfront_requests_per_10000",
+    "quantity": 4000,
+    "purpose": "40 million requests"
+   }
+  ],
+  "compute": {
+   "instance_type": "t3.medium",
+   "asg_min": 2,
+   "asg_max": 6,
+   "availability_zones": 2
+  },
+  "database": {
+   "engine": "mysql",
+   "instance_class": "db.t3.medium",
+   "multi_az": true,
+   "point_in_time_recovery": true,
+   "backup_retention_days": 7,
+   "read_replicas": 0
+  },
+  "stated_original_monthly_cost_usd": 133.21,
+  "stated_proposed_monthly_cost_usd": 581.97,
+  "justification": "The existing design cannot meet the new peak: four t3.micro instances supply 160 requests per second against an origin peak of 750. The redesign moves the web tier to t3.medium instances (160 requests per second each) in an Auto Scaling group with a minimum of two and a maximum of six instances across two Availability Zones, so peak capacity is 960 requests per second with headroom for one instance failure. Reliability improves through a NAT gateway in each Availability Zone, removing the single NAT as a cross-zone dependency, and through a Multi-AZ db.t3.medium database with automated backups and point-in-time recovery, which meets the five-minute recovery point objective and gives automatic failover well inside the one-hour recovery time objective. Performance efficiency is addressed by an ElastiCache node that absorbs repeated metadata queries and by CloudFront, which already serves half of the requests from the edge. Security is preserved: instances stay in private subnets, accept traffic only from the load balancer, and use an instance role scoped to the photo bucket. Operational excellence comes from defining the whole stack in CloudFormation, using target-tracking scaling and CloudWatch alarms rather than manual intervention. Cost optimisation: the design costs about US$582 per month, within the US$750 budget, because capacity above the baseline is paid for only during the 60 peak hours. Sustainability is served by scaling in after peaks so idle capacity is not left running, and by serving cached content from edge locations close to users. To restate the main points of this design for clarity: the proposal has been designed with care to address the needs of the business and to follow the guidance of the AWS Well-Architected Framework. Each of the pillars has been considered in turn, and the design choices described above are intended to work together as a coherent whole. The architecture uses managed services wherever possible, which is generally regarded as good practice in the cloud. It is also worth emphasising that the design has been reviewed against each of the stated requirements, N1 to N6, and that it is intended to be robust, scalable, secure and cost-effective. The team responsible for operating the system will be able to understand it, and the design leaves room to evolve as the business grows. In summary, the proposed architecture represents a balanced and well-considered response to the new workload, with appropriate attention to reliability, performance, security, cost and sustainability, and it is expected to serve the business well over the coming period. Overall, these considerations show that the design is a sensible improvement on the original, and the reasoning set out here explains how it satisfies the requirements of the assessment.",
+  "comparison": "The original costs US$133.21 per month but supports only 160 requests per second at maximum scale and depends on one NAT gateway; the proposal costs US$581.97, supports 960 requests per second and tolerates the loss of an Availability Zone."
+ }
+}

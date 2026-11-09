@@ -1,0 +1,5 @@
+cfn-lint==1.59.0
+numpy
+pandas
+scipy
+matplotlib

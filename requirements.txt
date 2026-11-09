@@ -1,0 +1,9 @@
+# Python 3.11 (tested with 3.11.16)
+numpy==2.4.6
+pandas==2.3.3
+scipy==1.17.1
+matplotlib==3.11.1
+statsmodels==0.15.0
+cfn-lint==1.59.0
+PyYAML==6.0.3
+pillow==12.3.0

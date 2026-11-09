@@ -1,0 +1,6782 @@
+{
+ "ADV_T1_01": {
+  "meta": {
+   "id": "ADV_T1_01",
+   "set": "adversarial",
+   "task": "T1",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T1.R5",
+    "T1.R6"
+   ],
+   "probes": [
+    "T1.R5",
+    "T1.R6"
+   ],
+   "rationale": "Adds SSH from ::/0 (IPv6 anywhere) beside the admin-CIDR rule; SSH is no longer limited to the admin CIDR.",
+   "path": "cases/adversarial/ADV_T1_01.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T1.R1": [
+     true,
+     "key pair parameter ok; admin CIDR parameter used in SSH rule: True"
+    ],
+    "T1.R2": [
+     true,
+     "SSM parameter type with AL2023 path"
+    ],
+    "T1.R3": [
+     true,
+     "instance type t3.micro"
+    ],
+    "T1.R4": [
+     true,
+     "HTTPS from anywhere present"
+    ],
+    "T1.R5": [
+     false,
+     "SSH rules: [{'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('param', 'AdminCidr'), 'src': None}, {'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('lit', '::/0'), 'src': None}]"
+    ],
+    "T1.R6": [
+     false,
+     "extra inbound rules: [{'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('lit', '::/0'), 'src': None}]"
+    ],
+    "T1.R7": [
+     true,
+     "user data components: {'httpd': True, 'mod_ssl': True, 'index': True, 'start': True, 'enable': True}"
+    ],
+    "T1.R8": [
+     true,
+     "uses default VPC"
+    ],
+    "T1.R9": [
+     true,
+     "public DNS output True; https URL output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T1_01",
+   "task": "T1",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T1.R5;T1.R6",
+   "expected_failing_checks": "T1.R5;T1.R6",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T1.R5;T1.R6",
+   "app_probes_failed": "",
+   "description": "Adds SSH from ::/0 (IPv6 anywhere) beside the admin-CIDR rule; SSH is no longer limited to the admin CIDR.",
+   "grader_messages_for_failed_checks": "T1.R5: SSH rules: [{'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('param', 'AdminCidr'), 'src': None}, {'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('lit', '::/0'),; T1.R6: extra inbound rules: [{'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('lit', '::/0'), 'src': None}]"
+  }
+ },
+ "ADV_T1_02": {
+  "meta": {
+   "id": "ADV_T1_02",
+   "set": "adversarial",
+   "task": "T1",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T1.R6"
+   ],
+   "probes": [
+    "T1.R4",
+    "T1.R6"
+   ],
+   "rationale": "Adds HTTPS from ::/0; R6 requires exactly the two listed inbound rules.",
+   "path": "cases/adversarial/ADV_T1_02.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T1.R1": [
+     true,
+     "key pair parameter ok; admin CIDR parameter used in SSH rule: True"
+    ],
+    "T1.R2": [
+     true,
+     "SSM parameter type with AL2023 path"
+    ],
+    "T1.R3": [
+     true,
+     "instance type t3.micro"
+    ],
+    "T1.R4": [
+     true,
+     "HTTPS from anywhere present"
+    ],
+    "T1.R5": [
+     true,
+     "SSH rules: [{'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('param', 'AdminCidr'), 'src': None}]"
+    ],
+    "T1.R6": [
+     false,
+     "extra inbound rules: [{'proto': 'tcp', 'from': 443, 'to': 443, 'cidr': ('lit', '::/0'), 'src': None}]"
+    ],
+    "T1.R7": [
+     true,
+     "user data components: {'httpd': True, 'mod_ssl': True, 'index': True, 'start': True, 'enable': True}"
+    ],
+    "T1.R8": [
+     true,
+     "uses default VPC"
+    ],
+    "T1.R9": [
+     true,
+     "public DNS output True; https URL output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T1_02",
+   "task": "T1",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T1.R6",
+   "expected_failing_checks": "T1.R6",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T1.R4;T1.R6",
+   "app_probes_failed": "",
+   "description": "Adds HTTPS from ::/0; R6 requires exactly the two listed inbound rules.",
+   "grader_messages_for_failed_checks": "T1.R6: extra inbound rules: [{'proto': 'tcp', 'from': 443, 'to': 443, 'cidr': ('lit', '::/0'), 'src': None}]"
+  }
+ },
+ "ADV_T1_03": {
+  "meta": {
+   "id": "ADV_T1_03",
+   "set": "adversarial",
+   "task": "T1",
+   "category": "unusual but valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [
+    "T1.R7"
+   ],
+   "rationale": "User data written as cloud-init #cloud-config (packages, write_files, runcmd) instead of a shell script; it installs httpd and mod_ssl, writes index.html and enables and starts httpd.",
+   "path": "cases/adversarial/ADV_T1_03.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T1.R1": [
+     true,
+     "key pair parameter ok; admin CIDR parameter used in SSH rule: True"
+    ],
+    "T1.R2": [
+     true,
+     "SSM parameter type with AL2023 path"
+    ],
+    "T1.R3": [
+     true,
+     "instance type t3.micro"
+    ],
+    "T1.R4": [
+     true,
+     "HTTPS from anywhere present"
+    ],
+    "T1.R5": [
+     true,
+     "SSH rules: [{'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('param', 'AdminCidr'), 'src': None}]"
+    ],
+    "T1.R6": [
+     true,
+     "only HTTPS and SSH rules"
+    ],
+    "T1.R7": [
+     true,
+     "user data components: {'httpd': True, 'mod_ssl': True, 'index': True, 'start': True, 'enable': True}"
+    ],
+    "T1.R8": [
+     true,
+     "uses default VPC"
+    ],
+    "T1.R9": [
+     true,
+     "public DNS output True; https URL output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T1_03",
+   "task": "T1",
+   "category": "unusual but valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T1.R7",
+   "app_probes_failed": "",
+   "description": "User data written as cloud-init #cloud-config (packages, write_files, runcmd) instead of a shell script; it installs httpd and mod_ssl, writes index.html and enables and starts httpd.",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "ADV_T1_04": {
+  "meta": {
+   "id": "ADV_T1_04",
+   "set": "adversarial",
+   "task": "T1",
+   "category": "unusual but valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [
+    "T1.R7"
+   ],
+   "rationale": "Shell user data splits the install command over continuation lines (dnf install -y \\ / httpd \\ / mod_ssl).",
+   "path": "cases/adversarial/ADV_T1_04.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T1.R1": [
+     true,
+     "key pair parameter ok; admin CIDR parameter used in SSH rule: True"
+    ],
+    "T1.R2": [
+     true,
+     "SSM parameter type with AL2023 path"
+    ],
+    "T1.R3": [
+     true,
+     "instance type t3.micro"
+    ],
+    "T1.R4": [
+     true,
+     "HTTPS from anywhere present"
+    ],
+    "T1.R5": [
+     true,
+     "SSH rules: [{'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('param', 'AdminCidr'), 'src': None}]"
+    ],
+    "T1.R6": [
+     true,
+     "only HTTPS and SSH rules"
+    ],
+    "T1.R7": [
+     true,
+     "user data components: {'httpd': True, 'mod_ssl': True, 'index': True, 'start': True, 'enable': True}"
+    ],
+    "T1.R8": [
+     true,
+     "uses default VPC"
+    ],
+    "T1.R9": [
+     true,
+     "public DNS output True; https URL output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T1_04",
+   "task": "T1",
+   "category": "unusual but valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T1.R7",
+   "app_probes_failed": "",
+   "description": "Shell user data splits the install command over continuation lines (dnf install -y \\ / httpd \\ / mod_ssl).",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "ADV_T1_05": {
+  "meta": {
+   "id": "ADV_T1_05",
+   "set": "adversarial",
+   "task": "T1",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T1.R5",
+    "T1.R6"
+   ],
+   "probes": [
+    "T1.R5",
+    "T1.R6"
+   ],
+   "rationale": "The admin rule opens TCP 0-65535 (not just 22) to the admin CIDR: extra inbound traffic beyond SSH.",
+   "path": "cases/adversarial/ADV_T1_05.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T1.R1": [
+     true,
+     "key pair parameter ok; admin CIDR parameter used in SSH rule: True"
+    ],
+    "T1.R2": [
+     true,
+     "SSM parameter type with AL2023 path"
+    ],
+    "T1.R3": [
+     true,
+     "instance type t3.micro"
+    ],
+    "T1.R4": [
+     true,
+     "HTTPS from anywhere present"
+    ],
+    "T1.R5": [
+     false,
+     "SSH rules: [{'proto': 'tcp', 'from': 0, 'to': 65535, 'cidr': ('param', 'AdminCidr'), 'src': None}]"
+    ],
+    "T1.R6": [
+     true,
+     "only HTTPS and SSH rules"
+    ],
+    "T1.R7": [
+     true,
+     "user data components: {'httpd': True, 'mod_ssl': True, 'index': True, 'start': True, 'enable': True}"
+    ],
+    "T1.R8": [
+     true,
+     "uses default VPC"
+    ],
+    "T1.R9": [
+     true,
+     "public DNS output True; https URL output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T1_05",
+   "task": "T1",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T1.R5",
+   "expected_failing_checks": "T1.R5;T1.R6",
+   "missed_checks": "T1.R6",
+   "spurious_failures": "",
+   "probes": "T1.R5;T1.R6",
+   "app_probes_failed": "",
+   "description": "The admin rule opens TCP 0-65535 (not just 22) to the admin CIDR: extra inbound traffic beyond SSH.",
+   "grader_messages_for_failed_checks": "T1.R5: SSH rules: [{'proto': 'tcp', 'from': 0, 'to': 65535, 'cidr': ('param', 'AdminCidr'), 'src': None}]"
+  }
+ },
+ "ADV_T1_06": {
+  "meta": {
+   "id": "ADV_T1_06",
+   "set": "adversarial",
+   "task": "T1",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T1.R4",
+    "T1.R5",
+    "T1.R6"
+   ],
+   "probes": [
+    "T1.R4",
+    "T1.R6"
+   ],
+   "rationale": "HTTPS rule replaced by IpProtocol -1 (all traffic) from 0.0.0.0/0.",
+   "path": "cases/adversarial/ADV_T1_06.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T1.R1": [
+     true,
+     "key pair parameter ok; admin CIDR parameter used in SSH rule: True"
+    ],
+    "T1.R2": [
+     true,
+     "SSM parameter type with AL2023 path"
+    ],
+    "T1.R3": [
+     true,
+     "instance type t3.micro"
+    ],
+    "T1.R4": [
+     false,
+     "no TCP 443 rule from 0.0.0.0/0"
+    ],
+    "T1.R5": [
+     false,
+     "SSH rules: [{'proto': '-1', 'from': 0, 'to': 65535, 'cidr': ('lit', '0.0.0.0/0'), 'src': None}, {'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('param', 'AdminCidr'), 'src': None}]"
+    ],
+    "T1.R6": [
+     false,
+     "extra inbound rules: [{'proto': '-1', 'from': 0, 'to': 65535, 'cidr': ('lit', '0.0.0.0/0'), 'src': None}]"
+    ],
+    "T1.R7": [
+     true,
+     "user data components: {'httpd': True, 'mod_ssl': True, 'index': True, 'start': True, 'enable': True}"
+    ],
+    "T1.R8": [
+     true,
+     "uses default VPC"
+    ],
+    "T1.R9": [
+     true,
+     "public DNS output True; https URL output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T1_06",
+   "task": "T1",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T1.R4;T1.R5;T1.R6",
+   "expected_failing_checks": "T1.R4;T1.R5;T1.R6",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T1.R4;T1.R6",
+   "app_probes_failed": "",
+   "description": "HTTPS rule replaced by IpProtocol -1 (all traffic) from 0.0.0.0/0.",
+   "grader_messages_for_failed_checks": "T1.R4: no TCP 443 rule from 0.0.0.0/0; T1.R5: SSH rules: [{'proto': '-1', 'from': 0, 'to': 65535, 'cidr': ('lit', '0.0.0.0/0'), 'src': None}, {'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('param', 'AdminC; T1.R6: extra inbound rules: [{'proto': '-1', 'from': 0, 'to': 65535, 'cidr': ('lit', '0.0.0.0/0'), 'src': None}]"
+  }
+ },
+ "ADV_T1_07": {
+  "meta": {
+   "id": "ADV_T1_07",
+   "set": "adversarial",
+   "task": "T1",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "expect_fail": [
+    "T1.R5"
+   ],
+   "probes": [
+    "T1.R1",
+    "T1.R5"
+   ],
+   "rationale": "Admin CIDR parameter defaults to 0.0.0.0/0, so a default deployment opens SSH to the world while the rule still references the parameter.",
+   "path": "cases/adversarial/ADV_T1_07.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T1.R1": [
+     true,
+     "key pair parameter ok; admin CIDR parameter used in SSH rule: True"
+    ],
+    "T1.R2": [
+     true,
+     "SSM parameter type with AL2023 path"
+    ],
+    "T1.R3": [
+     true,
+     "instance type t3.micro"
+    ],
+    "T1.R4": [
+     true,
+     "HTTPS from anywhere present"
+    ],
+    "T1.R5": [
+     false,
+     "SSH rules: [{'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('param', 'AdminCidr'), 'src': None}]"
+    ],
+    "T1.R6": [
+     true,
+     "only HTTPS and SSH rules"
+    ],
+    "T1.R7": [
+     true,
+     "user data components: {'httpd': True, 'mod_ssl': True, 'index': True, 'start': True, 'enable': True}"
+    ],
+    "T1.R8": [
+     true,
+     "uses default VPC"
+    ],
+    "T1.R9": [
+     true,
+     "public DNS output True; https URL output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T1_07",
+   "task": "T1",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T1.R5",
+   "expected_failing_checks": "T1.R5",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T1.R1;T1.R5",
+   "app_probes_failed": "",
+   "description": "Admin CIDR parameter defaults to 0.0.0.0/0, so a default deployment opens SSH to the world while the rule still references the parameter.",
+   "grader_messages_for_failed_checks": "T1.R5: SSH rules: [{'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('param', 'AdminCidr'), 'src': None}]"
+  }
+ },
+ "ADV_T1_08": {
+  "meta": {
+   "id": "ADV_T1_08",
+   "set": "adversarial",
+   "task": "T1",
+   "category": "interacting double fault",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T1.R4",
+    "T1.R6",
+    "T1.R7"
+   ],
+   "probes": [
+    "T1.R4",
+    "T1.R6",
+    "T1.R7"
+   ],
+   "rationale": "Double fault: HTTPS rule changed to HTTP and mod_ssl dropped (an HTTP-only server whose faults are mutually consistent).",
+   "path": "cases/adversarial/ADV_T1_08.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T1.R1": [
+     true,
+     "key pair parameter ok; admin CIDR parameter used in SSH rule: True"
+    ],
+    "T1.R2": [
+     true,
+     "SSM parameter type with AL2023 path"
+    ],
+    "T1.R3": [
+     true,
+     "instance type t3.micro"
+    ],
+    "T1.R4": [
+     false,
+     "no TCP 443 rule from 0.0.0.0/0"
+    ],
+    "T1.R5": [
+     true,
+     "SSH rules: [{'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('param', 'AdminCidr'), 'src': None}]"
+    ],
+    "T1.R6": [
+     false,
+     "extra inbound rules: [{'proto': 'tcp', 'from': 80, 'to': 80, 'cidr': ('lit', '0.0.0.0/0'), 'src': None}]"
+    ],
+    "T1.R7": [
+     false,
+     "user data components: {'httpd': True, 'mod_ssl': False, 'index': True, 'start': True, 'enable': True}"
+    ],
+    "T1.R8": [
+     true,
+     "uses default VPC"
+    ],
+    "T1.R9": [
+     true,
+     "public DNS output True; https URL output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T1_08",
+   "task": "T1",
+   "category": "interacting double fault",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T1.R4;T1.R6;T1.R7",
+   "expected_failing_checks": "T1.R4;T1.R6;T1.R7",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T1.R4;T1.R6;T1.R7",
+   "app_probes_failed": "",
+   "description": "Double fault: HTTPS rule changed to HTTP and mod_ssl dropped (an HTTP-only server whose faults are mutually consistent).",
+   "grader_messages_for_failed_checks": "T1.R4: no TCP 443 rule from 0.0.0.0/0; T1.R6: extra inbound rules: [{'proto': 'tcp', 'from': 80, 'to': 80, 'cidr': ('lit', '0.0.0.0/0'), 'src': None}]; T1.R7: user data components: {'httpd': True, 'mod_ssl': False, 'index': True, 'start': True, 'enable': True}"
+  }
+ },
+ "ADV_T2_01": {
+  "meta": {
+   "id": "ADV_T2_01",
+   "set": "adversarial",
+   "task": "T2",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T2.R8"
+   ],
+   "probes": [
+    "T2.R8"
+   ],
+   "rationale": "PubliclyAccessible taken from a parameter whose default is 'true': a default deployment creates a publicly accessible database.",
+   "path": "cases/adversarial/ADV_T2_01.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T2.R1": [
+     true,
+     "VPC True cidr 10.0.0.0/16 dns True/True"
+    ],
+    "T2.R2": [
+     true,
+     "public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T2.R3": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T2.R4": [
+     true,
+     "private subnets with explicit route table and no IGW route: {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T2.R5": [
+     true,
+     "launch template components {'ami_param': True, 't3.micro': True, 'sg': True, 'userdata': True, 'no_launch_config': True}"
+    ],
+    "T2.R6": [
+     true,
+     "instance WebServer {'from_lt': True, 'public_subnet': True, 'eip': True}"
+    ],
+    "T2.R7": [
+     true,
+     "web SG WebSecurityGroup: 80 True 443 True ssh-from-param True"
+    ],
+    "T2.R8": [
+     false,
+     "database {'mysql': True, 'class': True, 'private_subnets': True, 'not_public': False, 'encrypted': True}"
+    ],
+    "T2.R9": [
+     true,
+     "ManageMasterUserPassword"
+    ],
+    "T2.R10": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T2.R11": [
+     true,
+     "website URL output True; DB endpoint output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T2_01",
+   "task": "T2",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T2.R8",
+   "expected_failing_checks": "T2.R8",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T2.R8",
+   "app_probes_failed": "",
+   "description": "PubliclyAccessible taken from a parameter whose default is 'true': a default deployment creates a publicly accessible database.",
+   "grader_messages_for_failed_checks": "T2.R8: database {'mysql': True, 'class': True, 'private_subnets': True, 'not_public': False, 'encrypted': True}"
+  }
+ },
+ "ADV_T2_02": {
+  "meta": {
+   "id": "ADV_T2_02",
+   "set": "adversarial",
+   "task": "T2",
+   "category": "unusual but valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [
+    "T2.R8"
+   ],
+   "rationale": "StorageEncrypted taken from a parameter whose default is 'true' (encrypted by default).",
+   "path": "cases/adversarial/ADV_T2_02.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T2.R1": [
+     true,
+     "VPC True cidr 10.0.0.0/16 dns True/True"
+    ],
+    "T2.R2": [
+     true,
+     "public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T2.R3": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T2.R4": [
+     true,
+     "private subnets with explicit route table and no IGW route: {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T2.R5": [
+     true,
+     "launch template components {'ami_param': True, 't3.micro': True, 'sg': True, 'userdata': True, 'no_launch_config': True}"
+    ],
+    "T2.R6": [
+     true,
+     "instance WebServer {'from_lt': True, 'public_subnet': True, 'eip': True}"
+    ],
+    "T2.R7": [
+     true,
+     "web SG WebSecurityGroup: 80 True 443 True ssh-from-param True"
+    ],
+    "T2.R8": [
+     true,
+     "database {'mysql': True, 'class': True, 'private_subnets': True, 'not_public': True, 'encrypted': True}"
+    ],
+    "T2.R9": [
+     true,
+     "ManageMasterUserPassword"
+    ],
+    "T2.R10": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T2.R11": [
+     true,
+     "website URL output True; DB endpoint output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T2_02",
+   "task": "T2",
+   "category": "unusual but valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T2.R8",
+   "app_probes_failed": "",
+   "description": "StorageEncrypted taken from a parameter whose default is 'true' (encrypted by default).",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "ADV_T2_03": {
+  "meta": {
+   "id": "ADV_T2_03",
+   "set": "adversarial",
+   "task": "T2",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T2.R2",
+    "T2.R3"
+   ],
+   "probes": [
+    "T2.R2",
+    "T2.R3"
+   ],
+   "rationale": "PublicSubnet2 and its route-table association carry a Condition that is false by default, so a default deployment has only one public subnet.",
+   "path": "cases/adversarial/ADV_T2_03.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T2.R1": [
+     true,
+     "VPC True cidr 10.0.0.0/16 dns True/True"
+    ],
+    "T2.R2": [
+     false,
+     "public ['PublicSubnet1']: fewer than two subnets | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T2.R3": [
+     false,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True}"
+    ],
+    "T2.R4": [
+     true,
+     "private subnets with explicit route table and no IGW route: {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T2.R5": [
+     true,
+     "launch template components {'ami_param': True, 't3.micro': True, 'sg': True, 'userdata': True, 'no_launch_config': True}"
+    ],
+    "T2.R6": [
+     true,
+     "instance WebServer {'from_lt': True, 'public_subnet': True, 'eip': True}"
+    ],
+    "T2.R7": [
+     true,
+     "web SG WebSecurityGroup: 80 True 443 True ssh-from-param True"
+    ],
+    "T2.R8": [
+     true,
+     "database {'mysql': True, 'class': True, 'private_subnets': True, 'not_public': True, 'encrypted': True}"
+    ],
+    "T2.R9": [
+     true,
+     "ManageMasterUserPassword"
+    ],
+    "T2.R10": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T2.R11": [
+     true,
+     "website URL output True; DB endpoint output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T2_03",
+   "task": "T2",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T2.R2;T2.R3",
+   "expected_failing_checks": "T2.R2;T2.R3",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T2.R2;T2.R3",
+   "app_probes_failed": "",
+   "description": "PublicSubnet2 and its route-table association carry a Condition that is false by default, so a default deployment has only one public subnet.",
+   "grader_messages_for_failed_checks": "T2.R2: public ['PublicSubnet1']: fewer than two subnets | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]; T2.R3: IGW attached True; public subnets routed to IGW {'PublicSubnet1': True}"
+  }
+ },
+ "ADV_T2_04": {
+  "meta": {
+   "id": "ADV_T2_04",
+   "set": "adversarial",
+   "task": "T2",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T2.R9"
+   ],
+   "probes": [
+    "T2.R9"
+   ],
+   "rationale": "Master password is a NoEcho parameter, but the parameter has a literal Default, so the password is in plain text in the template.",
+   "path": "cases/adversarial/ADV_T2_04.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T2.R1": [
+     true,
+     "VPC True cidr 10.0.0.0/16 dns True/True"
+    ],
+    "T2.R2": [
+     true,
+     "public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T2.R3": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T2.R4": [
+     true,
+     "private subnets with explicit route table and no IGW route: {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T2.R5": [
+     true,
+     "launch template components {'ami_param': True, 't3.micro': True, 'sg': True, 'userdata': True, 'no_launch_config': True}"
+    ],
+    "T2.R6": [
+     true,
+     "instance WebServer {'from_lt': True, 'public_subnet': True, 'eip': True}"
+    ],
+    "T2.R7": [
+     true,
+     "web SG WebSecurityGroup: 80 True 443 True ssh-from-param True"
+    ],
+    "T2.R8": [
+     true,
+     "database {'mysql': True, 'class': True, 'private_subnets': True, 'not_public': True, 'encrypted': True}"
+    ],
+    "T2.R9": [
+     false,
+     "NoEcho parameter has a literal Default (plain-text password in the template)"
+    ],
+    "T2.R10": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T2.R11": [
+     true,
+     "website URL output True; DB endpoint output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T2_04",
+   "task": "T2",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T2.R9",
+   "expected_failing_checks": "T2.R9",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T2.R9",
+   "app_probes_failed": "",
+   "description": "Master password is a NoEcho parameter, but the parameter has a literal Default, so the password is in plain text in the template.",
+   "grader_messages_for_failed_checks": "T2.R9: NoEcho parameter has a literal Default (plain-text password in the template)"
+  }
+ },
+ "ADV_T2_05": {
+  "meta": {
+   "id": "ADV_T2_05",
+   "set": "adversarial",
+   "task": "T2",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T2.R2"
+   ],
+   "probes": [
+    "T2.R2"
+   ],
+   "rationale": "Availability Zones chosen with Fn::Select over a literal list [us-east-1a, us-east-1b]: hard-coded AZ names that fail outside us-east-1.",
+   "path": "cases/adversarial/ADV_T2_05.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T2.R1": [
+     true,
+     "VPC True cidr 10.0.0.0/16 dns True/True"
+    ],
+    "T2.R2": [
+     false,
+     "public ['PublicSubnet1', 'PublicSubnet2']: Availability Zones not selected with Fn::GetAZs for PublicSubnet1(other), PublicSubnet2(other) | private ['PrivateSubnet1', 'PrivateSubnet2']: Availability Zones not selected with Fn::GetAZs for PrivateSubnet1(other), PrivateSubnet2(other)"
+    ],
+    "T2.R3": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T2.R4": [
+     true,
+     "private subnets with explicit route table and no IGW route: {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T2.R5": [
+     true,
+     "launch template components {'ami_param': True, 't3.micro': True, 'sg': True, 'userdata': True, 'no_launch_config': True}"
+    ],
+    "T2.R6": [
+     true,
+     "instance WebServer {'from_lt': True, 'public_subnet': True, 'eip': True}"
+    ],
+    "T2.R7": [
+     true,
+     "web SG WebSecurityGroup: 80 True 443 True ssh-from-param True"
+    ],
+    "T2.R8": [
+     true,
+     "database {'mysql': True, 'class': True, 'private_subnets': True, 'not_public': True, 'encrypted': True}"
+    ],
+    "T2.R9": [
+     true,
+     "ManageMasterUserPassword"
+    ],
+    "T2.R10": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T2.R11": [
+     true,
+     "website URL output True; DB endpoint output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T2_05",
+   "task": "T2",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T2.R2",
+   "expected_failing_checks": "T2.R2",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T2.R2",
+   "app_probes_failed": "",
+   "description": "Availability Zones chosen with Fn::Select over a literal list [us-east-1a, us-east-1b]: hard-coded AZ names that fail outside us-east-1.",
+   "grader_messages_for_failed_checks": "T2.R2: public ['PublicSubnet1', 'PublicSubnet2']: Availability Zones not selected with Fn::GetAZs for PublicSubnet1(other), PublicSubnet2(other) | private ['PrivateSub"
+  }
+ },
+ "ADV_T2_06": {
+  "meta": {
+   "id": "ADV_T2_06",
+   "set": "adversarial",
+   "task": "T2",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "expect_fail": [
+    "T2.R7"
+   ],
+   "probes": [
+    "T2.R7"
+   ],
+   "rationale": "Web SG allows 80/443 only from ::/0. The VPC has no IPv6 CIDR, so the site is unreachable from anywhere over IPv4.",
+   "path": "cases/adversarial/ADV_T2_06.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T2.R1": [
+     true,
+     "VPC True cidr 10.0.0.0/16 dns True/True"
+    ],
+    "T2.R2": [
+     true,
+     "public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T2.R3": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T2.R4": [
+     true,
+     "private subnets with explicit route table and no IGW route: {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T2.R5": [
+     true,
+     "launch template components {'ami_param': True, 't3.micro': True, 'sg': True, 'userdata': True, 'no_launch_config': True}"
+    ],
+    "T2.R6": [
+     true,
+     "instance WebServer {'from_lt': True, 'public_subnet': True, 'eip': True}"
+    ],
+    "T2.R7": [
+     false,
+     "web SG WebSecurityGroup: 80 False 443 False ssh-from-param True"
+    ],
+    "T2.R8": [
+     true,
+     "database {'mysql': True, 'class': True, 'private_subnets': True, 'not_public': True, 'encrypted': True}"
+    ],
+    "T2.R9": [
+     true,
+     "ManageMasterUserPassword"
+    ],
+    "T2.R10": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T2.R11": [
+     true,
+     "website URL output True; DB endpoint output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T2_06",
+   "task": "T2",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T2.R7",
+   "expected_failing_checks": "T2.R7",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T2.R7",
+   "app_probes_failed": "",
+   "description": "Web SG allows 80/443 only from ::/0. The VPC has no IPv6 CIDR, so the site is unreachable from anywhere over IPv4.",
+   "grader_messages_for_failed_checks": "T2.R7: web SG WebSecurityGroup: 80 False 443 False ssh-from-param True"
+  }
+ },
+ "ADV_T2_07": {
+  "meta": {
+   "id": "ADV_T2_07",
+   "set": "adversarial",
+   "task": "T2",
+   "category": "unusual but valid",
+   "expected": "ambiguous",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [
+    "T2.R9"
+   ],
+   "rationale": "Master password from an SSM SecureString dynamic reference ({{resolve:ssm-secure:...}}). It is not plain text, but it is not one of the three mechanisms the brief lists.",
+   "path": "cases/adversarial/ADV_T2_07.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T2.R1": [
+     true,
+     "VPC True cidr 10.0.0.0/16 dns True/True"
+    ],
+    "T2.R2": [
+     true,
+     "public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T2.R3": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T2.R4": [
+     true,
+     "private subnets with explicit route table and no IGW route: {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T2.R5": [
+     true,
+     "launch template components {'ami_param': True, 't3.micro': True, 'sg': True, 'userdata': True, 'no_launch_config': True}"
+    ],
+    "T2.R6": [
+     true,
+     "instance WebServer {'from_lt': True, 'public_subnet': True, 'eip': True}"
+    ],
+    "T2.R7": [
+     true,
+     "web SG WebSecurityGroup: 80 True 443 True ssh-from-param True"
+    ],
+    "T2.R8": [
+     true,
+     "database {'mysql': True, 'class': True, 'private_subnets': True, 'not_public': True, 'encrypted': True}"
+    ],
+    "T2.R9": [
+     false,
+     "master password supplied as plain text or non-NoEcho parameter"
+    ],
+    "T2.R10": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T2.R11": [
+     true,
+     "website URL output True; DB endpoint output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T2_07",
+   "task": "T2",
+   "category": "unusual but valid",
+   "expected": "ambiguous",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "AMB-R",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T2.R9",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T2.R9",
+   "app_probes_failed": "",
+   "description": "Master password from an SSM SecureString dynamic reference ({{resolve:ssm-secure:...}}). It is not plain text, but it is not one of the three mechanisms the brief lists.",
+   "grader_messages_for_failed_checks": "T2.R9: master password supplied as plain text or non-NoEcho parameter"
+  }
+ },
+ "ADV_T2_08": {
+  "meta": {
+   "id": "ADV_T2_08",
+   "set": "adversarial",
+   "task": "T2",
+   "category": "interacting double fault",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T2.R2",
+    "T2.R4",
+    "T2.R8"
+   ],
+   "probes": [
+    "T2.R2",
+    "T2.R4",
+    "T2.R6",
+    "T2.R8"
+   ],
+   "rationale": "Double fault: PrivateSubnet1 maps public IPs and is routed through the public route table, and the web server is launched into it. The 'private' subnet is effectively public, so only one private subnet remains (R2, R4) and the DB subnet group contains a public subnet (R8). R6 is met because the instance is now in a genuinely public subnet.",
+   "path": "cases/adversarial/ADV_T2_08.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T2.R1": [
+     true,
+     "VPC True cidr 10.0.0.0/16 dns True/True"
+    ],
+    "T2.R2": [
+     false,
+     "public ['PublicSubnet1', 'PublicSubnet2', 'PrivateSubnet1']: subnets in distinct Availability Zones [0, 1, 0] | private ['PrivateSubnet2']: fewer than two subnets"
+    ],
+    "T2.R3": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True, 'PrivateSubnet1': True}"
+    ],
+    "T2.R4": [
+     false,
+     "private subnets with explicit route table and no IGW route: {'PrivateSubnet2': True}"
+    ],
+    "T2.R5": [
+     true,
+     "launch template components {'ami_param': True, 't3.micro': True, 'sg': True, 'userdata': True, 'no_launch_config': True}"
+    ],
+    "T2.R6": [
+     true,
+     "instance WebServer {'from_lt': True, 'public_subnet': True, 'eip': True}"
+    ],
+    "T2.R7": [
+     true,
+     "web SG WebSecurityGroup: 80 True 443 True ssh-from-param True"
+    ],
+    "T2.R8": [
+     false,
+     "database {'mysql': True, 'class': True, 'private_subnets': False, 'not_public': True, 'encrypted': True}"
+    ],
+    "T2.R9": [
+     true,
+     "ManageMasterUserPassword"
+    ],
+    "T2.R10": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T2.R11": [
+     true,
+     "website URL output True; DB endpoint output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T2_08",
+   "task": "T2",
+   "category": "interacting double fault",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T2.R2;T2.R4;T2.R8",
+   "expected_failing_checks": "T2.R2;T2.R4;T2.R8",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T2.R2;T2.R4;T2.R6;T2.R8",
+   "app_probes_failed": "",
+   "description": "Double fault: PrivateSubnet1 maps public IPs and is routed through the public route table, and the web server is launched into it. The 'private' subnet is effectively public, so only one private subnet remains (R2, R4) and the DB subnet group contains a public subnet (R8). R6 is met because the instance is now in a genuinely public subnet.",
+   "grader_messages_for_failed_checks": "T2.R2: public ['PublicSubnet1', 'PublicSubnet2', 'PrivateSubnet1']: subnets in distinct Availability Zones [0, 1, 0] | private ['PrivateSubnet2']: fewer than two subne; T2.R4: private subnets with explicit route table and no IGW route: {'PrivateSubnet2': True}; T2.R8: database {'mysql': True, 'class': True, 'private_subnets': False, 'not_public': True, 'encrypted': True}"
+  }
+ },
+ "ADV_T2_09": {
+  "meta": {
+   "id": "ADV_T2_09",
+   "set": "adversarial",
+   "task": "T2",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T2.R10"
+   ],
+   "probes": [
+    "T2.R10"
+   ],
+   "rationale": "Database SG allows all protocols and ports (IpProtocol -1) from the web SG rather than only TCP 3306.",
+   "path": "cases/adversarial/ADV_T2_09.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T2.R1": [
+     true,
+     "VPC True cidr 10.0.0.0/16 dns True/True"
+    ],
+    "T2.R2": [
+     true,
+     "public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T2.R3": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T2.R4": [
+     true,
+     "private subnets with explicit route table and no IGW route: {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T2.R5": [
+     true,
+     "launch template components {'ami_param': True, 't3.micro': True, 'sg': True, 'userdata': True, 'no_launch_config': True}"
+    ],
+    "T2.R6": [
+     true,
+     "instance WebServer {'from_lt': True, 'public_subnet': True, 'eip': True}"
+    ],
+    "T2.R7": [
+     true,
+     "web SG WebSecurityGroup: 80 True 443 True ssh-from-param True"
+    ],
+    "T2.R8": [
+     true,
+     "database {'mysql': True, 'class': True, 'private_subnets': True, 'not_public': True, 'encrypted': True}"
+    ],
+    "T2.R9": [
+     true,
+     "ManageMasterUserPassword"
+    ],
+    "T2.R10": [
+     false,
+     "DBSecurityGroup has inbound rules other than TCP 3306 from WebSecurityGroup: [{'proto': '-1', 'from': 0, 'to': 65535, 'cidr': None, 'src': 'WebSecurityGroup'}]"
+    ],
+    "T2.R11": [
+     true,
+     "website URL output True; DB endpoint output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T2_09",
+   "task": "T2",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T2.R10",
+   "expected_failing_checks": "T2.R10",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T2.R10",
+   "app_probes_failed": "",
+   "description": "Database SG allows all protocols and ports (IpProtocol -1) from the web SG rather than only TCP 3306.",
+   "grader_messages_for_failed_checks": "T2.R10: DBSecurityGroup has inbound rules other than TCP 3306 from WebSecurityGroup: [{'proto': '-1', 'from': 0, 'to': 65535, 'cidr': None, 'src': 'WebSecurityGroup'}]"
+  }
+ },
+ "ADV_T3_01": {
+  "meta": {
+   "id": "ADV_T3_01",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T3.R11"
+   ],
+   "probes": [
+    "T3.R11"
+   ],
+   "rationale": "Adds an Allow statement with NotAction iam:* on Resource '*', which grants s3:* and every other non-IAM action.",
+   "path": "cases/adversarial/ADV_T3_01.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     false,
+     "role WebRole instance profile True put True get True violations ['NotAction/NotResource']"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_01",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R11",
+   "expected_failing_checks": "T3.R11",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R11",
+   "app_probes_failed": "",
+   "description": "Adds an Allow statement with NotAction iam:* on Resource '*', which grants s3:* and every other non-IAM action.",
+   "grader_messages_for_failed_checks": "T3.R11: role WebRole instance profile True put True get True violations ['NotAction/NotResource']"
+  }
+ },
+ "ADV_T3_02": {
+  "meta": {
+   "id": "ADV_T3_02",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T3.R11"
+   ],
+   "probes": [
+    "T3.R11"
+   ],
+   "rationale": "Object resource written as !Sub 'arn:${AWS::Partition}:s3:::*', i.e. every bucket, through Fn::Sub.",
+   "path": "cases/adversarial/ADV_T3_02.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     false,
+     "role WebRole instance profile True put False get False violations ['resource arn:${AWS::Partition}:s3:::*']"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_02",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R11",
+   "expected_failing_checks": "T3.R11",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R11",
+   "app_probes_failed": "",
+   "description": "Object resource written as !Sub 'arn:${AWS::Partition}:s3:::*', i.e. every bucket, through Fn::Sub.",
+   "grader_messages_for_failed_checks": "T3.R11: role WebRole instance profile True put False get False violations ['resource arn:${AWS::Partition}:s3:::*']"
+  }
+ },
+ "ADV_T3_03": {
+  "meta": {
+   "id": "ADV_T3_03",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T3.R11"
+   ],
+   "probes": [
+    "T3.R11"
+   ],
+   "rationale": "Resource !Sub '${PhotoBucket.Arn}*/*': the inserted wildcard covers objects in every bucket whose name starts with the photo bucket's name.",
+   "path": "cases/adversarial/ADV_T3_03.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     false,
+     "role WebRole instance profile True put False get False violations ['resource ${PhotoBucket.Arn}*/*']"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_03",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R11",
+   "expected_failing_checks": "T3.R11",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R11",
+   "app_probes_failed": "",
+   "description": "Resource !Sub '${PhotoBucket.Arn}*/*': the inserted wildcard covers objects in every bucket whose name starts with the photo bucket's name.",
+   "grader_messages_for_failed_checks": "T3.R11: role WebRole instance profile True put False get False violations ['resource ${PhotoBucket.Arn}*/*']"
+  }
+ },
+ "ADV_T3_04": {
+  "meta": {
+   "id": "ADV_T3_04",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T3.R11"
+   ],
+   "probes": [
+    "T3.R11"
+   ],
+   "rationale": "s3:Put* wildcard (PutObject plus PutObjectAcl, PutBucketPolicy, ...).",
+   "path": "cases/adversarial/ADV_T3_04.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     false,
+     "role WebRole instance profile True put False get True violations [\"actions ['s3:put*', 's3:getobject', 's3:deleteobject']\"]"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_04",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R11",
+   "expected_failing_checks": "T3.R11",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R11",
+   "app_probes_failed": "",
+   "description": "s3:Put* wildcard (PutObject plus PutObjectAcl, PutBucketPolicy, ...).",
+   "grader_messages_for_failed_checks": "T3.R11: role WebRole instance profile True put False get True violations [\"actions ['s3:put*', 's3:getobject', 's3:deleteobject']\"]"
+  }
+ },
+ "ADV_T3_05": {
+  "meta": {
+   "id": "ADV_T3_05",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "unusual but valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [
+    "T3.R15"
+   ],
+   "rationale": "BucketName !Sub '${AWS::StackName}-photos'. Stack names are unique within an account and Region, so a second deployment does not collide. Caveat: a stack name with upper-case letters would fail S3 naming rules.",
+   "path": "cases/adversarial/ADV_T3_05.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_05",
+   "task": "T3",
+   "category": "unusual but valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R15",
+   "app_probes_failed": "",
+   "description": "BucketName !Sub '${AWS::StackName}-photos'. Stack names are unique within an account and Region, so a second deployment does not collide. Caveat: a stack name with upper-case letters would fail S3 naming rules.",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "ADV_T3_06": {
+  "meta": {
+   "id": "ADV_T3_06",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T3.R15"
+   ],
+   "probes": [
+    "T3.R15"
+   ],
+   "rationale": "BucketName !Sub '${AWS::AccountId}-${AWS::Region}-photos' looks dynamic but is fixed per account and Region, so a second deployment collides.",
+   "path": "cases/adversarial/ADV_T3_06.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     false,
+     "PhotoBucket.BucketName fixed name '${AWS::AccountId}-${AWS::Region}-photos'"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_06",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R15",
+   "expected_failing_checks": "T3.R15",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R15",
+   "app_probes_failed": "",
+   "description": "BucketName !Sub '${AWS::AccountId}-${AWS::Region}-photos' looks dynamic but is fixed per account and Region, so a second deployment collides.",
+   "grader_messages_for_failed_checks": "T3.R15: PhotoBucket.BucketName fixed name '${AWS::AccountId}-${AWS::Region}-photos'"
+  }
+ },
+ "ADV_T3_07": {
+  "meta": {
+   "id": "ADV_T3_07",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T3.R12"
+   ],
+   "probes": [
+    "T3.R12"
+   ],
+   "rationale": "PubliclyAccessible from a parameter whose default is 'true'.",
+   "path": "cases/adversarial/ADV_T3_07.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     false,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': False, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_07",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R12",
+   "expected_failing_checks": "T3.R12",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R12",
+   "app_probes_failed": "",
+   "description": "PubliclyAccessible from a parameter whose default is 'true'.",
+   "grader_messages_for_failed_checks": "T3.R12: database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': False, 'encrypted': True, 'password': True} (ManageMasterUserPa"
+  }
+ },
+ "ADV_T3_08": {
+  "meta": {
+   "id": "ADV_T3_08",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "unusual but valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [
+    "T3.R12"
+   ],
+   "rationale": "MultiAZ from a parameter whose only allowed value and default is 'true'.",
+   "path": "cases/adversarial/ADV_T3_08.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_08",
+   "task": "T3",
+   "category": "unusual but valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R12",
+   "app_probes_failed": "",
+   "description": "MultiAZ from a parameter whose only allowed value and default is 'true'.",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "ADV_T3_09": {
+  "meta": {
+   "id": "ADV_T3_09",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T3.R1",
+    "T3.R4",
+    "T3.R8",
+    "T3.R12",
+    "T3.R15"
+   ],
+   "probes": [
+    "T3.R1",
+    "T3.R15"
+   ],
+   "rationale": "AZs chosen with Fn::Select over a literal list of us-east-1 AZ names (subnets, ALB, ASG and DB subnet group all inherit the hard-coding).",
+   "path": "cases/adversarial/ADV_T3_09.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     false,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: Availability Zones not selected with Fn::GetAZs for PublicSubnet1(other), PublicSubnet2(other) | private ['PrivateSubnet1', 'PrivateSubnet2']: Availability Zones not selected with Fn::GetAZs for PrivateSubnet1(other), PrivateSubnet2(other)"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     false,
+     "ALB {'internet_facing': True, 'public_subnets': False, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     false,
+     "ASG {'launch_template': True, 'private_subnets': False, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     false,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': False, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     false,
+     "PublicSubnet1 hard-coded AZ us-east-1a; PublicSubnet1 hard-coded AZ us-east-1b; PublicSubnet2 hard-coded AZ us-east-1a; PublicSubnet2 hard-coded AZ us-east-1b"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_09",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R1;T3.R4;T3.R8;T3.R12;T3.R15",
+   "expected_failing_checks": "T3.R1;T3.R4;T3.R8;T3.R12;T3.R15",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R1;T3.R15",
+   "app_probes_failed": "",
+   "description": "AZs chosen with Fn::Select over a literal list of us-east-1 AZ names (subnets, ALB, ASG and DB subnet group all inherit the hard-coding).",
+   "grader_messages_for_failed_checks": "T3.R1: VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: Availability Zones not selected with Fn::GetAZs for PublicSubnet1(other), PublicSubnet2(other); T3.R4: ALB {'internet_facing': True, 'public_subnets': False, 'listener_80_forward': True, 'health_check': True}; T3.R8: ASG {'launch_template': True, 'private_subnets': False, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}; T3.R12: database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': False, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPa; T3.R15: PublicSubnet1 hard-coded AZ us-east-1a; PublicSubnet1 hard-coded AZ us-east-1b; PublicSubnet2 hard-coded AZ us-east-1a; PublicSubnet2 hard-coded AZ us-east-1b"
+  }
+ },
+ "ADV_T3_10": {
+  "meta": {
+   "id": "ADV_T3_10",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "expect_fail": [
+    "T3.R11"
+   ],
+   "probes": [
+    "T3.R11"
+   ],
+   "rationale": "The role's identity policy is compliant, but a bucket policy grants the role s3:* on the bucket and its objects, so its effective S3 permissions exceed Put/Get/Delete.",
+   "path": "cases/adversarial/ADV_T3_10.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     false,
+     "role WebRole instance profile True put True get True violations [\"bucket policy PhotoBucketPolicy grants ['s3:*']\"]"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_10",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R11",
+   "expected_failing_checks": "T3.R11",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R11",
+   "app_probes_failed": "",
+   "description": "The role's identity policy is compliant, but a bucket policy grants the role s3:* on the bucket and its objects, so its effective S3 permissions exceed Put/Get/Delete.",
+   "grader_messages_for_failed_checks": "T3.R11: role WebRole instance profile True put True get True violations [\"bucket policy PhotoBucketPolicy grants ['s3:*']\"]"
+  }
+ },
+ "ADV_T3_11": {
+  "meta": {
+   "id": "ADV_T3_11",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "interacting double fault",
+   "expected": "reject",
+   "basis": "intent",
+   "expect_fail": [
+    "T3.R6",
+    "T3.R7",
+    "T3.R8"
+   ],
+   "probes": [
+    "T3.R6",
+    "T3.R7",
+    "T3.R8"
+   ],
+   "rationale": "Masking double fault: the compliant ASG is left in place and a second 'shadow' ASG launches t3.large instances with public IPs, in the public subnets, behind an SG open to the world. The web tier becomes publicly reachable without the load balancer.",
+   "path": "cases/adversarial/ADV_T3_11.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     false,
+     "security group OpenWebSG of additional ASG ShadowASG is open to the world"
+    ],
+    "T3.R7": [
+     false,
+     "launch template ShadowLaunchTemplate of additional ASG ShadowASG assigns public IPs or is not t3.micro"
+    ],
+    "T3.R8": [
+     false,
+     "additional Auto Scaling group ShadowASG is not a private, ELB-checked web tier"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_11",
+   "task": "T3",
+   "category": "interacting double fault",
+   "expected": "reject",
+   "basis": "intent",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R6;T3.R7;T3.R8",
+   "expected_failing_checks": "T3.R6;T3.R7;T3.R8",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R6;T3.R7;T3.R8",
+   "app_probes_failed": "",
+   "description": "Masking double fault: the compliant ASG is left in place and a second 'shadow' ASG launches t3.large instances with public IPs, in the public subnets, behind an SG open to the world. The web tier becomes publicly reachable without the load balancer.",
+   "grader_messages_for_failed_checks": "T3.R6: security group OpenWebSG of additional ASG ShadowASG is open to the world; T3.R7: launch template ShadowLaunchTemplate of additional ASG ShadowASG assigns public IPs or is not t3.micro; T3.R8: additional Auto Scaling group ShadowASG is not a private, ELB-checked web tier"
+  }
+ },
+ "ADV_T3_12": {
+  "meta": {
+   "id": "ADV_T3_12",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "interacting double fault",
+   "expected": "reject",
+   "basis": "intent",
+   "expect_fail": [
+    "T3.R12"
+   ],
+   "probes": [
+    "T3.R12"
+   ],
+   "rationale": "Masking double fault: a second RDS instance (listed after the compliant one) is publicly accessible, unencrypted and has a literal password.",
+   "path": "cases/adversarial/ADV_T3_12.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     false,
+     "additional DB instance ReportingDatabase is public, unencrypted or has a plain-text password"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_12",
+   "task": "T3",
+   "category": "interacting double fault",
+   "expected": "reject",
+   "basis": "intent",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R12",
+   "expected_failing_checks": "T3.R12",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R12",
+   "app_probes_failed": "",
+   "description": "Masking double fault: a second RDS instance (listed after the compliant one) is publicly accessible, unencrypted and has a literal password.",
+   "grader_messages_for_failed_checks": "T3.R12: additional DB instance ReportingDatabase is public, unencrypted or has a plain-text password"
+  }
+ },
+ "ADV_T3_13": {
+  "meta": {
+   "id": "ADV_T3_13",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "interacting double fault",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T3.R10"
+   ],
+   "probes": [
+    "T3.R10"
+   ],
+   "rationale": "Masking double fault: a decoy bucket with all four Block Public Access settings is declared first, while the photo bucket the role and user data use has RestrictPublicBuckets off.",
+   "path": "cases/adversarial/ADV_T3_13.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     false,
+     "bucket(s) ['PhotoBucket'] do not enable all four Block Public Access settings"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_13",
+   "task": "T3",
+   "category": "interacting double fault",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R10",
+   "expected_failing_checks": "T3.R10",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R10",
+   "app_probes_failed": "",
+   "description": "Masking double fault: a decoy bucket with all four Block Public Access settings is declared first, while the photo bucket the role and user data use has RestrictPublicBuckets off.",
+   "grader_messages_for_failed_checks": "T3.R10: bucket(s) ['PhotoBucket'] do not enable all four Block Public Access settings"
+  }
+ },
+ "ADV_T3_14": {
+  "meta": {
+   "id": "ADV_T3_14",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "expect_fail": [
+    "T3.R9"
+   ],
+   "probes": [
+    "T3.R9"
+   ],
+   "rationale": "Step-scaling policy driven by a CloudWatch alarm on the DATABASE's CPUUtilization (AWS/RDS), not the web tier's CPU.",
+   "path": "cases/adversarial/ADV_T3_14.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     false,
+     "StepScaling policy with CPU alarm []"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_14",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R9",
+   "expected_failing_checks": "T3.R9",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R9",
+   "app_probes_failed": "",
+   "description": "Step-scaling policy driven by a CloudWatch alarm on the DATABASE's CPUUtilization (AWS/RDS), not the web tier's CPU.",
+   "grader_messages_for_failed_checks": "T3.R9: StepScaling policy with CPU alarm []"
+  }
+ },
+ "ADV_T3_15": {
+  "meta": {
+   "id": "ADV_T3_15",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T3.R7"
+   ],
+   "probes": [
+    "T3.R7",
+    "T3.R8"
+   ],
+   "rationale": "The ASG uses a MixedInstancesPolicy whose Overrides launch t3.large, although the launch template says t3.micro.",
+   "path": "cases/adversarial/ADV_T3_15.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     false,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': False, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_15",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R7",
+   "expected_failing_checks": "T3.R7",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R7;T3.R8",
+   "app_probes_failed": "",
+   "description": "The ASG uses a MixedInstancesPolicy whose Overrides launch t3.large, although the launch template says t3.micro.",
+   "grader_messages_for_failed_checks": "T3.R7: launch template WebLaunchTemplate {'ami_param': True, 't3.micro': False, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': Tru"
+  }
+ },
+ "ADV_T3_16": {
+  "meta": {
+   "id": "ADV_T3_16",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "interacting double fault",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T3.R8"
+   ],
+   "probes": [
+    "T3.R1",
+    "T3.R3",
+    "T3.R7",
+    "T3.R8"
+   ],
+   "rationale": "Collateral probe: ASG in the public subnets, but the launch template explicitly sets AssociatePublicIpAddress false. Only R8 (ASG across the private subnets) is violated: the VPC, subnets and NAT routing (R1, R3) are unchanged and instances get no public IP (R7).",
+   "path": "cases/adversarial/ADV_T3_16.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     false,
+     "ASG {'launch_template': True, 'private_subnets': False, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_16",
+   "task": "T3",
+   "category": "interacting double fault",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R8",
+   "expected_failing_checks": "T3.R8",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R1;T3.R3;T3.R7;T3.R8",
+   "app_probes_failed": "",
+   "description": "Collateral probe: ASG in the public subnets, but the launch template explicitly sets AssociatePublicIpAddress false. Only R8 (ASG across the private subnets) is violated: the VPC, subnets and NAT routing (R1, R3) are unchanged and instances get no public IP (R7).",
+   "grader_messages_for_failed_checks": "T3.R8: ASG {'launch_template': True, 'private_subnets': False, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+  }
+ },
+ "ADV_T3_17": {
+  "meta": {
+   "id": "ADV_T3_17",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "expect_fail": [
+    "T3.R14"
+   ],
+   "probes": [
+    "T3.R14"
+   ],
+   "rationale": "The default cache behaviour redirects to HTTPS, but an ordered cache behaviour for path /* uses allow-all, so viewers can use plain HTTP for every non-root path.",
+   "path": "cases/adversarial/ADV_T3_17.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     false,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_17",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R14",
+   "expected_failing_checks": "T3.R14",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R14",
+   "app_probes_failed": "",
+   "description": "The default cache behaviour redirects to HTTPS, but an ordered cache behaviour for path /* uses allow-all, so viewers can use plain HTTP for every non-root path.",
+   "grader_messages_for_failed_checks": "T3.R14: ALB custom origin http-only True; viewer policy redirect-to-https"
+  }
+ },
+ "ADV_T3_18": {
+  "meta": {
+   "id": "ADV_T3_18",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "unusual but valid",
+   "expected": "ambiguous",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [
+    "T3.R6"
+   ],
+   "rationale": "Web SG additionally allows SSH (22) from the VPC CIDR. R6 restricts TCP 80 and forbids 0.0.0.0/0 but says nothing about other ports from inside the VPC.",
+   "path": "cases/adversarial/ADV_T3_18.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_18",
+   "task": "T3",
+   "category": "unusual but valid",
+   "expected": "ambiguous",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "AMB-A",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R6",
+   "app_probes_failed": "",
+   "description": "Web SG additionally allows SSH (22) from the VPC CIDR. R6 restricts TCP 80 and forbids 0.0.0.0/0 but says nothing about other ports from inside the VPC.",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "ADV_T3_19": {
+  "meta": {
+   "id": "ADV_T3_19",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "interacting double fault",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T3.R3",
+    "T3.R8",
+    "T3.R12"
+   ],
+   "probes": [
+    "T3.R3",
+    "T3.R8",
+    "T3.R12"
+   ],
+   "rationale": "Double fault: NAT gateway placed in a private subnet and the private default route sent to the IGW.",
+   "path": "cases/adversarial/ADV_T3_19.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     false,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': False, 'PrivateSubnet2': False}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     false,
+     "ASG {'launch_template': True, 'private_subnets': False, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     false,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': False, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_19",
+   "task": "T3",
+   "category": "interacting double fault",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R3;T3.R8;T3.R12",
+   "expected_failing_checks": "T3.R3;T3.R8;T3.R12",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R3;T3.R8;T3.R12",
+   "app_probes_failed": "",
+   "description": "Double fault: NAT gateway placed in a private subnet and the private default route sent to the IGW.",
+   "grader_messages_for_failed_checks": "T3.R3: NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': False, 'PrivateSubnet2': False; T3.R8: ASG {'launch_template': True, 'private_subnets': False, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}; T3.R12: database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': False, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPa"
+  }
+ },
+ "ADV_T3_20": {
+  "meta": {
+   "id": "ADV_T3_20",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "T3.R1",
+    "T3.R4",
+    "T3.R8",
+    "T3.R12",
+    "T3.R15"
+   ],
+   "probes": [
+    "T3.R1",
+    "T3.R15"
+   ],
+   "rationale": "Subnets pinned with literal AvailabilityZoneId values (use1-az1/use1-az2): hard-coded AZ identifiers that exist only in us-east-1.",
+   "path": "cases/adversarial/ADV_T3_20.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     false,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: Availability Zones not selected with Fn::GetAZs for PublicSubnet1(azid), PublicSubnet2(azid) | private ['PrivateSubnet1', 'PrivateSubnet2']: Availability Zones not selected with Fn::GetAZs for PrivateSubnet1(azid), PrivateSubnet2(azid)"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     false,
+     "ALB {'internet_facing': True, 'public_subnets': False, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     false,
+     "ASG {'launch_template': True, 'private_subnets': False, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     false,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': False, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     false,
+     "PublicSubnet1 hard-coded AZ ID use1-az1; PublicSubnet2 hard-coded AZ ID use1-az2; PrivateSubnet1 hard-coded AZ ID use1-az1; PrivateSubnet2 hard-coded AZ ID use1-az2"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_20",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R1;T3.R4;T3.R8;T3.R12;T3.R15",
+   "expected_failing_checks": "T3.R1;T3.R4;T3.R8;T3.R12;T3.R15",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R1;T3.R15",
+   "app_probes_failed": "",
+   "description": "Subnets pinned with literal AvailabilityZoneId values (use1-az1/use1-az2): hard-coded AZ identifiers that exist only in us-east-1.",
+   "grader_messages_for_failed_checks": "T3.R1: VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: Availability Zones not selected with Fn::GetAZs for PublicSubnet1(azid), PublicSubnet2(azid) |; T3.R4: ALB {'internet_facing': True, 'public_subnets': False, 'listener_80_forward': True, 'health_check': True}; T3.R8: ASG {'launch_template': True, 'private_subnets': False, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}; T3.R12: database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': False, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPa; T3.R15: PublicSubnet1 hard-coded AZ ID use1-az1; PublicSubnet2 hard-coded AZ ID use1-az2; PrivateSubnet1 hard-coded AZ ID use1-az1; PrivateSubnet2 hard-coded AZ ID use1"
+  }
+ },
+ "ADV_T3_21": {
+  "meta": {
+   "id": "ADV_T3_21",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "expect_fail": [
+    "T3.R15"
+   ],
+   "probes": [
+    "T3.R7",
+    "T3.R15"
+   ],
+   "rationale": "The AMI parameter (type AWS::EC2::Image::Id) has a literal default ami-0abcdef1234567890: a hard-coded, Region-specific AMI ID in a template meant for any Region.",
+   "path": "cases/adversarial/ADV_T3_21.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     false,
+     "parameter CustomAmiId default AMI ami-0abcdef1234567890"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_21",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R15",
+   "expected_failing_checks": "T3.R15",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R7;T3.R15",
+   "app_probes_failed": "",
+   "description": "The AMI parameter (type AWS::EC2::Image::Id) has a literal default ami-0abcdef1234567890: a hard-coded, Region-specific AMI ID in a template meant for any Region.",
+   "grader_messages_for_failed_checks": "T3.R15: parameter CustomAmiId default AMI ami-0abcdef1234567890"
+  }
+ },
+ "ADV_T3_22": {
+  "meta": {
+   "id": "ADV_T3_22",
+   "set": "adversarial",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "expect_fail": [
+    "T3.R6"
+   ],
+   "probes": [
+    "T3.R6"
+   ],
+   "rationale": "Web SG allows TCP 80 from ::/0 in addition to the ALB SG reference (IPv6 anywhere).",
+   "path": "cases/adversarial/ADV_T3_22.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PublicSubnet1', 'PublicSubnet2']: subnets in distinct Availability Zones [0, 1] | private ['PrivateSubnet1', 'PrivateSubnet2']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PublicSubnet1': True, 'PublicSubnet2': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatGateway'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'PrivateSubnet1': True, 'PrivateSubnet2': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['ALBSecurityGroup'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     false,
+     "web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules [{'proto': 'tcp', 'from': 80, 'to': 80, 'cidr': ('lit', '::/0'), 'src': None}]"
+    ],
+    "T3.R7": [
+     true,
+     "launch template WebLaunchTemplate {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 60.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket PhotoBucket block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role WebRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from WebSecurityGroup"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_T3_22",
+   "task": "T3",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "T3.R6",
+   "expected_failing_checks": "T3.R6",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "T3.R6",
+   "app_probes_failed": "",
+   "description": "Web SG allows TCP 80 from ::/0 in addition to the ALB SG reference (IPv6 anywhere).",
+   "grader_messages_for_failed_checks": "T3.R6: web SG ['WebSecurityGroup']: TCP 80 from ALB SG True; open-to-world rules [{'proto': 'tcp', 'from': 80, 'to': 80, 'cidr': ('lit', '::/0'), 'src': None}]"
+  }
+ },
+ "ADV_APP_01": {
+  "meta": {
+   "id": "ADV_APP_01",
+   "set": "adversarial",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "A06"
+   ],
+   "probes": [
+    "A05",
+    "A06"
+   ],
+   "rationale": "search_photos builds SQL with an f-string using {like!r}. Python repr quoting looks like parameterisation and defeats the three A06 probe terms, but a term containing both quote types escapes the literal.",
+   "path": "cases/adversarial/ADV_APP_01.py"
+  },
+  "grade": {
+   "checks": {
+    "A01": [
+     true,
+     "ok"
+    ],
+    "A02": [
+     true,
+     "ok"
+    ],
+    "A03": [
+     false,
+     "wildcard characters in the term are not matched literally"
+    ],
+    "A04": [
+     true,
+     "ok"
+    ],
+    "A05": [
+     true,
+     "ok"
+    ],
+    "A06": [
+     false,
+     "injection term 'a\\' or 1=1 --\"' returned 2 rows"
+    ],
+    "A07": [
+     true,
+     "ok"
+    ],
+    "A08": [
+     true,
+     "ok"
+    ],
+    "A09": [
+     true,
+     "ok"
+    ],
+    "A10": [
+     true,
+     "ok"
+    ],
+    "A11": [
+     true,
+     "ok"
+    ],
+    "A12": [
+     true,
+     "ok"
+    ],
+    "A13": [
+     true,
+     "ok"
+    ],
+    "A14": [
+     true,
+     "ok"
+    ],
+    "A15": [
+     true,
+     "ok"
+    ],
+    "A16": [
+     true,
+     "ok"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {
+   "P1_injection": false,
+   "P2_literal": false,
+   "P3_dicts": true,
+   "P4_posix_base": true,
+   "P5_uuid4": true,
+   "P6_no_client": true,
+   "P7_unicode_ci": false
+  },
+  "row": {
+   "id": "ADV_APP_01",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "A03;A06",
+   "expected_failing_checks": "A06",
+   "missed_checks": "",
+   "spurious_failures": "A03",
+   "probes": "A05;A06",
+   "app_probes_failed": "P1_injection;P2_literal",
+   "description": "search_photos builds SQL with an f-string using {like!r}. Python repr quoting looks like parameterisation and defeats the three A06 probe terms, but a term containing both quote types escapes the literal.",
+   "grader_messages_for_failed_checks": "A03: wildcard characters in the term are not matched literally; A06: injection term 'a\\' or 1=1 --\"' returned 2 rows"
+  }
+ },
+ "ADV_APP_02": {
+  "meta": {
+   "id": "ADV_APP_02",
+   "set": "adversarial",
+   "task": "APP",
+   "category": "unusual but valid",
+   "expected": "ambiguous",
+   "basis": "intent",
+   "expect_fail": [],
+   "probes": [
+    "A05",
+    "A06"
+   ],
+   "rationale": "search_photos interpolates the term after doubling single quotes (correct SQLite string escaping). It is safe for SQLite but not parameterised; the brief only says the term is untrusted.",
+   "path": "cases/adversarial/ADV_APP_02.py"
+  },
+  "grade": {
+   "checks": {
+    "A01": [
+     true,
+     "ok"
+    ],
+    "A02": [
+     true,
+     "ok"
+    ],
+    "A03": [
+     false,
+     "wildcard characters in the term are not matched literally"
+    ],
+    "A04": [
+     true,
+     "ok"
+    ],
+    "A05": [
+     true,
+     "ok"
+    ],
+    "A06": [
+     true,
+     "ok"
+    ],
+    "A07": [
+     true,
+     "ok"
+    ],
+    "A08": [
+     true,
+     "ok"
+    ],
+    "A09": [
+     true,
+     "ok"
+    ],
+    "A10": [
+     true,
+     "ok"
+    ],
+    "A11": [
+     true,
+     "ok"
+    ],
+    "A12": [
+     true,
+     "ok"
+    ],
+    "A13": [
+     true,
+     "ok"
+    ],
+    "A14": [
+     true,
+     "ok"
+    ],
+    "A15": [
+     true,
+     "ok"
+    ],
+    "A16": [
+     true,
+     "ok"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {
+   "P1_injection": true,
+   "P2_literal": false,
+   "P3_dicts": true,
+   "P4_posix_base": true,
+   "P5_uuid4": true,
+   "P6_no_client": true,
+   "P7_unicode_ci": false
+  },
+  "row": {
+   "id": "ADV_APP_02",
+   "task": "APP",
+   "category": "unusual but valid",
+   "expected": "ambiguous",
+   "basis": "intent",
+   "grader_verdict": "reject",
+   "outcome": "AMB-R",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "A03",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "A05;A06",
+   "app_probes_failed": "P2_literal",
+   "description": "search_photos interpolates the term after doubling single quotes (correct SQLite string escaping). It is safe for SQLite but not parameterised; the brief only says the term is untrusted.",
+   "grader_messages_for_failed_checks": "A03: wildcard characters in the term are not matched literally"
+  }
+ },
+ "ADV_APP_03": {
+  "meta": {
+   "id": "ADV_APP_03",
+   "set": "adversarial",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "expect_fail": [
+    "A09"
+   ],
+   "probes": [
+    "A09"
+   ],
+   "rationale": "Sanitiser uses os.path.basename, which strips backslash directories only on Windows. On the Linux EC2 target, 'C:\\Users\\me\\my photo (1).png' keeps its directory components.",
+   "path": "cases/adversarial/ADV_APP_03.py"
+  },
+  "grade": {
+   "checks": {
+    "A01": [
+     true,
+     "ok"
+    ],
+    "A02": [
+     true,
+     "ok"
+    ],
+    "A03": [
+     false,
+     "wildcard characters in the term are not matched literally"
+    ],
+    "A04": [
+     true,
+     "ok"
+    ],
+    "A05": [
+     true,
+     "ok"
+    ],
+    "A06": [
+     true,
+     "ok"
+    ],
+    "A07": [
+     true,
+     "ok"
+    ],
+    "A08": [
+     true,
+     "ok"
+    ],
+    "A09": [
+     false,
+     "sanitiser depends on the host path flavour: 'photos/a298c78abd4a496aa85d4f395e325af1/C__Users_me_my_photo__1_.png'"
+    ],
+    "A10": [
+     true,
+     "ok"
+    ],
+    "A11": [
+     true,
+     "ok"
+    ],
+    "A12": [
+     true,
+     "ok"
+    ],
+    "A13": [
+     true,
+     "ok"
+    ],
+    "A14": [
+     true,
+     "ok"
+    ],
+    "A15": [
+     true,
+     "ok"
+    ],
+    "A16": [
+     true,
+     "ok"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {
+   "P1_injection": true,
+   "P2_literal": false,
+   "P3_dicts": true,
+   "P4_posix_base": false,
+   "P5_uuid4": true,
+   "P6_no_client": true,
+   "P7_unicode_ci": false
+  },
+  "row": {
+   "id": "ADV_APP_03",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "A03;A09",
+   "expected_failing_checks": "A09",
+   "missed_checks": "",
+   "spurious_failures": "A03",
+   "probes": "A09",
+   "app_probes_failed": "P2_literal;P4_posix_base",
+   "description": "Sanitiser uses os.path.basename, which strips backslash directories only on Windows. On the Linux EC2 target, 'C:\\Users\\me\\my photo (1).png' keeps its directory components.",
+   "grader_messages_for_failed_checks": "A03: wildcard characters in the term are not matched literally; A09: sanitiser depends on the host path flavour: 'photos/a298c78abd4a496aa85d4f395e325af1/C__Users_me_my_photo__1_.png'"
+  }
+ },
+ "ADV_APP_04": {
+  "meta": {
+   "id": "ADV_APP_04",
+   "set": "adversarial",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "A08"
+   ],
+   "probes": [
+    "A08"
+   ],
+   "rationale": "Key uses uuid1().hex: 32 lowercase hex characters, but not from uuid4 (time and host based).",
+   "path": "cases/adversarial/ADV_APP_04.py"
+  },
+  "grade": {
+   "checks": {
+    "A01": [
+     true,
+     "ok"
+    ],
+    "A02": [
+     true,
+     "ok"
+    ],
+    "A03": [
+     false,
+     "wildcard characters in the term are not matched literally"
+    ],
+    "A04": [
+     true,
+     "ok"
+    ],
+    "A05": [
+     true,
+     "ok"
+    ],
+    "A06": [
+     true,
+     "ok"
+    ],
+    "A07": [
+     true,
+     "ok"
+    ],
+    "A08": [
+     false,
+     "key segment is not a uuid4"
+    ],
+    "A09": [
+     true,
+     "ok"
+    ],
+    "A10": [
+     true,
+     "ok"
+    ],
+    "A11": [
+     true,
+     "ok"
+    ],
+    "A12": [
+     true,
+     "ok"
+    ],
+    "A13": [
+     true,
+     "ok"
+    ],
+    "A14": [
+     true,
+     "ok"
+    ],
+    "A15": [
+     true,
+     "ok"
+    ],
+    "A16": [
+     true,
+     "ok"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {
+   "P1_injection": true,
+   "P2_literal": false,
+   "P3_dicts": true,
+   "P4_posix_base": true,
+   "P5_uuid4": false,
+   "P6_no_client": true,
+   "P7_unicode_ci": false
+  },
+  "row": {
+   "id": "ADV_APP_04",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "A03;A08",
+   "expected_failing_checks": "A08",
+   "missed_checks": "",
+   "spurious_failures": "A03",
+   "probes": "A08",
+   "app_probes_failed": "P2_literal;P5_uuid4",
+   "description": "Key uses uuid1().hex: 32 lowercase hex characters, but not from uuid4 (time and host based).",
+   "grader_messages_for_failed_checks": "A03: wildcard characters in the term are not matched literally; A08: key segment is not a uuid4"
+  }
+ },
+ "ADV_APP_05": {
+  "meta": {
+   "id": "ADV_APP_05",
+   "set": "adversarial",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "A03"
+   ],
+   "probes": [
+    "A03"
+   ],
+   "rationale": "search_photos sets conn.row_factory = sqlite3.Row on the caller's connection and returns sqlite3.Row objects, not dicts.",
+   "path": "cases/adversarial/ADV_APP_05.py"
+  },
+  "grade": {
+   "checks": {
+    "A01": [
+     true,
+     "ok"
+    ],
+    "A02": [
+     true,
+     "ok"
+    ],
+    "A03": [
+     false,
+     "rows are not dict objects"
+    ],
+    "A04": [
+     true,
+     "ok"
+    ],
+    "A05": [
+     true,
+     "ok"
+    ],
+    "A06": [
+     true,
+     "ok"
+    ],
+    "A07": [
+     true,
+     "ok"
+    ],
+    "A08": [
+     true,
+     "ok"
+    ],
+    "A09": [
+     true,
+     "ok"
+    ],
+    "A10": [
+     true,
+     "ok"
+    ],
+    "A11": [
+     true,
+     "ok"
+    ],
+    "A12": [
+     true,
+     "ok"
+    ],
+    "A13": [
+     true,
+     "ok"
+    ],
+    "A14": [
+     true,
+     "ok"
+    ],
+    "A15": [
+     true,
+     "ok"
+    ],
+    "A16": [
+     true,
+     "ok"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {
+   "P1_injection": true,
+   "P2_literal": false,
+   "P3_dicts": false,
+   "P4_posix_base": true,
+   "P5_uuid4": true,
+   "P6_no_client": true,
+   "P7_unicode_ci": false
+  },
+  "row": {
+   "id": "ADV_APP_05",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "A03",
+   "expected_failing_checks": "A03",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "A03",
+   "app_probes_failed": "P2_literal;P3_dicts",
+   "description": "search_photos sets conn.row_factory = sqlite3.Row on the caller's connection and returns sqlite3.Row objects, not dicts.",
+   "grader_messages_for_failed_checks": "A03: rows are not dict objects"
+  }
+ },
+ "ADV_APP_06": {
+  "meta": {
+   "id": "ADV_APP_06",
+   "set": "adversarial",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "A16"
+   ],
+   "probes": [
+    "A16"
+   ],
+   "rationale": "A fallback helper creates an AWS client with importlib.import_module('boto3').client('s3') when s3 is None (client construction in the module, obfuscated).",
+   "path": "cases/adversarial/ADV_APP_06.py"
+  },
+  "grade": {
+   "checks": {
+    "A01": [
+     true,
+     "ok"
+    ],
+    "A02": [
+     true,
+     "ok"
+    ],
+    "A03": [
+     false,
+     "wildcard characters in the term are not matched literally"
+    ],
+    "A04": [
+     true,
+     "ok"
+    ],
+    "A05": [
+     true,
+     "ok"
+    ],
+    "A06": [
+     true,
+     "ok"
+    ],
+    "A07": [
+     true,
+     "ok"
+    ],
+    "A08": [
+     true,
+     "ok"
+    ],
+    "A09": [
+     true,
+     "ok"
+    ],
+    "A10": [
+     true,
+     "ok"
+    ],
+    "A11": [
+     true,
+     "ok"
+    ],
+    "A12": [
+     true,
+     "ok"
+    ],
+    "A13": [
+     true,
+     "ok"
+    ],
+    "A14": [
+     true,
+     "ok"
+    ],
+    "A15": [
+     true,
+     "ok"
+    ],
+    "A16": [
+     false,
+     "credentials or client construction found: ['import_module\\\\(\\\\s*[\\'\\\\\"]boto3', '\\\\.client\\\\(\\\\s*[\\'\\\\\"]s3[\\'\\\\\"]']"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {
+   "P1_injection": true,
+   "P2_literal": false,
+   "P3_dicts": true,
+   "P4_posix_base": true,
+   "P5_uuid4": true,
+   "P6_no_client": false,
+   "P7_unicode_ci": false
+  },
+  "row": {
+   "id": "ADV_APP_06",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "A03;A16",
+   "expected_failing_checks": "A16",
+   "missed_checks": "",
+   "spurious_failures": "A03",
+   "probes": "A16",
+   "app_probes_failed": "P2_literal;P6_no_client",
+   "description": "A fallback helper creates an AWS client with importlib.import_module('boto3').client('s3') when s3 is None (client construction in the module, obfuscated).",
+   "grader_messages_for_failed_checks": "A03: wildcard characters in the term are not matched literally; A16: credentials or client construction found: ['import_module\\\\(\\\\s*[\\'\\\\\"]boto3', '\\\\.client\\\\(\\\\s*[\\'\\\\\"]s3[\\'\\\\\"]']"
+  }
+ },
+ "ADV_APP_07": {
+  "meta": {
+   "id": "ADV_APP_07",
+   "set": "adversarial",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "A16"
+   ],
+   "probes": [
+    "A16"
+   ],
+   "rationale": "Module embeds temporary-credential constants (ASIA... key id and a secret) under neutral names.",
+   "path": "cases/adversarial/ADV_APP_07.py"
+  },
+  "grade": {
+   "checks": {
+    "A01": [
+     true,
+     "ok"
+    ],
+    "A02": [
+     true,
+     "ok"
+    ],
+    "A03": [
+     false,
+     "wildcard characters in the term are not matched literally"
+    ],
+    "A04": [
+     true,
+     "ok"
+    ],
+    "A05": [
+     true,
+     "ok"
+    ],
+    "A06": [
+     true,
+     "ok"
+    ],
+    "A07": [
+     true,
+     "ok"
+    ],
+    "A08": [
+     true,
+     "ok"
+    ],
+    "A09": [
+     true,
+     "ok"
+    ],
+    "A10": [
+     true,
+     "ok"
+    ],
+    "A11": [
+     true,
+     "ok"
+    ],
+    "A12": [
+     true,
+     "ok"
+    ],
+    "A13": [
+     true,
+     "ok"
+    ],
+    "A14": [
+     true,
+     "ok"
+    ],
+    "A15": [
+     true,
+     "ok"
+    ],
+    "A16": [
+     false,
+     "credentials or client construction found: ['[\\'\\\\\"](AKIA|ASIA)[\\'\\\\\"]', '(?<![A-Za-z0-9/+])[A-Za-z0-9/+]{40}(?![A-Za-z0-9/+])']"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {
+   "P1_injection": true,
+   "P2_literal": false,
+   "P3_dicts": true,
+   "P4_posix_base": true,
+   "P5_uuid4": true,
+   "P6_no_client": false,
+   "P7_unicode_ci": false
+  },
+  "row": {
+   "id": "ADV_APP_07",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "A03;A16",
+   "expected_failing_checks": "A16",
+   "missed_checks": "",
+   "spurious_failures": "A03",
+   "probes": "A16",
+   "app_probes_failed": "P2_literal;P6_no_client",
+   "description": "Module embeds temporary-credential constants (ASIA... key id and a secret) under neutral names.",
+   "grader_messages_for_failed_checks": "A03: wildcard characters in the term are not matched literally; A16: credentials or client construction found: ['[\\'\\\\\"](AKIA|ASIA)[\\'\\\\\"]', '(?<![A-Za-z0-9/+])[A-Za-z0-9/+]{40}(?![A-Za-z0-9/+])']"
+  }
+ },
+ "ADV_APP_08": {
+  "meta": {
+   "id": "ADV_APP_08",
+   "set": "adversarial",
+   "task": "APP",
+   "category": "unusual but valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [
+    "A12",
+    "A13"
+   ],
+   "rationale": "Presigned expiry taken from a module constant and passed through a local variable (ExpiresIn=ttl).",
+   "path": "cases/adversarial/ADV_APP_08.py"
+  },
+  "grade": {
+   "checks": {
+    "A01": [
+     true,
+     "ok"
+    ],
+    "A02": [
+     true,
+     "ok"
+    ],
+    "A03": [
+     false,
+     "wildcard characters in the term are not matched literally"
+    ],
+    "A04": [
+     true,
+     "ok"
+    ],
+    "A05": [
+     true,
+     "ok"
+    ],
+    "A06": [
+     true,
+     "ok"
+    ],
+    "A07": [
+     true,
+     "ok"
+    ],
+    "A08": [
+     true,
+     "ok"
+    ],
+    "A09": [
+     true,
+     "ok"
+    ],
+    "A10": [
+     true,
+     "ok"
+    ],
+    "A11": [
+     true,
+     "ok"
+    ],
+    "A12": [
+     true,
+     "ok"
+    ],
+    "A13": [
+     true,
+     "ok"
+    ],
+    "A14": [
+     true,
+     "ok"
+    ],
+    "A15": [
+     true,
+     "ok"
+    ],
+    "A16": [
+     true,
+     "ok"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {
+   "P1_injection": true,
+   "P2_literal": false,
+   "P3_dicts": true,
+   "P4_posix_base": true,
+   "P5_uuid4": true,
+   "P6_no_client": true,
+   "P7_unicode_ci": false
+  },
+  "row": {
+   "id": "ADV_APP_08",
+   "task": "APP",
+   "category": "unusual but valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "FR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "A03",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "A03",
+   "probes": "A12;A13",
+   "app_probes_failed": "P2_literal",
+   "description": "Presigned expiry taken from a module constant and passed through a local variable (ExpiresIn=ttl).",
+   "grader_messages_for_failed_checks": "A03: wildcard characters in the term are not matched literally"
+  }
+ },
+ "ADV_APP_09": {
+  "meta": {
+   "id": "ADV_APP_09",
+   "set": "adversarial",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "A13"
+   ],
+   "probes": [
+    "A13"
+   ],
+   "rationale": "photo_url applies 'expires = expires or 3600' before validating, so expires=0 silently becomes 3600 instead of raising ValueError.",
+   "path": "cases/adversarial/ADV_APP_09.py"
+  },
+  "grade": {
+   "checks": {
+    "A01": [
+     true,
+     "ok"
+    ],
+    "A02": [
+     true,
+     "ok"
+    ],
+    "A03": [
+     false,
+     "wildcard characters in the term are not matched literally"
+    ],
+    "A04": [
+     true,
+     "ok"
+    ],
+    "A05": [
+     true,
+     "ok"
+    ],
+    "A06": [
+     true,
+     "ok"
+    ],
+    "A07": [
+     true,
+     "ok"
+    ],
+    "A08": [
+     true,
+     "ok"
+    ],
+    "A09": [
+     true,
+     "ok"
+    ],
+    "A10": [
+     true,
+     "ok"
+    ],
+    "A11": [
+     true,
+     "ok"
+    ],
+    "A12": [
+     true,
+     "ok"
+    ],
+    "A13": [
+     false,
+     "expires=0 accepted"
+    ],
+    "A14": [
+     true,
+     "ok"
+    ],
+    "A15": [
+     true,
+     "ok"
+    ],
+    "A16": [
+     true,
+     "ok"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {
+   "P1_injection": true,
+   "P2_literal": false,
+   "P3_dicts": true,
+   "P4_posix_base": true,
+   "P5_uuid4": true,
+   "P6_no_client": true,
+   "P7_unicode_ci": false
+  },
+  "row": {
+   "id": "ADV_APP_09",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "A03;A13",
+   "expected_failing_checks": "A13",
+   "missed_checks": "",
+   "spurious_failures": "A03",
+   "probes": "A13",
+   "app_probes_failed": "P2_literal",
+   "description": "photo_url applies 'expires = expires or 3600' before validating, so expires=0 silently becomes 3600 instead of raising ValueError.",
+   "grader_messages_for_failed_checks": "A03: wildcard characters in the term are not matched literally; A13: expires=0 accepted"
+  }
+ },
+ "ADV_APP_10": {
+  "meta": {
+   "id": "ADV_APP_10",
+   "set": "adversarial",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "A03"
+   ],
+   "probes": [
+    "A03",
+    "A04"
+   ],
+   "rationale": "The gold reference itself, unchanged: LIKE without ESCAPE treats '%' and '_' in the term as wildcards, so search_photos(conn, '_') returns every row rather than rows containing '_'.",
+   "path": "cases/adversarial/ADV_APP_10.py"
+  },
+  "grade": {
+   "checks": {
+    "A01": [
+     true,
+     "ok"
+    ],
+    "A02": [
+     true,
+     "ok"
+    ],
+    "A03": [
+     false,
+     "wildcard characters in the term are not matched literally"
+    ],
+    "A04": [
+     true,
+     "ok"
+    ],
+    "A05": [
+     true,
+     "ok"
+    ],
+    "A06": [
+     true,
+     "ok"
+    ],
+    "A07": [
+     true,
+     "ok"
+    ],
+    "A08": [
+     true,
+     "ok"
+    ],
+    "A09": [
+     true,
+     "ok"
+    ],
+    "A10": [
+     true,
+     "ok"
+    ],
+    "A11": [
+     true,
+     "ok"
+    ],
+    "A12": [
+     true,
+     "ok"
+    ],
+    "A13": [
+     true,
+     "ok"
+    ],
+    "A14": [
+     true,
+     "ok"
+    ],
+    "A15": [
+     true,
+     "ok"
+    ],
+    "A16": [
+     true,
+     "ok"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {
+   "P1_injection": true,
+   "P2_literal": false,
+   "P3_dicts": true,
+   "P4_posix_base": true,
+   "P5_uuid4": true,
+   "P6_no_client": true,
+   "P7_unicode_ci": false
+  },
+  "row": {
+   "id": "ADV_APP_10",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "A03",
+   "expected_failing_checks": "A03",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "A03;A04",
+   "app_probes_failed": "P2_literal",
+   "description": "The gold reference itself, unchanged: LIKE without ESCAPE treats '%' and '_' in the term as wildcards, so search_photos(conn, '_') returns every row rather than rows containing '_'.",
+   "grader_messages_for_failed_checks": "A03: wildcard characters in the term are not matched literally"
+  }
+ },
+ "ADV_APP_11": {
+  "meta": {
+   "id": "ADV_APP_11",
+   "set": "adversarial",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "A14"
+   ],
+   "probes": [
+    "A14"
+   ],
+   "rationale": "handle_upload deletes the object but raises a new RuntimeError instead of re-raising the original exception.",
+   "path": "cases/adversarial/ADV_APP_11.py"
+  },
+  "grade": {
+   "checks": {
+    "A01": [
+     true,
+     "ok"
+    ],
+    "A02": [
+     true,
+     "ok"
+    ],
+    "A03": [
+     false,
+     "wildcard characters in the term are not matched literally"
+    ],
+    "A04": [
+     true,
+     "ok"
+    ],
+    "A05": [
+     true,
+     "ok"
+    ],
+    "A06": [
+     true,
+     "ok"
+    ],
+    "A07": [
+     true,
+     "ok"
+    ],
+    "A08": [
+     true,
+     "ok"
+    ],
+    "A09": [
+     true,
+     "ok"
+    ],
+    "A10": [
+     true,
+     "ok"
+    ],
+    "A11": [
+     true,
+     "ok"
+    ],
+    "A12": [
+     true,
+     "ok"
+    ],
+    "A13": [
+     true,
+     "ok"
+    ],
+    "A14": [
+     false,
+     "original exception not re-raised; got RuntimeError('metadata save failed')"
+    ],
+    "A15": [
+     true,
+     "ok"
+    ],
+    "A16": [
+     true,
+     "ok"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {
+   "P1_injection": true,
+   "P2_literal": false,
+   "P3_dicts": true,
+   "P4_posix_base": true,
+   "P5_uuid4": true,
+   "P6_no_client": true,
+   "P7_unicode_ci": false
+  },
+  "row": {
+   "id": "ADV_APP_11",
+   "task": "APP",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "A03;A14",
+   "expected_failing_checks": "A14",
+   "missed_checks": "",
+   "spurious_failures": "A03",
+   "probes": "A14",
+   "app_probes_failed": "P2_literal",
+   "description": "handle_upload deletes the object but raises a new RuntimeError instead of re-raising the original exception.",
+   "grader_messages_for_failed_checks": "A03: wildcard characters in the term are not matched literally; A14: original exception not re-raised; got RuntimeError('metadata save failed')"
+  }
+ },
+ "ADV_DES_01": {
+  "meta": {
+   "id": "ADV_DES_01",
+   "set": "adversarial",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "D01",
+    "D04"
+   ],
+   "probes": [
+    "D01",
+    "D02",
+    "D04"
+   ],
+   "rationale": "Over-budget design (db.r6g.large Multi-AZ) brought under US$750 by a negative-quantity 'credit' line (-1460 NAT gateway hours).",
+   "path": "cases/adversarial/ADV_DES_01.json"
+  },
+  "grade": {
+   "checks": {
+    "D01": [
+     false,
+     "missing keys []; unknown price-sheet items ['nat_gateway_hour(quantity -1460)']; instance type valid True"
+    ],
+    "D02": [
+     false,
+     "stated proposed 745.49 vs recomputed 745.49"
+    ],
+    "D03": [
+     true,
+     "stated original 133.21 vs correct 133.21"
+    ],
+    "D04": [
+     false,
+     "recomputed proposed cost 745.49 vs budget 750"
+    ],
+    "D05": [
+     true,
+     "asg_max 6.0 x 160 rps = 960.0 vs origin peak 750"
+    ],
+    "D06": [
+     true,
+     "asg_min 2.0, AZs 2.0, database multi_az True"
+    ],
+    "D07": [
+     true,
+     "point-in-time recovery True, retention 7.0 days"
+    ],
+    "D08": [
+     true,
+     "costed t3.medium instance-hours 1640 vs required 1640.0; RDS costed consistently True"
+    ],
+    "D09": [
+     true,
+     "CloudFront GB 2000 (need 2000), request units 4000 (need 4000)"
+    ],
+    "D10": [
+     true,
+     "missing []"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true,
+   "recomputed_proposed": 745.4889999999999
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_DES_01",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "D01;D02;D04",
+   "expected_failing_checks": "D01;D04",
+   "missed_checks": "",
+   "spurious_failures": "D02",
+   "probes": "D01;D02;D04",
+   "app_probes_failed": "",
+   "description": "Over-budget design (db.r6g.large Multi-AZ) brought under US$750 by a negative-quantity 'credit' line (-1460 NAT gateway hours).",
+   "grader_messages_for_failed_checks": "D01: missing keys []; unknown price-sheet items ['nat_gateway_hour(quantity -1460)']; instance type valid True; D02: stated proposed 745.49 vs recomputed 745.49; D04: recomputed proposed cost 745.49 vs budget 750"
+  }
+ },
+ "ADV_DES_02": {
+  "meta": {
+   "id": "ADV_DES_02",
+   "set": "adversarial",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "D01",
+    "D08"
+   ],
+   "probes": [
+    "D01",
+    "D08"
+   ],
+   "rationale": "Database instance line has quantity 0 (flagged multi_az true), so the declared Multi-AZ database is not costed at all.",
+   "path": "cases/adversarial/ADV_DES_02.json"
+  },
+  "grade": {
+   "checks": {
+    "D01": [
+     false,
+     "missing keys []; unknown price-sheet items ['rds_mysql_db.t3.medium_singleaz_hour(quantity 0)']; instance type valid True"
+    ],
+    "D02": [
+     false,
+     "stated proposed 482.69 vs recomputed 482.69"
+    ],
+    "D03": [
+     true,
+     "stated original 133.21 vs correct 133.21"
+    ],
+    "D04": [
+     false,
+     "recomputed proposed cost 482.69 vs budget 750"
+    ],
+    "D05": [
+     true,
+     "asg_max 6.0 x 160 rps = 960.0 vs origin peak 750"
+    ],
+    "D06": [
+     true,
+     "asg_min 2.0, AZs 2.0, database multi_az True"
+    ],
+    "D07": [
+     true,
+     "point-in-time recovery True, retention 7.0 days"
+    ],
+    "D08": [
+     false,
+     "costed t3.medium instance-hours 1640 vs required 1640.0; RDS costed consistently False"
+    ],
+    "D09": [
+     true,
+     "CloudFront GB 2000 (need 2000), request units 4000 (need 4000)"
+    ],
+    "D10": [
+     true,
+     "missing []"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true,
+   "recomputed_proposed": 482.689
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_DES_02",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "D01;D02;D04;D08",
+   "expected_failing_checks": "D01;D08",
+   "missed_checks": "",
+   "spurious_failures": "D02;D04",
+   "probes": "D01;D08",
+   "app_probes_failed": "",
+   "description": "Database instance line has quantity 0 (flagged multi_az true), so the declared Multi-AZ database is not costed at all.",
+   "grader_messages_for_failed_checks": "D01: missing keys []; unknown price-sheet items ['rds_mysql_db.t3.medium_singleaz_hour(quantity 0)']; instance type valid True; D02: stated proposed 482.69 vs recomputed 482.69; D04: recomputed proposed cost 482.69 vs budget 750; D08: costed t3.medium instance-hours 1640 vs required 1640.0; RDS costed consistently False"
+  }
+ },
+ "ADV_DES_03": {
+  "meta": {
+   "id": "ADV_DES_03",
+   "set": "adversarial",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "D08"
+   ],
+   "probes": [
+    "D08"
+   ],
+   "rationale": "Declares read_replicas = 2 but costs no replica (the price sheet prices a replica as an extra single-AZ instance).",
+   "path": "cases/adversarial/ADV_DES_03.json"
+  },
+  "grade": {
+   "checks": {
+    "D01": [
+     true,
+     "missing keys []; unknown price-sheet items []; instance type valid True"
+    ],
+    "D02": [
+     true,
+     "stated proposed 581.97 vs recomputed 581.97"
+    ],
+    "D03": [
+     true,
+     "stated original 133.21 vs correct 133.21"
+    ],
+    "D04": [
+     true,
+     "recomputed proposed cost 581.97 vs budget 750"
+    ],
+    "D05": [
+     true,
+     "asg_max 6.0 x 160 rps = 960.0 vs origin peak 750"
+    ],
+    "D06": [
+     true,
+     "asg_min 2.0, AZs 2.0, database multi_az True"
+    ],
+    "D07": [
+     true,
+     "point-in-time recovery True, retention 7.0 days"
+    ],
+    "D08": [
+     false,
+     "costed t3.medium instance-hours 1640 vs required 1640.0; RDS costed consistently False"
+    ],
+    "D09": [
+     true,
+     "CloudFront GB 2000 (need 2000), request units 4000 (need 4000)"
+    ],
+    "D10": [
+     true,
+     "missing []"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true,
+   "recomputed_proposed": 581.969
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_DES_03",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "D08",
+   "expected_failing_checks": "D08",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "D08",
+   "app_probes_failed": "",
+   "description": "Declares read_replicas = 2 but costs no replica (the price sheet prices a replica as an extra single-AZ instance).",
+   "grader_messages_for_failed_checks": "D08: costed t3.medium instance-hours 1640 vs required 1640.0; RDS costed consistently False"
+  }
+ },
+ "ADV_DES_04": {
+  "meta": {
+   "id": "ADV_DES_04",
+   "set": "adversarial",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "expect_fail": [
+    "D10"
+   ],
+   "probes": [
+    "D10"
+   ],
+   "rationale": "Justification is two sentences that only list the six pillar names; it does not justify the design against them.",
+   "path": "cases/adversarial/ADV_DES_04.json"
+  },
+  "grade": {
+   "checks": {
+    "D01": [
+     true,
+     "missing keys []; unknown price-sheet items []; instance type valid True"
+    ],
+    "D02": [
+     true,
+     "stated proposed 581.97 vs recomputed 581.97"
+    ],
+    "D03": [
+     true,
+     "stated original 133.21 vs correct 133.21"
+    ],
+    "D04": [
+     true,
+     "recomputed proposed cost 581.97 vs budget 750"
+    ],
+    "D05": [
+     true,
+     "asg_max 6.0 x 160 rps = 960.0 vs origin peak 750"
+    ],
+    "D06": [
+     true,
+     "asg_min 2.0, AZs 2.0, database multi_az True"
+    ],
+    "D07": [
+     true,
+     "point-in-time recovery True, retention 7.0 days"
+    ],
+    "D08": [
+     true,
+     "costed t3.medium instance-hours 1640 vs required 1640.0; RDS costed consistently True"
+    ],
+    "D09": [
+     true,
+     "CloudFront GB 2000 (need 2000), request units 4000 (need 4000)"
+    ],
+    "D10": [
+     true,
+     "missing []"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true,
+   "recomputed_proposed": 581.969
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_DES_04",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "intent",
+   "grader_verdict": "accept",
+   "outcome": "FA",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "D10",
+   "missed_checks": "D10",
+   "spurious_failures": "",
+   "probes": "D10",
+   "app_probes_failed": "",
+   "description": "Justification is two sentences that only list the six pillar names; it does not justify the design against them.",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "ADV_DES_05": {
+  "meta": {
+   "id": "ADV_DES_05",
+   "set": "adversarial",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "D10"
+   ],
+   "probes": [
+    "D10"
+   ],
+   "rationale": "Justification exceeds the 800-word limit of the output format.",
+   "path": "cases/adversarial/ADV_DES_05.json"
+  },
+  "grade": {
+   "checks": {
+    "D01": [
+     true,
+     "missing keys []; unknown price-sheet items []; instance type valid True"
+    ],
+    "D02": [
+     true,
+     "stated proposed 581.97 vs recomputed 581.97"
+    ],
+    "D03": [
+     true,
+     "stated original 133.21 vs correct 133.21"
+    ],
+    "D04": [
+     true,
+     "recomputed proposed cost 581.97 vs budget 750"
+    ],
+    "D05": [
+     true,
+     "asg_max 6.0 x 160 rps = 960.0 vs origin peak 750"
+    ],
+    "D06": [
+     true,
+     "asg_min 2.0, AZs 2.0, database multi_az True"
+    ],
+    "D07": [
+     true,
+     "point-in-time recovery True, retention 7.0 days"
+    ],
+    "D08": [
+     true,
+     "costed t3.medium instance-hours 1640 vs required 1640.0; RDS costed consistently True"
+    ],
+    "D09": [
+     true,
+     "CloudFront GB 2000 (need 2000), request units 4000 (need 4000)"
+    ],
+    "D10": [
+     false,
+     "justification has 854 words (limit 800)"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true,
+   "recomputed_proposed": 581.969
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_DES_05",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "D10",
+   "expected_failing_checks": "D10",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "D10",
+   "app_probes_failed": "",
+   "description": "Justification exceeds the 800-word limit of the output format.",
+   "grader_messages_for_failed_checks": "D10: justification has 854 words (limit 800)"
+  }
+ },
+ "ADV_DES_06": {
+  "meta": {
+   "id": "ADV_DES_06",
+   "set": "adversarial",
+   "task": "DES",
+   "category": "unusual but valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [
+    "D09"
+   ],
+   "rationale": "CloudFront transfer split across two BoM lines (1500 + 500 GB).",
+   "path": "cases/adversarial/ADV_DES_06.json"
+  },
+  "grade": {
+   "checks": {
+    "D01": [
+     true,
+     "missing keys []; unknown price-sheet items []; instance type valid True"
+    ],
+    "D02": [
+     true,
+     "stated proposed 581.97 vs recomputed 581.97"
+    ],
+    "D03": [
+     true,
+     "stated original 133.21 vs correct 133.21"
+    ],
+    "D04": [
+     true,
+     "recomputed proposed cost 581.97 vs budget 750"
+    ],
+    "D05": [
+     true,
+     "asg_max 6.0 x 160 rps = 960.0 vs origin peak 750"
+    ],
+    "D06": [
+     true,
+     "asg_min 2.0, AZs 2.0, database multi_az True"
+    ],
+    "D07": [
+     true,
+     "point-in-time recovery True, retention 7.0 days"
+    ],
+    "D08": [
+     true,
+     "costed t3.medium instance-hours 1640 vs required 1640.0; RDS costed consistently True"
+    ],
+    "D09": [
+     true,
+     "CloudFront GB 2000 (need 2000), request units 4000 (need 4000)"
+    ],
+    "D10": [
+     true,
+     "missing []"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true,
+   "recomputed_proposed": 581.969
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_DES_06",
+   "task": "DES",
+   "category": "unusual but valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "D09",
+   "app_probes_failed": "",
+   "description": "CloudFront transfer split across two BoM lines (1500 + 500 GB).",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "ADV_DES_07": {
+  "meta": {
+   "id": "ADV_DES_07",
+   "set": "adversarial",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "D08"
+   ],
+   "probes": [
+    "D06",
+    "D08"
+   ],
+   "rationale": "Database declared multi_az true but costed single-AZ (BoM inconsistent with the declared design).",
+   "path": "cases/adversarial/ADV_DES_07.json"
+  },
+  "grade": {
+   "checks": {
+    "D01": [
+     true,
+     "missing keys []; unknown price-sheet items []; instance type valid True"
+    ],
+    "D02": [
+     true,
+     "stated proposed 520.83 vs recomputed 520.83"
+    ],
+    "D03": [
+     true,
+     "stated original 133.21 vs correct 133.21"
+    ],
+    "D04": [
+     true,
+     "recomputed proposed cost 520.83 vs budget 750"
+    ],
+    "D05": [
+     true,
+     "asg_max 6.0 x 160 rps = 960.0 vs origin peak 750"
+    ],
+    "D06": [
+     true,
+     "asg_min 2.0, AZs 2.0, database multi_az True"
+    ],
+    "D07": [
+     true,
+     "point-in-time recovery True, retention 7.0 days"
+    ],
+    "D08": [
+     false,
+     "costed t3.medium instance-hours 1640 vs required 1640.0; RDS costed consistently False"
+    ],
+    "D09": [
+     true,
+     "CloudFront GB 2000 (need 2000), request units 4000 (need 4000)"
+    ],
+    "D10": [
+     true,
+     "missing []"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true,
+   "recomputed_proposed": 520.829
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_DES_07",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "D08",
+   "expected_failing_checks": "D08",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "D06;D08",
+   "app_probes_failed": "",
+   "description": "Database declared multi_az true but costed single-AZ (BoM inconsistent with the declared design).",
+   "grader_messages_for_failed_checks": "D08: costed t3.medium instance-hours 1640 vs required 1640.0; RDS costed consistently False"
+  }
+ },
+ "ADV_DES_08": {
+  "meta": {
+   "id": "ADV_DES_08",
+   "set": "adversarial",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "D01"
+   ],
+   "probes": [
+    "D01"
+   ],
+   "rationale": "All BoM quantities are JSON strings ('1640'), not numbers as the output format requires.",
+   "path": "cases/adversarial/ADV_DES_08.json"
+  },
+  "grade": {
+   "checks": {
+    "D01": [
+     false,
+     "missing keys []; unknown price-sheet items [\"ec2_t3.medium_hour(quantity '1640')\", \"alb_hour(quantity '730')\", \"alb_lcu_hour(quantity '3650')\", \"nat_gateway_hour(quantity '1460')\"]; instance type valid True"
+    ],
+    "D02": [
+     false,
+     "stated proposed 581.97 vs recomputed 581.97"
+    ],
+    "D03": [
+     true,
+     "stated original 133.21 vs correct 133.21"
+    ],
+    "D04": [
+     false,
+     "recomputed proposed cost 581.97 vs budget 750"
+    ],
+    "D05": [
+     true,
+     "asg_max 6.0 x 160 rps = 960.0 vs origin peak 750"
+    ],
+    "D06": [
+     true,
+     "asg_min 2.0, AZs 2.0, database multi_az True"
+    ],
+    "D07": [
+     true,
+     "point-in-time recovery True, retention 7.0 days"
+    ],
+    "D08": [
+     false,
+     "costed t3.medium instance-hours 1640 vs required 1640.0; RDS costed consistently False"
+    ],
+    "D09": [
+     true,
+     "CloudFront GB 2000 (need 2000), request units 4000 (need 4000)"
+    ],
+    "D10": [
+     true,
+     "missing []"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true,
+   "recomputed_proposed": 581.969
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_DES_08",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "D01;D02;D04;D08",
+   "expected_failing_checks": "D01",
+   "missed_checks": "",
+   "spurious_failures": "D02;D04;D08",
+   "probes": "D01",
+   "app_probes_failed": "",
+   "description": "All BoM quantities are JSON strings ('1640'), not numbers as the output format requires.",
+   "grader_messages_for_failed_checks": "D01: missing keys []; unknown price-sheet items [\"ec2_t3.medium_hour(quantity '1640')\", \"alb_hour(quantity '730')\", \"alb_lcu_hour(quantity '3650')\", \"nat_gateway_hou; D02: stated proposed 581.97 vs recomputed 581.97; D04: recomputed proposed cost 581.97 vs budget 750; D08: costed t3.medium instance-hours 1640 vs required 1640.0; RDS costed consistently False"
+  }
+ },
+ "ADV_DES_09": {
+  "meta": {
+   "id": "ADV_DES_09",
+   "set": "adversarial",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "expect_fail": [
+    "D07"
+   ],
+   "probes": [
+    "D07"
+   ],
+   "rationale": "point_in_time_recovery true but backup_retention_days 0 (which disables automated backups and PITR on RDS).",
+   "path": "cases/adversarial/ADV_DES_09.json"
+  },
+  "grade": {
+   "checks": {
+    "D01": [
+     true,
+     "missing keys []; unknown price-sheet items []; instance type valid True"
+    ],
+    "D02": [
+     true,
+     "stated proposed 581.97 vs recomputed 581.97"
+    ],
+    "D03": [
+     true,
+     "stated original 133.21 vs correct 133.21"
+    ],
+    "D04": [
+     true,
+     "recomputed proposed cost 581.97 vs budget 750"
+    ],
+    "D05": [
+     true,
+     "asg_max 6.0 x 160 rps = 960.0 vs origin peak 750"
+    ],
+    "D06": [
+     true,
+     "asg_min 2.0, AZs 2.0, database multi_az True"
+    ],
+    "D07": [
+     false,
+     "point-in-time recovery True, retention 0.0 days"
+    ],
+    "D08": [
+     true,
+     "costed t3.medium instance-hours 1640 vs required 1640.0; RDS costed consistently True"
+    ],
+    "D09": [
+     true,
+     "CloudFront GB 2000 (need 2000), request units 4000 (need 4000)"
+    ],
+    "D10": [
+     true,
+     "missing []"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true,
+   "recomputed_proposed": 581.969
+  },
+  "app_probes": {},
+  "row": {
+   "id": "ADV_DES_09",
+   "task": "DES",
+   "category": "superficially valid but wrong",
+   "expected": "reject",
+   "basis": "letter",
+   "grader_verdict": "reject",
+   "outcome": "TR",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "D07",
+   "expected_failing_checks": "D07",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "D07",
+   "app_probes_failed": "",
+   "description": "point_in_time_recovery true but backup_retention_days 0 (which disables automated backups and PITR on RDS).",
+   "grader_messages_for_failed_checks": "D07: point-in-time recovery True, retention 0.0 days"
+  }
+ },
+ "POS_T1_01": {
+  "meta": {
+   "id": "POS_T1_01",
+   "set": "positive",
+   "task": "T1",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [],
+   "rationale": "separate AWS::EC2::SecurityGroupIngress resources (GroupId GetAtt), {{resolve:ssm:...}} AMI, Fn::Sub user data with heredoc, enable --now, Fn::Join https URL",
+   "path": "cases/positive/POS_T1_01.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T1.R1": [
+     true,
+     "key pair parameter ok; admin CIDR parameter used in SSH rule: True"
+    ],
+    "T1.R2": [
+     true,
+     "SSM dynamic reference"
+    ],
+    "T1.R3": [
+     true,
+     "instance type t3.micro"
+    ],
+    "T1.R4": [
+     true,
+     "HTTPS from anywhere present"
+    ],
+    "T1.R5": [
+     true,
+     "SSH rules: [{'proto': 'tcp', 'from': 22, 'to': 22, 'cidr': ('param', 'AdminIpCidr'), 'src': None}]"
+    ],
+    "T1.R6": [
+     true,
+     "only HTTPS and SSH rules"
+    ],
+    "T1.R7": [
+     true,
+     "user data components: {'httpd': True, 'mod_ssl': True, 'index': True, 'start': True, 'enable': True}"
+    ],
+    "T1.R8": [
+     true,
+     "uses default VPC"
+    ],
+    "T1.R9": [
+     true,
+     "public DNS output True; https URL output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "POS_T1_01",
+   "task": "T1",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "",
+   "app_probes_failed": "",
+   "description": "separate AWS::EC2::SecurityGroupIngress resources (GroupId GetAtt), {{resolve:ssm:...}} AMI, Fn::Sub user data with heredoc, enable --now, Fn::Join https URL",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "POS_T1_02": {
+  "meta": {
+   "id": "POS_T1_02",
+   "set": "positive",
+   "task": "T1",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [],
+   "rationale": "numeric IpProtocol '6', SecurityGroups by name (default VPC), AllowedValues instance-type parameter, Fn::Join user data, yum, restart, Fn::Sub variable map URL",
+   "path": "cases/positive/POS_T1_02.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T1.R1": [
+     true,
+     "key pair parameter ok; admin CIDR parameter used in SSH rule: True"
+    ],
+    "T1.R2": [
+     true,
+     "SSM parameter type with AL2023 path"
+    ],
+    "T1.R3": [
+     true,
+     "instance type t3.micro"
+    ],
+    "T1.R4": [
+     true,
+     "HTTPS from anywhere present"
+    ],
+    "T1.R5": [
+     true,
+     "SSH rules: [{'proto': '6', 'from': 22, 'to': 22, 'cidr': ('param', 'SshCidr'), 'src': None}]"
+    ],
+    "T1.R6": [
+     true,
+     "only HTTPS and SSH rules"
+    ],
+    "T1.R7": [
+     true,
+     "user data components: {'httpd': True, 'mod_ssl': True, 'index': True, 'start': True, 'enable': True}"
+    ],
+    "T1.R8": [
+     true,
+     "uses default VPC"
+    ],
+    "T1.R9": [
+     true,
+     "public DNS output True; https URL output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "POS_T1_02",
+   "task": "T1",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "",
+   "app_probes_failed": "",
+   "description": "numeric IpProtocol '6', SecurityGroups by name (default VPC), AllowedValues instance-type parameter, Fn::Join user data, yum, restart, Fn::Sub variable map URL",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "POS_T2_01": {
+  "meta": {
+   "id": "POS_T2_01",
+   "set": "positive",
+   "task": "T2",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [],
+   "rationale": "generated AWS::SecretsManager::Secret with dynamic references, EIPAssociation, separate ingress resources, one private route table per private subnet, Fn::GetAZs !Ref AWS::Region, string booleans, EnableDnsSupport omitted (default true)",
+   "path": "cases/positive/POS_T2_01.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T2.R1": [
+     true,
+     "VPC True cidr 10.0.0.0/16 dns None/True"
+    ],
+    "T2.R2": [
+     true,
+     "public ['PubA', 'PubB']: subnets in distinct Availability Zones [0, 1] | private ['PrivA', 'PrivB']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T2.R3": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PubA': True, 'PubB': True}"
+    ],
+    "T2.R4": [
+     true,
+     "private subnets with explicit route table and no IGW route: {'PrivA': True, 'PrivB': True}"
+    ],
+    "T2.R5": [
+     true,
+     "launch template components {'ami_param': True, 't3.micro': True, 'sg': True, 'userdata': True, 'no_launch_config': True}"
+    ],
+    "T2.R6": [
+     true,
+     "instance Web {'from_lt': True, 'public_subnet': True, 'eip': True}"
+    ],
+    "T2.R7": [
+     true,
+     "web SG WebSG: 80 True 443 True ssh-from-param True"
+    ],
+    "T2.R8": [
+     true,
+     "database {'mysql': True, 'class': True, 'private_subnets': True, 'not_public': True, 'encrypted': True}"
+    ],
+    "T2.R9": [
+     true,
+     "Secrets Manager dynamic reference"
+    ],
+    "T2.R10": [
+     true,
+     "only TCP 3306 from WebSG"
+    ],
+    "T2.R11": [
+     true,
+     "website URL output True; DB endpoint output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "POS_T2_01",
+   "task": "T2",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "",
+   "app_probes_failed": "",
+   "description": "generated AWS::SecretsManager::Secret with dynamic references, EIPAssociation, separate ingress resources, one private route table per private subnet, Fn::GetAZs !Ref AWS::Region, string booleans, EnableDnsSupport omitted (default true)",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "POS_T3_01": {
+  "meta": {
+   "id": "POS_T3_01",
+   "set": "positive",
+   "task": "T3",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [],
+   "rationale": "two NAT gateways and two private route tables, StepScaling policies with CloudWatch CPU alarms, Fn::Sub partition ARNs, separate AWS::IAM::Policy, NoEcho password, ForwardConfig listener, NetworkInterfaces without public IP, profile by Name",
+   "path": "cases/positive/POS_T3_01.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PubA', 'PubB']: subnets in distinct Availability Zones [0, 1] | private ['AppA', 'AppB']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PubA': True, 'PubB': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['NatA', 'NatB'] with EIP in public subnet [True, True]; private subnets default-routed to NAT and no IGW {'AppA': True, 'AppB': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['AlbSG'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['AppSG']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template AppLT {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "StepScaling policy with CPU alarm ['CpuHigh']"
+    ],
+    "T3.R10": [
+     true,
+     "bucket Photos block public access {'BlockPublicAcls': True, 'BlockPublicPolicy': True, 'IgnorePublicAcls': True, 'RestrictPublicBuckets': True}"
+    ],
+    "T3.R11": [
+     true,
+     "role AppRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (NoEcho parameter)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from AppSG"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "POS_T3_01",
+   "task": "T3",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "",
+   "app_probes_failed": "",
+   "description": "two NAT gateways and two private route tables, StepScaling policies with CloudWatch CPU alarms, Fn::Sub partition ARNs, separate AWS::IAM::Policy, NoEcho password, ForwardConfig listener, NetworkInterfaces without public IP, profile by Name",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "POS_T3_02": {
+  "meta": {
+   "id": "POS_T3_02",
+   "set": "positive",
+   "task": "T3",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [],
+   "rationale": "Block Public Access left at the post-2023 default, AWS::IAM::RolePolicy with upper-case S3: actions and Fn::Join ARN, MixedInstancesPolicy without overrides, SubnetMappings, inline flow-style SG rules, ManageMasterUserPassword, target tracking at exactly 70",
+   "path": "cases/positive/POS_T3_02.yaml"
+  },
+  "grade": {
+   "checks": {
+    "T3.R1": [
+     true,
+     "VPC 10.0.0.0/16 True | public ['PubA', 'PubB']: subnets in distinct Availability Zones [0, 1] | private ['AppA', 'AppB']: subnets in distinct Availability Zones [0, 1]"
+    ],
+    "T3.R2": [
+     true,
+     "IGW attached True; public subnets routed to IGW {'PubA': True, 'PubB': True}"
+    ],
+    "T3.R3": [
+     true,
+     "NAT gateways ['Nat'] with EIP in public subnet [True]; private subnets default-routed to NAT and no IGW {'AppA': True, 'AppB': True}"
+    ],
+    "T3.R4": [
+     true,
+     "ALB {'internet_facing': True, 'public_subnets': True, 'listener_80_forward': True, 'health_check': True}"
+    ],
+    "T3.R5": [
+     true,
+     "ALB security groups ['AlbSG'] allow TCP 80 from anywhere: True"
+    ],
+    "T3.R6": [
+     true,
+     "web SG ['AppSG']: TCP 80 from ALB SG True; open-to-world rules []"
+    ],
+    "T3.R7": [
+     true,
+     "launch template AppLT {'ami_param': True, 't3.micro': True, 'web_sg': True, 'instance_profile': True, 'no_public_ip': True, 'no_launch_config': True}"
+    ],
+    "T3.R8": [
+     true,
+     "ASG {'launch_template': True, 'private_subnets': True, 'min2': True, 'max4': True, 'desired2': True, 'target_group': True, 'elb_health': True}"
+    ],
+    "T3.R9": [
+     true,
+     "target tracking metric ASGAverageCPUUtilization target 70.0"
+    ],
+    "T3.R10": [
+     true,
+     "bucket Photos uses the default Block Public Access configuration (all enabled)"
+    ],
+    "T3.R11": [
+     true,
+     "role AppRole instance profile True put True get True violations []"
+    ],
+    "T3.R12": [
+     true,
+     "database {'mysql': True, 'class': True, 'multi_az': True, 'private_subnets': True, 'not_public': True, 'encrypted': True, 'password': True} (ManageMasterUserPassword)"
+    ],
+    "T3.R13": [
+     true,
+     "only TCP 3306 from AppSG"
+    ],
+    "T3.R14": [
+     true,
+     "ALB custom origin http-only True; viewer policy redirect-to-https"
+    ],
+    "T3.R15": [
+     true,
+     "no fixed names, AMI IDs or AZ names"
+    ],
+    "T3.R16": [
+     true,
+     "CloudFront domain output True; ALB DNS output True"
+    ]
+   },
+   "lint_errors": 0,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {},
+  "row": {
+   "id": "POS_T3_02",
+   "task": "T3",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": 0,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "",
+   "app_probes_failed": "",
+   "description": "Block Public Access left at the post-2023 default, AWS::IAM::RolePolicy with upper-case S3: actions and Fn::Join ARN, MixedInstancesPolicy without overrides, SubnetMappings, inline flow-style SG rules, ManageMasterUserPassword, target tracking at exactly 70",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "POS_APP_01": {
+  "meta": {
+   "id": "POS_APP_01",
+   "set": "positive",
+   "task": "APP",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [],
+   "rationale": "strict DB-API cursor use, instr()-based search (literal containment), character-loop sanitiser with rpartition basename, strftime Z timestamp, cursor.description dicts",
+   "path": "cases/positive/POS_APP_01.py"
+  },
+  "grade": {
+   "checks": {
+    "A01": [
+     true,
+     "ok"
+    ],
+    "A02": [
+     true,
+     "ok"
+    ],
+    "A03": [
+     true,
+     "ok"
+    ],
+    "A04": [
+     true,
+     "ok"
+    ],
+    "A05": [
+     true,
+     "ok"
+    ],
+    "A06": [
+     true,
+     "ok"
+    ],
+    "A07": [
+     true,
+     "ok"
+    ],
+    "A08": [
+     true,
+     "ok"
+    ],
+    "A09": [
+     true,
+     "ok"
+    ],
+    "A10": [
+     true,
+     "ok"
+    ],
+    "A11": [
+     true,
+     "ok"
+    ],
+    "A12": [
+     true,
+     "ok"
+    ],
+    "A13": [
+     true,
+     "ok"
+    ],
+    "A14": [
+     true,
+     "ok"
+    ],
+    "A15": [
+     true,
+     "ok"
+    ],
+    "A16": [
+     true,
+     "ok"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {
+   "P1_injection": true,
+   "P2_literal": true,
+   "P3_dicts": true,
+   "P4_posix_base": true,
+   "P5_uuid4": true,
+   "P6_no_client": true,
+   "P7_unicode_ci": false
+  },
+  "row": {
+   "id": "POS_APP_01",
+   "task": "APP",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "",
+   "app_probes_failed": "",
+   "description": "strict DB-API cursor use, instr()-based search (literal containment), character-loop sanitiser with rpartition basename, strftime Z timestamp, cursor.description dicts",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "POS_APP_02": {
+  "meta": {
+   "id": "POS_APP_02",
+   "set": "positive",
+   "task": "APP",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [],
+   "rationale": "repository class, LIKE with ESCAPE (literal containment), ntpath.basename + regex sanitiser, isoformat timestamp, type() expiry check",
+   "path": "cases/positive/POS_APP_02.py"
+  },
+  "grade": {
+   "checks": {
+    "A01": [
+     true,
+     "ok"
+    ],
+    "A02": [
+     true,
+     "ok"
+    ],
+    "A03": [
+     true,
+     "ok"
+    ],
+    "A04": [
+     true,
+     "ok"
+    ],
+    "A05": [
+     true,
+     "ok"
+    ],
+    "A06": [
+     true,
+     "ok"
+    ],
+    "A07": [
+     true,
+     "ok"
+    ],
+    "A08": [
+     true,
+     "ok"
+    ],
+    "A09": [
+     true,
+     "ok"
+    ],
+    "A10": [
+     true,
+     "ok"
+    ],
+    "A11": [
+     true,
+     "ok"
+    ],
+    "A12": [
+     true,
+     "ok"
+    ],
+    "A13": [
+     true,
+     "ok"
+    ],
+    "A14": [
+     true,
+     "ok"
+    ],
+    "A15": [
+     true,
+     "ok"
+    ],
+    "A16": [
+     true,
+     "ok"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true
+  },
+  "app_probes": {
+   "P1_injection": true,
+   "P2_literal": true,
+   "P3_dicts": true,
+   "P4_posix_base": true,
+   "P5_uuid4": true,
+   "P6_no_client": true,
+   "P7_unicode_ci": false
+  },
+  "row": {
+   "id": "POS_APP_02",
+   "task": "APP",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "",
+   "app_probes_failed": "",
+   "description": "repository class, LIKE with ESCAPE (literal containment), ntpath.basename + regex sanitiser, isoformat timestamp, type() expiry check",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "POS_DES_01": {
+  "meta": {
+   "id": "POS_DES_01",
+   "set": "positive",
+   "task": "DES",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [],
+   "rationale": "m6g.large fleet (2-4) across 2 AZs, two NAT gateways, no ElastiCache, S3 request lines costed",
+   "path": "cases/positive/POS_DES_01.json"
+  },
+  "grade": {
+   "checks": {
+    "D01": [
+     true,
+     "missing keys []; unknown price-sheet items []; instance type valid True"
+    ],
+    "D02": [
+     true,
+     "stated proposed 580.69 vs recomputed 580.69"
+    ],
+    "D03": [
+     true,
+     "stated original 133.21 vs correct 133.21"
+    ],
+    "D04": [
+     true,
+     "recomputed proposed cost 580.69 vs budget 750"
+    ],
+    "D05": [
+     true,
+     "asg_max 4.0 x 320 rps = 1280.0 vs origin peak 750"
+    ],
+    "D06": [
+     true,
+     "asg_min 2.0, AZs 2.0, database multi_az True"
+    ],
+    "D07": [
+     true,
+     "point-in-time recovery True, retention 7.0 days"
+    ],
+    "D08": [
+     true,
+     "costed m6g.large instance-hours 1520 vs required 1520.0; RDS costed consistently True"
+    ],
+    "D09": [
+     true,
+     "CloudFront GB 2000 (need 2000), request units 4000 (need 4000)"
+    ],
+    "D10": [
+     true,
+     "missing []"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true,
+   "recomputed_proposed": 580.6949999999999
+  },
+  "app_probes": {},
+  "row": {
+   "id": "POS_DES_01",
+   "task": "DES",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "",
+   "app_probes_failed": "",
+   "description": "m6g.large fleet (2-4) across 2 AZs, two NAT gateways, no ElastiCache, S3 request lines costed",
+   "grader_messages_for_failed_checks": ""
+  }
+ },
+ "POS_DES_02": {
+  "meta": {
+   "id": "POS_DES_02",
+   "set": "positive",
+   "task": "DES",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "expect_fail": [],
+   "probes": [],
+   "rationale": "t3.small fleet (3-12) across 3 AZs, db.r6g.large Multi-AZ instead of a cache, single NAT, CloudFront transfer split over two lines",
+   "path": "cases/positive/POS_DES_02.json"
+  },
+  "grade": {
+   "checks": {
+    "D01": [
+     true,
+     "missing keys []; unknown price-sheet items []; instance type valid True"
+    ],
+    "D02": [
+     true,
+     "stated proposed 704.6 vs recomputed 704.6"
+    ],
+    "D03": [
+     true,
+     "stated original 133.21 vs correct 133.21"
+    ],
+    "D04": [
+     true,
+     "recomputed proposed cost 704.6 vs budget 750"
+    ],
+    "D05": [
+     true,
+     "asg_max 12.0 x 80 rps = 960.0 vs origin peak 750"
+    ],
+    "D06": [
+     true,
+     "asg_min 3.0, AZs 3.0, database multi_az True"
+    ],
+    "D07": [
+     true,
+     "point-in-time recovery True, retention 14.0 days"
+    ],
+    "D08": [
+     true,
+     "costed t3.small instance-hours 2610 vs required 2610.0; RDS costed consistently True"
+    ],
+    "D09": [
+     true,
+     "CloudFront GB 2000 (need 2000), request units 4000 (need 4000)"
+    ],
+    "D10": [
+     true,
+     "missing []"
+    ]
+   },
+   "lint_errors": null,
+   "lint_rules": [],
+   "parse_ok": true,
+   "recomputed_proposed": 704.603
+  },
+  "app_probes": {},
+  "row": {
+   "id": "POS_DES_02",
+   "task": "DES",
+   "category": "alternative valid",
+   "expected": "accept",
+   "basis": "letter",
+   "grader_verdict": "accept",
+   "outcome": "TA",
+   "lint_errors": null,
+   "lint_rules": "",
+   "failed_checks": "",
+   "expected_failing_checks": "",
+   "missed_checks": "",
+   "spurious_failures": "",
+   "probes": "",
+   "app_probes_failed": "",
+   "description": "t3.small fleet (3-12) across 3 AZs, db.r6g.large Multi-AZ instead of a cache, single NAT, CloudFront transfer split over two lines",
+   "grader_messages_for_failed_checks": ""
+  }
+ }
+}

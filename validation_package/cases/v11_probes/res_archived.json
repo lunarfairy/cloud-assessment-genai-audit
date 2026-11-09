@@ -1,0 +1,64 @@
+{
+ "P19_T2_ok": {
+  "accepted": false,
+  "failed": [
+   "T2.R8"
+  ],
+  "lint": 0
+ },
+ "P19_T2_bad": {
+  "accepted": false,
+  "failed": [
+   "T2.R8"
+  ],
+  "lint": 0
+ },
+ "P19_T3_ok": {
+  "accepted": false,
+  "failed": [
+   "T3.R1"
+  ],
+  "lint": 0
+ },
+ "P19_T3_bad": {
+  "accepted": false,
+  "failed": [
+   "T3.R1"
+  ],
+  "lint": 0
+ },
+ "P20_T1_ok": {
+  "accepted": false,
+  "failed": [
+   "T1.R1",
+   "T1.R4",
+   "T1.R5",
+   "T1.R6"
+  ],
+  "lint": 0
+ },
+ "P20_T1_bad": {
+  "accepted": false,
+  "failed": [
+   "T1.R1",
+   "T1.R4",
+   "T1.R5",
+   "T1.R6"
+  ],
+  "lint": 0
+ },
+ "P21_T3_ok": {
+  "accepted": false,
+  "failed": [
+   "T3.R15"
+  ],
+  "lint": 0
+ },
+ "P21_T3_bad": {
+  "accepted": false,
+  "failed": [
+   "T3.R15"
+  ],
+  "lint": 0
+ }
+}

@@ -1,0 +1,629 @@
+--- v1.0/app_runner.py
++++ v1.1/app_runner.py
+@@ -4,6 +4,7 @@
+ from datetime import datetime, timezone
+ 
+ TESTS = {}
++MODPATH = [None]  # PATCH
+ 
+ 
+ def test(tid):
+@@ -68,6 +69,7 @@
+     assert [x["id"] for x in r] == [i1, i2], "not ordered by id ascending"
+     assert set(r[0].keys()) == {"id", "title", "description", "s3_key", "uploaded_at"}, "row keys %s" % list(r[0].keys())
+     assert r[0]["s3_key"] == "photos/a/1.jpg"
++    assert all(type(x) is dict for x in r), "rows are not dict objects"  # PATCH PA1
+ 
+ 
+ @test("A04")
+@@ -95,7 +97,7 @@
+     c = conn(); m.init_db(c)
+     m.save_photo_metadata(c, "alpha", "first", "k1")
+     m.save_photo_metadata(c, "beta", "second", "k2")
+-    for term in ["zzz' OR '1'='1", "zzz') OR 1=1 --", "\" OR \"\"=\""]:
++    for term in ["zzz' OR '1'='1", "zzz') OR 1=1 --", "\" OR \"\"=\"", "a' or 1=1 --\"", "\"' or 1=1 --"]:  # PATCH PA2
+         try:
+             r = m.search_photos(c, term)
+         except Exception as e:
+@@ -120,6 +122,8 @@
+     s3 = StubS3()
+     k = m.upload_photo(s3, "bkt", "holiday.jpg", b"\xff\xd8data", "image/jpeg")
+     assert re.fullmatch(r"photos/[0-9a-f]{32}/holiday\.jpg", k or ""), "key %r" % k
++    import uuid as _uuid
++    assert _uuid.UUID(k.split("/")[1]).version == 4, "key segment is not a uuid4"  # PATCH PA3
+     puts = s3.named("put_object")
+     assert len(puts) == 1, "put_object called %d times" % len(puts)
+     kw = puts[0][2]
+@@ -133,6 +137,17 @@
+     for fn, safe in cases.items():
+         k = m.upload_photo(s3, "b", fn, b"x", "image/png")
+         assert k.split("/", 2)[-1] == safe and k.count("/") == 2, "filename %r gave key %r (expected safe name %r)" % (fn, k, safe)
++    import os as _os, posixpath as _pp  # PATCH PA4
++    _saved = _os.path
++    _os.path = _pp
++    try:
++        _spec = importlib.util.spec_from_file_location("photoapp_posix", MODPATH[0])
++        _mm = importlib.util.module_from_spec(_spec)
++        _spec.loader.exec_module(_mm)
++        _k = _mm.upload_photo(StubS3(), "b", "C:\\Users\\me\\my photo (1).png", b"x", "image/png")
++    finally:
++        _os.path = _saved
++    assert _k.split("/", 2)[-1] == "my_photo__1_.png", "sanitiser depends on the host path flavour: %r" % _k
+ 
+ 
+ @test("A10")
+@@ -274,6 +289,10 @@
+ def t_creds(m, src):
+     low = src.lower()
+     bad = [p for p in ["aws_access_key_id", "aws_secret_access_key", "akia", "boto3.client(", "boto3.resource(", "boto3.session"] if p in low]
++    for _p in [r"import_module\(\s*['\"]boto3", r"\.client\(\s*['\"]s3['\"]", r"\b(AKIA|ASIA)[A-Z0-9]{8,}", r"['\"](AKIA|ASIA)['\"]",
++               r"(?<![A-Za-z0-9/+])[A-Za-z0-9/+]{40}(?![A-Za-z0-9/+])"]:  # PATCH PA6
++        if re.search(_p, src):
++            bad.append(_p)
+     assert not bad, "credentials or client construction found: %s" % bad
+ 
+ 
+@@ -282,6 +301,7 @@
+ 
+ def main():
+     path, out = sys.argv[1], sys.argv[2]
++    MODPATH[0] = path
+     which = sys.argv[3].split(",") if len(sys.argv) > 3 else sorted(TESTS)
+     res = {}
+     src = open(path, encoding="utf-8", errors="replace").read()
+--- v1.0/checks_des.py
++++ v1.1/checks_des.py
+@@ -65,10 +65,9 @@
+         if not isinstance(it, dict) or it.get("item") not in PRICES or not isinstance(PRICES.get(it.get("item")), (int, float)):
+             bad_items.append(it.get("item") if isinstance(it, dict) else str(it)[:30])
+         else:
+-            try:
+-                float(it.get("quantity"))
+-            except Exception:
+-                bad_items.append("%s(quantity)" % it.get("item"))
++            q = it.get("quantity")
++            if isinstance(q, bool) or not isinstance(q, (int, float)) or not q > 0:  # PATCH P15
++                bad_items.append("%s(quantity %r)" % (it.get("item"), q))
+     comp = d.get("compute") if isinstance(d.get("compute"), dict) else {}
+     db = d.get("database") if isinstance(d.get("database"), dict) else {}
+     it_ok = comp.get("instance_type") in CAP
+@@ -115,6 +114,9 @@
+         need_hrs = amin * 730 + max(0, need - amin) * PEAK_HOURS
+     rds_items = [it for it in valid_bom if it["item"].startswith("rds_mysql_")]
+     rds_ok = bool(rds_items) and (not db.get("multi_az") or any(it.get("multi_az") is True for it in rds_items))
++    _rr = num(db.get("read_replicas")) or 0  # PATCH P15
++    _rds_hours = sum(float(it["quantity"]) for it in rds_items if it["item"].endswith("_hour") and isinstance(it.get("quantity"), (int, float)))
++    rds_ok = rds_ok and _rds_hours >= 730 * (1 + _rr) - 1e-6
+     c["D08"] = (need_hrs is not None and hrs >= need_hrs - 1e-6 and rds_ok,
+                 "costed %s instance-hours %.0f vs required %s; RDS costed consistently %s" % (itype, hrs, need_hrs, rds_ok))
+     # D09 CDN demand costed
+@@ -126,6 +128,9 @@
+     low = j.lower()
+     have = {p: re.search(rx, low) is not None for p, rx in PILLARS.items()}
+     c["D10"] = (all(have.values()), "pillars named: %s" % [p for p, v in have.items() if not v] and ("missing %s" % [p for p, v in have.items() if not v]) or "all six pillars named")
++    _wc = len(str(d.get("justification") or "").split())
++    if _wc > 800:  # PATCH P15
++        c["D10"] = (False, "justification has %d words (limit 800)" % _wc)
+     out["word_count"] = len(str(d.get("justification") or "").split())
+     out["checks"] = {k: [bool(v[0]), str(v[1])[:300]] for k, v in c.items()}
+     out["design"] = {"compute": comp, "database": db}
+--- v1.0/checks_iac.py
++++ v1.1/checks_iac.py
+@@ -122,8 +122,23 @@
+         return default
+ 
+ 
++_CUR = [None]
++
++
+ def truthy(v):
++    # PATCH P1: a Ref to a parameter is resolved to its Default (was: any Ref counted as false)
++    if isinstance(v, dict) and _CUR[0] is not None:
++        v = _CUR[0].literal_or_default(v)
+     return v is True or (isinstance(v, str) and v.strip().lower() == "true")
++
++
++def lv(v):
++    # PATCH P19 (v1.1): literal value, or the Default of a referenced parameter, as a string
++    if isinstance(v, dict) and _CUR[0] is not None:
++        x = _CUR[0].literal_or_default(v)
++        if x is not None:
++            return flat(x)
++    return flat(v)
+ 
+ 
+ def as_list(v):
+@@ -138,6 +153,30 @@
+         self.R = tpl.get("Resources", {}) or {}
+         self.P = tpl.get("Parameters", {}) or {}
+         self.O = tpl.get("Outputs", {}) or {}
++        _CUR[0] = self
++        # PATCH P3: drop resources whose Condition evaluates to false with parameter defaults
++        conds = tpl.get("Conditions", {}) or {}
++
++        def ev(x, depth=0):
++            if depth > 20 or not (isinstance(x, dict) and len(x) == 1):
++                return None
++            k, a = next(iter(x.items()))
++            if k == "Condition":
++                return ev(conds.get(a), depth + 1)
++            if k == "Fn::Equals" and isinstance(a, list) and len(a) == 2:
++                vals = [self.literal_or_default(i) if isinstance(i, dict) else i for i in a]
++                return None if None in vals else str(vals[0]) == str(vals[1])
++            if k == "Fn::Not" and isinstance(a, list) and a:
++                v = ev(a[0], depth + 1)
++                return None if v is None else (not v)
++            if k in ("Fn::And", "Fn::Or") and isinstance(a, list):
++                vs = [ev(i, depth + 1) for i in a]
++                return None if None in vs else (all(vs) if k == "Fn::And" else any(vs))
++            return None
++        self.cond_false = [lid for lid, r in list(self.R.items()) if isinstance(r, dict) and isinstance(r.get("Condition"), str)
++                           and ev(conds.get(r["Condition"])) is False]
++        for lid in self.cond_false:
++            del self.R[lid]
+ 
+     def of(self, typ):
+         return {k: v for k, v in self.R.items() if isinstance(v, dict) and v.get("Type") == typ}
+@@ -365,6 +404,8 @@
+         return True, "Secrets Manager dynamic reference"
+     r = ref_of(pw)
+     if r and r in T.P and truthy((T.P[r] or {}).get("NoEcho")):
++        if (T.P[r] or {}).get("Default") is not None:  # PATCH P2
++            return False, "NoEcho parameter has a literal Default (plain-text password in the template)"
+         return True, "NoEcho parameter"
+     if r and T.typ(r) == "AWS::SecretsManager::Secret":
+         return False, "Ref to a secret returns its ARN, not the password"
+@@ -405,7 +446,33 @@
+ def _t1_sgs(T, inst):
+     p = T.props(inst)
+     sgs = _sg_ids(p.get("SecurityGroupIds")) + _sg_ids(p.get("SecurityGroups"))
++    for ni in as_list(p.get("NetworkInterfaces")):  # PATCH P20 (v1.1): interface-level security groups
++        if isinstance(ni, dict):
++            sgs += _sg_ids(ni.get("GroupSet"))
+     return [s for s in sgs if T.typ(s) == "AWS::EC2::SecurityGroup"]
++
++
++def _normalise_userdata(ud):  # PATCH P12
++    ud = re.sub(r"\\\r?\n[ \t]*", " ", ud)
++    if ud.lstrip().lower().startswith("#cloud-config"):
++        try:
++            import yaml
++            d = yaml.safe_load(ud) or {}
++        except Exception:
++            return ud
++        if not isinstance(d, dict):
++            return ud
++        lines = []
++        pk = [str(x) for x in as_list(d.get("packages")) if isinstance(x, str)]
++        if pk:
++            lines.append("dnf install -y " + " ".join(pk))
++        for wf in as_list(d.get("write_files")):
++            if isinstance(wf, dict):
++                lines.append("write " + str(wf.get("path")))
++        for rc in as_list(d.get("runcmd")):
++            lines.append(" ".join(map(str, rc)) if isinstance(rc, list) else str(rc))
++        return ud + "\n" + "\n".join(lines)
++    return ud
+ 
+ 
+ def t1_checks(T):
+@@ -450,7 +517,7 @@
+     res["T1.R6"] = (bool(rules) and not other and not wide_ssh and len(https) >= 1,
+                     "extra inbound rules: %s" % (other + wide_ssh)[:3] if (other or wide_ssh) else "only HTTPS and SSH rules")
+     # R7
+-    ud = _userdata(T, p).lower()
++    ud = _normalise_userdata(_userdata(T, p)).lower()  # PATCH P12
+     c = {
+         "httpd": re.search(r"(dnf|yum)\s+(-y\s+)?install[^\n]*\bhttpd\b", ud) is not None,
+         "mod_ssl": "mod_ssl" in ud,
+@@ -462,6 +529,8 @@
+     # R8
+     net = [lid for lid, r in T.R.items() if isinstance(r, dict) and r.get("Type") in ("AWS::EC2::VPC", "AWS::EC2::Subnet", "AWS::EC2::InternetGateway", "AWS::EC2::RouteTable")]
+     res["T1.R8"] = (not net, "creates network resources %s" % net if net else "uses default VPC")
++    if "Fn::ImportValue" in json.dumps(T.t, default=str):  # PATCH P18
++        res["T1.R8"] = (False, "imports a cross-stack export (Fn::ImportValue); a fresh account has no exports, so the stack cannot deploy")
+     # R9
+     outs = [flat((o or {}).get("Value")) for o in T.O.values() if isinstance(o, dict)]
+     dns = any("${%s.PublicDnsName}" % inst in o for o in outs)
+@@ -475,7 +544,7 @@
+     vpcs = list(T.of("AWS::EC2::VPC"))
+     vp = T.props(vpcs[0]) if vpcs else {}
+     dns_support = vp.get("EnableDnsSupport") is None or truthy(vp.get("EnableDnsSupport"))  # AWS default: true
+-    res["T2.R1"] = (bool(vpcs) and flat(vp.get("CidrBlock")) == "10.0.0.0/16" and dns_support and truthy(vp.get("EnableDnsHostnames")),
++    res["T2.R1"] = (bool(vpcs) and lv(vp.get("CidrBlock")) == "10.0.0.0/16" and dns_support and truthy(vp.get("EnableDnsHostnames")),
+                     "VPC %s cidr %s dns %s/%s" % (bool(vpcs), flat(vp.get("CidrBlock")), vp.get("EnableDnsSupport"), vp.get("EnableDnsHostnames")))
+     subnets = list(T.of("AWS::EC2::Subnet"))
+     pub = [s for s in subnets if truthy(T.props(s).get("MapPublicIpOnLaunch"))]
+@@ -500,6 +569,7 @@
+         c = {"ami_param": bool(img and T.param_type(img) == "AWS::EC2::Image::Id"),
+              "t3.micro": str(T.literal_or_default(d.get("InstanceType"))) == "t3.micro",
+              "sg": bool(_lt_sgs(T, lt)),
++             "no_template_level_sg_with_network_interfaces": not (d.get("NetworkInterfaces") and (d.get("SecurityGroupIds") or d.get("SecurityGroups"))),  # PATCH P16 (EC2 rejects SecurityGroupIds alongside NetworkInterfaces)
+              "userdata": ("httpd" in flat(d.get("UserData")).lower() and "php" in flat(d.get("UserData")).lower()),
+              "no_launch_config": not lc}
+         ok5, m5 = all(c.values()), "launch template components %s" % c
+@@ -527,13 +597,13 @@
+     res["T2.R6"] = (ok6, m6)
+     # R7
+     if web_sg is None and insts:
+-        cand = _sg_ids(T.props(insts[0]).get("SecurityGroupIds"))
++        cand = _sg_ids(T.props(insts[0]).get("SecurityGroupIds")) + [g for ni in as_list(T.props(insts[0]).get("NetworkInterfaces")) if isinstance(ni, dict) for g in _sg_ids(ni.get("GroupSet"))]  # PATCH P20
+         web_sg = cand[0] if cand else None
+     ok7, m7 = False, "no web security group"
+     if web_sg:
+         rules = T.sg_rules(web_sg)
+-        h80 = any(T.covers(r, 80) and T.from_anywhere(r) for r in rules)
+-        h443 = any(T.covers(r, 443) and T.from_anywhere(r) for r in rules)
++        h80 = any(T.covers(r, 80) and r["cidr"] == ("lit", "0.0.0.0/0") for r in rules)  # PATCH P5
++        h443 = any(T.covers(r, 443) and r["cidr"] == ("lit", "0.0.0.0/0") for r in rules)
+         ssh = [r for r in rules if T.covers(r, 22)]
+         ssh_ok = bool(ssh) and all(r["cidr"] and r["cidr"][0] == "param" for r in ssh)
+         ok7, m7 = h80 and h443 and ssh_ok, "web SG %s: 80 %s 443 %s ssh-from-param %s" % (web_sg, h80, h443, ssh_ok)
+@@ -546,11 +616,17 @@
+     else:
+         db = dbs[0]; p = T.props(db)
+         sn = _db_subnets(T, db) or []
+-        c = {"mysql": flat(p.get("Engine")).lower() == "mysql", "class": flat(p.get("DBInstanceClass")) == "db.t3.micro",
++        c = {"mysql": lv(p.get("Engine")).lower() == "mysql", "class": lv(p.get("DBInstanceClass")) == "db.t3.micro",
+              "private_subnets": len(sn) >= 2 and set(sn) <= set(priv) and all(T.route_private(s) for s in sn),
+              "not_public": not truthy(p.get("PubliclyAccessible")), "encrypted": truthy(p.get("StorageEncrypted"))}
+         res["T2.R8"] = (all(c.values()), "database %s" % c)
+         res["T2.R9"] = _db_password_ok(T, p)
++        for odb in dbs[1:]:  # PATCH P4
++            op = T.props(odb)
++            if truthy(op.get("PubliclyAccessible")) or op.get("DBSubnetGroupName") is None or not truthy(op.get("StorageEncrypted")):
++                res["T2.R8"] = (False, "additional DB instance %s is public or unencrypted" % odb)
++            if not _db_password_ok(T, op)[0]:
++                res["T2.R9"] = (False, "additional DB instance %s: %s" % (odb, _db_password_ok(T, op)[1]))
+         dsg = _db_sgs(T, db)
+         if not dsg or not web_sg:
+             res["T2.R10"] = (False, "database security group or web security group missing")
+@@ -604,11 +680,15 @@
+     asg_sn = [s for s in asg_sn if s]
+     pub = alb_sn if alb_sn else [s for s in subnets if T.route_public(s)]
+     priv = asg_sn if asg_sn else [s for s in subnets if s not in pub]
++    # PATCH P14: structural private subnets (not public by routing or public-IP mapping), independent of the ASG
++    priv_struct = [s for s in subnets if s not in pub and not T.route_public(s) and not truthy(T.props(s).get("MapPublicIpOnLaunch"))]
++    if len(priv_struct) < 2:
++        priv_struct = priv
+     # R1
+     ok_p, m_p = T.distinct_getazs(pub)
+-    ok_q, m_q = T.distinct_getazs(priv)
+-    vpc_ok = any(flat(T.props(v).get("CidrBlock")) == "10.0.0.0/16" for v in T.of("AWS::EC2::VPC"))
+-    res["T3.R1"] = (vpc_ok and ok_p and ok_q and not (set(pub) & set(priv)), "VPC 10.0.0.0/16 %s | public %s: %s | private %s: %s" % (vpc_ok, pub, m_p, priv, m_q))
++    ok_q, m_q = T.distinct_getazs(priv_struct)
++    vpc_ok = any(lv(T.props(v).get("CidrBlock")) == "10.0.0.0/16" for v in T.of("AWS::EC2::VPC"))
++    res["T3.R1"] = (vpc_ok and ok_p and ok_q and not (set(pub) & set(priv_struct)), "VPC 10.0.0.0/16 %s | public %s: %s | private %s: %s" % (vpc_ok, pub, m_p, priv_struct, m_q))
+     # R2
+     ok2 = T.igw_attached() and len(pub) >= 2 and all(T.route_public(s) for s in pub)
+     res["T3.R2"] = (ok2, "IGW attached %s; public subnets routed to IGW %s" % (T.igw_attached(), {s: T.route_public(s) for s in pub}))
+@@ -619,8 +699,8 @@
+         p = T.props(n)
+         alloc = ref_of(p.get("AllocationId"))
+         nat_ok.append(alloc in T.of("AWS::EC2::EIP") and T.route_public(ref_of(p.get("SubnetId"))))
+-    ok3 = bool(nats) and all(nat_ok) and len(priv) >= 2 and all(T.route_nat(s) for s in priv)
+-    res["T3.R3"] = (ok3, "NAT gateways %s with EIP in public subnet %s; private subnets default-routed to NAT and no IGW %s" % (nats, nat_ok, {s: T.route_nat(s) for s in priv}))
++    ok3 = bool(nats) and all(nat_ok) and len(priv_struct) >= 2 and all(T.route_nat(s) for s in priv_struct)
++    res["T3.R3"] = (ok3, "NAT gateways %s with EIP in public subnet %s; private subnets default-routed to NAT and no IGW %s" % (nats, nat_ok, {s: T.route_nat(s) for s in priv_struct}))
+     # R4
+     tgs = T.of("AWS::ElasticLoadBalancingV2::TargetGroup")
+     lst = T.of("AWS::ElasticLoadBalancingV2::Listener")
+@@ -647,7 +727,7 @@
+         hc = False
+         if fwd_tg:
+             tp = T.props(fwd_tg)
+-            hc = flat(tp.get("HealthCheckPath")) == "/health" and flat(tp.get("HealthCheckProtocol") or "HTTP").upper() == "HTTP"
++            hc = lv(tp.get("HealthCheckPath")) == "/health" and flat(tp.get("HealthCheckProtocol") or "HTTP").upper() == "HTTP"
+         ok_sn, _ = T.distinct_getazs(alb_sn)
+         c = {"internet_facing": scheme == "internet-facing", "public_subnets": len(alb_sn) >= 2 and ok_sn and all(T.route_public(s) for s in alb_sn),
+              "listener_80_forward": l_ok, "health_check": hc}
+@@ -655,7 +735,7 @@
+     res["T3.R4"] = (ok4, m4)
+     # R5
+     alb_sgs = [s for s in _sg_ids(T.props(alb).get("SecurityGroups"))] if alb else []
+-    ok5 = any(any(T.covers(r, 80) and T.from_anywhere(r) for r in T.sg_rules(s)) for s in alb_sgs)
++    ok5 = any(any(T.covers(r, 80) and r["cidr"] == ("lit", "0.0.0.0/0") for r in T.sg_rules(s)) for s in alb_sgs)  # PATCH P5
+     res["T3.R5"] = (ok5, "ALB security groups %s allow TCP 80 from anywhere: %s" % (alb_sgs, ok5))
+     # R7 (launch template) - computed before R6 because it identifies the web SG
+     lts = list(T.of("AWS::EC2::LaunchTemplate"))
+@@ -678,9 +758,15 @@
+         prof_ref = ref_of(prof.get("Arn")) or ref_of(prof.get("Name"))
+         pub_ip = any(truthy((ni or {}).get("AssociatePublicIpAddress")) for ni in as_list(d.get("NetworkInterfaces")) if isinstance(ni, dict))
+         c = {"ami_param": bool(img and T.param_type(img) == "AWS::EC2::Image::Id"),
+-             "t3.micro": str(T.literal_or_default(d.get("InstanceType"))) == "t3.micro",
+-             "web_sg": bool(web_sgs), "instance_profile": prof_ref in T.of("AWS::IAM::InstanceProfile"),
+-             "no_public_ip": not pub_ip and not any(truthy(T.props(s).get("MapPublicIpOnLaunch")) for s in priv),
++             "t3.micro": str(T.literal_or_default(d.get("InstanceType"))) == "t3.micro" and all(  # PATCH P9
++                 lv(o.get("InstanceType")) == "t3.micro" for o in as_list(((T.props(asg).get("MixedInstancesPolicy") or {})
++                 .get("LaunchTemplate") or {}).get("Overrides")) if isinstance(o, dict) and o.get("InstanceType") is not None),
++             "web_sg": bool(web_sgs),
++             "no_template_level_sg_with_network_interfaces": not (d.get("NetworkInterfaces") and (d.get("SecurityGroupIds") or d.get("SecurityGroups"))),  # PATCH P16 (EC2 rejects SecurityGroupIds alongside NetworkInterfaces)
++             "instance_profile": prof_ref in T.of("AWS::IAM::InstanceProfile"),
++             "no_public_ip": not pub_ip and (any((ni or {}).get("AssociatePublicIpAddress") is not None and not truthy((ni or {}).get("AssociatePublicIpAddress"))
++                                                  for ni in as_list(d.get("NetworkInterfaces")) if isinstance(ni, dict))
++                                              or not any(truthy(T.props(s).get("MapPublicIpOnLaunch")) for s in priv)),  # PATCH P14
+              "no_launch_config": not lcs}
+         ok7, m7 = all(c.values()), "launch template %s %s" % (lt, c)
+     res["T3.R7"] = (ok7, m7)
+@@ -701,9 +787,24 @@
+              "min2": to_int(T.literal_or_default(p.get("MinSize"))) == 2, "max4": to_int(T.literal_or_default(p.get("MaxSize"))) == 4,
+              "desired2": to_int(T.literal_or_default(p.get("DesiredCapacity"))) == 2,
+              "target_group": bool(fwd_tg) and fwd_tg in [ref_of(x) for x in as_list(p.get("TargetGroupARNs"))],
+-             "elb_health": flat(p.get("HealthCheckType")).upper() == "ELB"}
++             "elb_health": lv(p.get("HealthCheckType")).upper() == "ELB"}
+         ok8, m8 = all(c.values()), "ASG %s" % c
+     res["T3.R8"] = (ok8, m8)
++    for oasg in asgs[1:]:  # PATCH P4
++        op = T.props(oasg)
++        osn = [ref_of(x) for x in as_list(op.get("VPCZoneIdentifier")) if ref_of(x)]
++        if not (len(osn) >= 2 and all(T.route_private(s) for s in osn)) or flat(op.get("HealthCheckType")).upper() != "ELB":
++            res["T3.R8"] = (False, "additional Auto Scaling group %s is not a private, ELB-checked web tier" % oasg)
++        oltp = op.get("LaunchTemplate") or {}
++        olt = ref_of(oltp.get("LaunchTemplateId")) or ref_of(oltp.get("LaunchTemplateName"))
++        if olt and olt != lt:
++            od = T.props(olt).get("LaunchTemplateData") or {}
++            opub = any(truthy((ni or {}).get("AssociatePublicIpAddress")) for ni in as_list(od.get("NetworkInterfaces")) if isinstance(ni, dict))
++            if opub or str(T.literal_or_default(od.get("InstanceType"))) != "t3.micro":
++                res["T3.R7"] = (False, "launch template %s of additional ASG %s assigns public IPs or is not t3.micro" % (olt, oasg))
++            for s in _lt_sgs(T, olt):
++                if any(T.from_anywhere(r) for r in T.sg_rules(s)):
++                    res["T3.R6"] = (False, "security group %s of additional ASG %s is open to the world" % (s, oasg))
+     # R9
+     ok9, m9 = False, "no scaling policy attached to the ASG"
+     for lid, r in T.of("AWS::AutoScaling::ScalingPolicy").items():
+@@ -725,7 +826,10 @@
+         elif ptype in ("StepScaling", "SimpleScaling"):
+             alarms = [a for a, ar in T.of("AWS::CloudWatch::Alarm").items()
+                       if flat((ar.get("Properties") or {}).get("MetricName")) == "CPUUtilization"
+-                      and lid in [ref_of(x) for x in as_list((ar.get("Properties") or {}).get("AlarmActions"))]]
++                      and lid in [ref_of(x) for x in as_list((ar.get("Properties") or {}).get("AlarmActions"))]
++                      and flat((ar.get("Properties") or {}).get("Namespace") or "AWS/EC2") == "AWS/EC2"  # PATCH P8
++                      and any(flat(dm.get("Name")) == "AutoScalingGroupName" and ref_of(dm.get("Value")) == asg
++                              for dm in as_list((ar.get("Properties") or {}).get("Dimensions")) if isinstance(dm, dict))]
+             ok9, m9 = bool(alarms), "%s policy with CPU alarm %s" % (ptype, alarms)
+         if ok9:
+             break
+@@ -743,6 +847,10 @@
+         ok10, m10 = all(c.values()), "bucket %s block public access %s" % (b, c)
+         if ok10:
+             break
++    bad10 = [b for b in buckets if T.props(b).get("PublicAccessBlockConfiguration") is not None and not all(
++        truthy((T.props(b).get("PublicAccessBlockConfiguration") or {}).get(k)) for k in ("BlockPublicAcls", "BlockPublicPolicy", "IgnorePublicAcls", "RestrictPublicBuckets"))]
++    if bad10:  # PATCH P4
++        ok10, m10 = False, "bucket(s) %s do not enable all four Block Public Access settings" % bad10
+     res["T3.R10"] = (ok10, m10)
+     # R11
+     ok11, m11 = False, "no EC2 role"
+@@ -767,13 +875,26 @@
+             if any(a not in allowed for a in s3acts):
+                 bad.append("actions %s" % s3acts)
+             ress = [flat(x) for x in as_list(st.get("Resource"))]
++            okset = set()
++            for b in buckets:  # PATCH P6
++                okset |= {"${%s.Arn}/*" % b, "arn:aws:s3:::${%s}/*" % b, "arn:${AWS::Partition}:s3:::${%s}/*" % b}
+             for rr in ress:
+-                bucket_ref = any(("${%s}" % b in rr or "${%s.Arn}" % b in rr) for b in buckets)
+-                if not (bucket_ref and rr.endswith("/*")):
++                if rr not in okset:
+                     bad.append("resource %s" % rr)
+-            if all(rr.endswith("/*") and any(("${%s}" % b in rr or "${%s.Arn}" % b in rr) for b in buckets) for rr in ress) and ress:
++            if ress and all(rr in okset for rr in ress):
+                 good_put |= "s3:putobject" in s3acts
+                 good_get |= "s3:getobject" in s3acts
++        for bp, bpr in T.of("AWS::S3::BucketPolicy").items():  # PATCH P7
++            for st in as_list(((bpr.get("Properties") or {}).get("PolicyDocument") or {}).get("Statement")):
++                if not isinstance(st, dict) or flat(st.get("Effect")) != "Allow":
++                    continue
++                pr = st.get("Principal")
++                aws = as_list(pr.get("AWS")) if isinstance(pr, dict) else [pr]
++                if not any(x == "*" or ref_of(x) == role or ("${%s" % role) in flat(x) for x in aws):
++                    continue
++                acts = [flat(a).lower() for a in as_list(st.get("Action"))]
++                if st.get("NotAction") is not None or any(a not in allowed for a in acts):
++                    bad.append("bucket policy %s grants %s" % (bp, acts))
+         ok11 = prof_ok and not bad and good_put and good_get
+         m11 = "role %s instance profile %s put %s get %s violations %s" % (role, prof_ok, good_put, good_get, bad[:3])
+         if ok11:
+@@ -788,10 +909,15 @@
+         sn = _db_subnets(T, db) or []
+         pw_ok, pw_m = _db_password_ok(T, p)
+         ok_sn, _ = T.distinct_getazs(sn)
+-        c = {"mysql": flat(p.get("Engine")).lower() == "mysql", "class": flat(p.get("DBInstanceClass")) == "db.t3.micro",
++        c = {"mysql": lv(p.get("Engine")).lower() == "mysql", "class": lv(p.get("DBInstanceClass")) == "db.t3.micro",
+              "multi_az": truthy(p.get("MultiAZ")), "private_subnets": len(sn) >= 2 and ok_sn and all(T.route_private(s) for s in sn),
+              "not_public": not truthy(p.get("PubliclyAccessible")), "encrypted": truthy(p.get("StorageEncrypted")), "password": pw_ok}
+         res["T3.R12"] = (all(c.values()), "database %s (%s)" % (c, pw_m))
++        for odb in dbs[1:]:  # PATCH P4
++            op = T.props(odb)
++            if (truthy(op.get("PubliclyAccessible")) or op.get("DBSubnetGroupName") is None or not truthy(op.get("StorageEncrypted"))
++                    or not _db_password_ok(T, op)[0]):
++                res["T3.R12"] = (False, "additional DB instance %s is public, unencrypted or has a plain-text password" % odb)
+         dsg = _db_sgs(T, db)
+         if not dsg or not web_sgs:
+             res["T3.R13"] = (False, "database or web security group missing")
+@@ -819,7 +945,8 @@
+         if prop and p.get(prop) is not None:
+             v = p.get(prop)
+             fv = flat(v)
+-            if not ("AWS::StackName" in fv or "AWS::StackId" in fv or (ref_of(v) in T.P)):
++            fj = json.dumps(v)  # PATCH P21 (v1.1): stack-derived names inside Select/Split expressions
++            if not ("AWS::StackName" in fv or "AWS::StackId" in fv or "AWS::StackName" in fj or "AWS::StackId" in fj or (ref_of(v) in T.P)):
+                 issues.append("%s.%s fixed name '%s'" % (lid, prop, fv[:40]))
+         for x in _walk(p):
+             if isinstance(x, str):
+@@ -827,8 +954,12 @@
+                     issues.append("%s hard-coded AMI %s" % (lid, x))
+                 if AZ_RE.fullmatch(x.strip()):
+                     issues.append("%s hard-coded AZ %s" % (lid, x))
++                if re.fullmatch(r"[a-z]{2,4}\d+-az\d+", x.strip()):  # PATCH P11
++                    issues.append("%s hard-coded AZ ID %s" % (lid, x))
+     for pn, pv in T.P.items():
+         dv = flat((pv or {}).get("Default")) if isinstance(pv, dict) else ""
++        if re.match(r"^ami-[0-9a-f]{8,17}$", (dv or "").strip()):  # PATCH P11
++            issues.append("parameter %s default AMI %s" % (pn, dv))
+         if AZ_RE.search(dv or ""):
+             issues.append("parameter %s default AZ %s" % (pn, dv))
+     res["T3.R15"] = (not issues, "; ".join(issues[:4]) if issues else "no fixed names, AMI IDs or AZ names")
+--- v1.0/tasks/judge_calibration_v2.json
++++ v1.1/tasks/judge_calibration_v2.json
+@@ -1,160 +0,0 @@
+-{
+- "C0R_revised_reference": {
+-  "proposed_bom": [
+-   {
+-    "item": "ec2_t3.medium_hour",
+-    "quantity": 1640,
+-    "purpose": "2 baseline instances x 730 h + 3 extra during 60 peak hours"
+-   },
+-   {
+-    "item": "alb_hour",
+-    "quantity": 730,
+-    "purpose": "load balancer"
+-   },
+-   {
+-    "item": "alb_lcu_hour",
+-    "quantity": 3650,
+-    "purpose": "5 LCU average"
+-   },
+-   {
+-    "item": "nat_gateway_hour",
+-    "quantity": 1460,
+-    "purpose": "one NAT gateway per AZ"
+-   },
+-   {
+-    "item": "nat_gateway_gb_processed",
+-    "quantity": 200,
+-    "purpose": "egress for updates and API calls"
+-   },
+-   {
+-    "item": "rds_mysql_db.t3.medium_singleaz_hour",
+-    "quantity": 730,
+-    "multi_az": true,
+-    "purpose": "primary with synchronous standby"
+-   },
+-   {
+-    "item": "rds_storage_gb_month_singleaz",
+-    "quantity": 100,
+-    "multi_az": true,
+-    "purpose": "database storage"
+-   },
+-   {
+-    "item": "elasticache_cache.t3.medium_hour",
+-    "quantity": 730,
+-    "purpose": "session and query cache"
+-   },
+-   {
+-    "item": "s3_standard_gb_month",
+-    "quantity": 500,
+-    "purpose": "photos"
+-   },
+-   {
+-    "item": "cloudfront_gb_out",
+-    "quantity": 2000,
+-    "purpose": "edge delivery"
+-   },
+-   {
+-    "item": "cloudfront_requests_per_10000",
+-    "quantity": 4000,
+-    "purpose": "40 million requests"
+-   }
+-  ],
+-  "compute": {
+-   "instance_type": "t3.medium",
+-   "asg_min": 2,
+-   "asg_max": 6,
+-   "availability_zones": 2
+-  },
+-  "database": {
+-   "engine": "mysql",
+-   "instance_class": "db.t3.medium",
+-   "multi_az": true,
+-   "point_in_time_recovery": true,
+-   "backup_retention_days": 7,
+-   "read_replicas": 0
+-  },
+-  "stated_original_monthly_cost_usd": 133.21,
+-  "stated_proposed_monthly_cost_usd": 581.97,
+-  "justification": "Diagnosis. The existing architecture cannot meet N1: its Auto Scaling group of t3.micro instances (40 requests per second each at 70 percent CPU) reaches only 160 requests per second at its maximum of four instances, against an origin peak of 750. It has a single NAT gateway, so the loss of that gateway's Availability Zone also removes outbound access for the private subnets in the other zone, and its CloudFront allowance (200 GB and 5 million requests) is a tenth of the new demand in N4. Compute and scaling. The web tier moves to t3.medium (160 requests per second each) in an Auto Scaling group across two Availability Zones with a minimum of two instances and a maximum of six. Five instances (800 requests per second) cover the 750 requests per second peak, so the bill of materials prices two instances for the whole 730-hour month plus three additional instances for the 60 peak hours (1,640 instance-hours). The sixth instance is headroom that is not normally used and is therefore not budgeted. If one Availability Zone fails during a peak, capacity falls to the instances in the surviving zone until the group launches replacements there; because the maximum is six, the group can restore 750 requests per second within one zone, so the design tolerates a zone loss after a short period of reduced capacity rather than without any degradation. Reliability and recovery. A NAT gateway in each Availability Zone removes the single-zone dependency for outbound traffic. The database becomes a Multi-AZ db.t3.medium instance: Multi-AZ provides automatic failover to the synchronous standby, typically within minutes, which satisfies the one-hour recovery time objective in N3. The five-minute recovery point objective is met by automated backups with point-in-time recovery (transaction logs are retained continuously), with a seven-day retention period; the standby itself is not a backup. Performance efficiency. CloudFront serves half of all requests from the edge, which is what reduces the origin peak to 750 requests per second, and an ElastiCache node absorbs repeated metadata queries so that the larger database instance is not driven by read traffic; read replicas are not needed at this load. Security. Instances remain in private subnets, accept traffic only from the load balancer, and use an instance role limited to the photo bucket; the database accepts connections only from the web tier and uses encrypted storage. Operational excellence. The whole architecture remains defined in CloudFormation, and Auto Scaling, load-balancer health checks and Multi-AZ failover replace manual recovery. Cost optimisation. The proposal costs US$581.97 per month, within the US$750 budget. The largest items are CloudFront (US$170.00 for 2,000 GB and US$40.00 for 40 million requests, both fixed by N4), the Multi-AZ database (US$99.28 for the instance and US$23.00 for 100 GB of storage), EC2 (US$68.22), the two NAT gateways (US$65.70 plus US$9.00 for 200 GB processed), ElastiCache (US$49.64), the load balancer (US$16.43 plus US$29.20 for an assumed average of 5 LCU, up from 2 LCU because of the ten-fold traffic growth) and S3 (US$11.50 for an assumed 500 GB of photos). Paying for the additional instances only during the 60 peak hours, rather than for five instances all month, is the main saving available on compute. Sustainability. Scaling in after the peak, using right-sized instances and serving half of the traffic from the edge reduce the resources provisioned per request.",
+-  "comparison": "At its own, smaller workload the original architecture costs US$133.21 per month, but it supports only 160 requests per second at maximum scale, depends on one NAT gateway and has a single-AZ failure mode for outbound access; it cannot meet N1 at any price. The proposal costs US$581.97 per month at the new workload, supports up to 960 requests per second (800 as budgeted at peak), fails over its database automatically, and recovers full peak capacity within the surviving zone after an Availability Zone failure. Most of the cost increase comes from the ten-fold growth in CloudFront demand and the Multi-AZ database, not from compute."
+- },
+- "C5_padded_gold": {
+-  "proposed_bom": [
+-   {
+-    "item": "ec2_t3.medium_hour",
+-    "quantity": 1640,
+-    "purpose": "2 baseline instances x 730 h + 3 extra during 60 peak hours"
+-   },
+-   {
+-    "item": "alb_hour",
+-    "quantity": 730,
+-    "purpose": "load balancer"
+-   },
+-   {
+-    "item": "alb_lcu_hour",
+-    "quantity": 3650,
+-    "purpose": "5 LCU average"
+-   },
+-   {
+-    "item": "nat_gateway_hour",
+-    "quantity": 1460,
+-    "purpose": "one NAT gateway per AZ"
+-   },
+-   {
+-    "item": "nat_gateway_gb_processed",
+-    "quantity": 200,
+-    "purpose": "egress for updates and API calls"
+-   },
+-   {
+-    "item": "rds_mysql_db.t3.medium_singleaz_hour",
+-    "quantity": 730,
+-    "multi_az": true,
+-    "purpose": "primary with synchronous standby"
+-   },
+-   {
+-    "item": "rds_storage_gb_month_singleaz",
+-    "quantity": 100,
+-    "multi_az": true,
+-    "purpose": "database storage"
+-   },
+-   {
+-    "item": "elasticache_cache.t3.medium_hour",
+-    "quantity": 730,
+-    "purpose": "session and query cache"
+-   },
+-   {
+-    "item": "s3_standard_gb_month",
+-    "quantity": 500,
+-    "purpose": "photos"
+-   },
+-   {
+-    "item": "cloudfront_gb_out",
+-    "quantity": 2000,
+-    "purpose": "edge delivery"
+-   },
+-   {
+-    "item": "cloudfront_requests_per_10000",
+-    "quantity": 4000,
+-    "purpose": "40 million requests"
+-   }
+-  ],
+-  "compute": {
+-   "instance_type": "t3.medium",
+-   "asg_min": 2,
+-   "asg_max": 6,
+-   "availability_zones": 2
+-  },
+-  "database": {
+-   "engine": "mysql",
+-   "instance_class": "db.t3.medium",
+-   "multi_az": true,
+-   "point_in_time_recovery": true,
+-   "backup_retention_days": 7,
+-   "read_replicas": 0
+-  },
+-  "stated_original_monthly_cost_usd": 133.21,
+-  "stated_proposed_monthly_cost_usd": 581.97,
+-  "justification": "The existing design cannot meet the new peak: four t3.micro instances supply 160 requests per second against an origin peak of 750. The redesign moves the web tier to t3.medium instances (160 requests per second each) in an Auto Scaling group with a minimum of two and a maximum of six instances across two Availability Zones, so peak capacity is 960 requests per second with headroom for one instance failure. Reliability improves through a NAT gateway in each Availability Zone, removing the single NAT as a cross-zone dependency, and through a Multi-AZ db.t3.medium database with automated backups and point-in-time recovery, which meets the five-minute recovery point objective and gives automatic failover well inside the one-hour recovery time objective. Performance efficiency is addressed by an ElastiCache node that absorbs repeated metadata queries and by CloudFront, which already serves half of the requests from the edge. Security is preserved: instances stay in private subnets, accept traffic only from the load balancer, and use an instance role scoped to the photo bucket. Operational excellence comes from defining the whole stack in CloudFormation, using target-tracking scaling and CloudWatch alarms rather than manual intervention. Cost optimisation: the design costs about US$582 per month, within the US$750 budget, because capacity above the baseline is paid for only during the 60 peak hours. Sustainability is served by scaling in after peaks so idle capacity is not left running, and by serving cached content from edge locations close to users. To restate the main points of this design for clarity: the proposal has been designed with care to address the needs of the business and to follow the guidance of the AWS Well-Architected Framework. Each of the pillars has been considered in turn, and the design choices described above are intended to work together as a coherent whole. The architecture uses managed services wherever possible, which is generally regarded as good practice in the cloud. It is also worth emphasising that the design has been reviewed against each of the stated requirements, N1 to N6, and that it is intended to be robust, scalable, secure and cost-effective. The team responsible for operating the system will be able to understand it, and the design leaves room to evolve as the business grows. In summary, the proposed architecture represents a balanced and well-considered response to the new workload, with appropriate attention to reliability, performance, security, cost and sustainability, and it is expected to serve the business well over the coming period. Overall, these considerations show that the design is a sensible improvement on the original, and the reasoning set out here explains how it satisfies the requirements of the assessment.",
+-  "comparison": "The original costs US$133.21 per month but supports only 160 requests per second at maximum scale and depends on one NAT gateway; the proposal costs US$581.97, supports 960 requests per second and tolerates the loss of an Availability Zone."
+- }
+-}

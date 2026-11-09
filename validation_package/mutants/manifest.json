@@ -1,0 +1,618 @@
+[
+ {
+  "id": "T1_M01",
+  "task": "T1",
+  "target": "T1.R1",
+  "desc": "key name not a parameter",
+  "path": "mutants/T1/T1_M01.yaml",
+  "source": "regenerated from gold/T1.yaml by mutate.py"
+ },
+ {
+  "id": "T1_M02",
+  "task": "T1",
+  "target": "T1.R2",
+  "desc": "hard-coded AMI ID",
+  "path": "mutants/T1/T1_M02.yaml",
+  "source": "regenerated from gold/T1.yaml by mutate.py"
+ },
+ {
+  "id": "T1_M03",
+  "task": "T1",
+  "target": "T1.R2",
+  "desc": "Amazon Linux 2 SSM path instead of AL2023",
+  "path": "mutants/T1/T1_M03.yaml",
+  "source": "regenerated from gold/T1.yaml by mutate.py"
+ },
+ {
+  "id": "T1_M04",
+  "task": "T1",
+  "target": "T1.R3",
+  "desc": "t2.micro",
+  "path": "mutants/T1/T1_M04.yaml",
+  "source": "regenerated from gold/T1.yaml by mutate.py"
+ },
+ {
+  "id": "T1_M05",
+  "task": "T1",
+  "target": "T1.R4",
+  "desc": "HTTPS rule replaced by HTTP",
+  "path": "mutants/T1/T1_M05.yaml",
+  "source": "regenerated from gold/T1.yaml by mutate.py"
+ },
+ {
+  "id": "T1_M06",
+  "task": "T1",
+  "target": "T1.R5",
+  "desc": "SSH open to world",
+  "path": "mutants/T1/T1_M06.yaml",
+  "source": "regenerated from gold/T1.yaml by mutate.py"
+ },
+ {
+  "id": "T1_M07",
+  "task": "T1",
+  "target": "T1.R6",
+  "desc": "extra HTTP rule",
+  "path": "mutants/T1/T1_M07.yaml",
+  "source": "regenerated from gold/T1.yaml by mutate.py"
+ },
+ {
+  "id": "T1_M08",
+  "task": "T1",
+  "target": "T1.R7",
+  "desc": "user data does not enable httpd",
+  "path": "mutants/T1/T1_M08.yaml",
+  "source": "regenerated from gold/T1.yaml by mutate.py"
+ },
+ {
+  "id": "T1_M09",
+  "task": "T1",
+  "target": "T1.R7",
+  "desc": "user data omits mod_ssl",
+  "path": "mutants/T1/T1_M09.yaml",
+  "source": "regenerated from gold/T1.yaml by mutate.py"
+ },
+ {
+  "id": "T1_M10",
+  "task": "T1",
+  "target": "T1.R8",
+  "desc": "creates a VPC",
+  "path": "mutants/T1/T1_M10.yaml",
+  "source": "regenerated from gold/T1.yaml by mutate.py"
+ },
+ {
+  "id": "T1_M11",
+  "task": "T1",
+  "target": "T1.R9",
+  "desc": "http URL output",
+  "path": "mutants/T1/T1_M11.yaml",
+  "source": "regenerated from gold/T1.yaml by mutate.py"
+ },
+ {
+  "id": "T2_M01",
+  "task": "T2",
+  "target": "T2.R1",
+  "desc": "DNS hostnames disabled",
+  "path": "mutants/T2/T2_M01.yaml",
+  "source": "regenerated from gold/T2.yaml by mutate.py"
+ },
+ {
+  "id": "T2_M02",
+  "task": "T2",
+  "target": "T2.R2",
+  "desc": "both private subnets in same AZ",
+  "path": "mutants/T2/T2_M02.yaml",
+  "source": "regenerated from gold/T2.yaml by mutate.py"
+ },
+ {
+  "id": "T2_M03",
+  "task": "T2",
+  "target": "T2.R2",
+  "desc": "hard-coded AZ name",
+  "path": "mutants/T2/T2_M03.yaml",
+  "source": "regenerated from gold/T2.yaml by mutate.py"
+ },
+ {
+  "id": "T2_M04",
+  "task": "T2",
+  "target": "T2.R3",
+  "desc": "public route table not associated with subnet 2",
+  "path": "mutants/T2/T2_M04.yaml",
+  "source": "regenerated from gold/T2.yaml by mutate.py"
+ },
+ {
+  "id": "T2_M05",
+  "task": "T2",
+  "target": "T2.R4",
+  "desc": "private subnet 1 associated with public route table",
+  "path": "mutants/T2/T2_M05.yaml",
+  "source": "regenerated from gold/T2.yaml by mutate.py"
+ },
+ {
+  "id": "T2_M06",
+  "task": "T2",
+  "target": "T2.R5",
+  "desc": "launch template instance type t2.micro",
+  "path": "mutants/T2/T2_M06.yaml",
+  "source": "regenerated from gold/T2.yaml by mutate.py"
+ },
+ {
+  "id": "T2_M07",
+  "task": "T2",
+  "target": "T2.R6",
+  "desc": "no Elastic IP association",
+  "path": "mutants/T2/T2_M07.yaml",
+  "source": "regenerated from gold/T2.yaml by mutate.py"
+ },
+ {
+  "id": "T2_M08",
+  "task": "T2",
+  "target": "T2.R6",
+  "desc": "instance in private subnet",
+  "path": "mutants/T2/T2_M08.yaml",
+  "source": "regenerated from gold/T2.yaml by mutate.py"
+ },
+ {
+  "id": "T2_M09",
+  "task": "T2",
+  "target": "T2.R7",
+  "desc": "SSH from world",
+  "path": "mutants/T2/T2_M09.yaml",
+  "source": "regenerated from gold/T2.yaml by mutate.py"
+ },
+ {
+  "id": "T2_M10",
+  "task": "T2",
+  "target": "T2.R8",
+  "desc": "database publicly accessible",
+  "path": "mutants/T2/T2_M10.yaml",
+  "source": "regenerated from gold/T2.yaml by mutate.py"
+ },
+ {
+  "id": "T2_M11",
+  "task": "T2",
+  "target": "T2.R8",
+  "desc": "storage not encrypted",
+  "path": "mutants/T2/T2_M11.yaml",
+  "source": "regenerated from gold/T2.yaml by mutate.py"
+ },
+ {
+  "id": "T2_M12",
+  "task": "T2",
+  "target": "T2.R9",
+  "desc": "literal master password",
+  "path": "mutants/T2/T2_M12.yaml",
+  "source": "regenerated from gold/T2.yaml by mutate.py"
+ },
+ {
+  "id": "T2_M13",
+  "task": "T2",
+  "target": "T2.R10",
+  "desc": "MySQL open to VPC CIDR",
+  "path": "mutants/T2/T2_M13.yaml",
+  "source": "regenerated from gold/T2.yaml by mutate.py"
+ },
+ {
+  "id": "T2_M14",
+  "task": "T2",
+  "target": "T2.R11",
+  "desc": "no DB endpoint output",
+  "path": "mutants/T2/T2_M14.yaml",
+  "source": "regenerated from gold/T2.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M01",
+  "task": "T3",
+  "target": "T3.R1",
+  "desc": "private subnets in same AZ",
+  "path": "mutants/T3/T3_M01.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M02",
+  "task": "T3",
+  "target": "T3.R2",
+  "desc": "IGW not attached",
+  "path": "mutants/T3/T3_M02.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M03",
+  "task": "T3",
+  "target": "T3.R3",
+  "desc": "private default route to IGW",
+  "path": "mutants/T3/T3_M03.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M04",
+  "task": "T3",
+  "target": "T3.R3",
+  "desc": "NAT gateway in private subnet",
+  "path": "mutants/T3/T3_M04.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M05",
+  "task": "T3",
+  "target": "T3.R4",
+  "desc": "internal load balancer",
+  "path": "mutants/T3/T3_M05.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M06",
+  "task": "T3",
+  "target": "T3.R4",
+  "desc": "health check on /",
+  "path": "mutants/T3/T3_M06.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M07",
+  "task": "T3",
+  "target": "T3.R5",
+  "desc": "ALB SG allows only 443",
+  "path": "mutants/T3/T3_M07.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M08",
+  "task": "T3",
+  "target": "T3.R6",
+  "desc": "web SG open to world",
+  "path": "mutants/T3/T3_M08.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M09",
+  "task": "T3",
+  "target": "T3.R7",
+  "desc": "no instance profile on launch template",
+  "path": "mutants/T3/T3_M09.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M10",
+  "task": "T3",
+  "target": "T3.R7",
+  "desc": "public IP on instances",
+  "path": "mutants/T3/T3_M10.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M11",
+  "task": "T3",
+  "target": "T3.R8",
+  "desc": "ASG in public subnets",
+  "path": "mutants/T3/T3_M11.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M12",
+  "task": "T3",
+  "target": "T3.R8",
+  "desc": "EC2 health checks",
+  "path": "mutants/T3/T3_M12.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M13",
+  "task": "T3",
+  "target": "T3.R8",
+  "desc": "max size 3",
+  "path": "mutants/T3/T3_M13.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M14",
+  "task": "T3",
+  "target": "T3.R9",
+  "desc": "target 85 percent",
+  "path": "mutants/T3/T3_M14.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M15",
+  "task": "T3",
+  "target": "T3.R10",
+  "desc": "one public access block setting off",
+  "path": "mutants/T3/T3_M15.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M16",
+  "task": "T3",
+  "target": "T3.R11",
+  "desc": "wildcard S3 action",
+  "path": "mutants/T3/T3_M16.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M17",
+  "task": "T3",
+  "target": "T3.R11",
+  "desc": "wildcard resource",
+  "path": "mutants/T3/T3_M17.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M18",
+  "task": "T3",
+  "target": "T3.R11",
+  "desc": "AmazonS3FullAccess managed policy",
+  "path": "mutants/T3/T3_M18.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M19",
+  "task": "T3",
+  "target": "T3.R12",
+  "desc": "single-AZ database",
+  "path": "mutants/T3/T3_M19.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M20",
+  "task": "T3",
+  "target": "T3.R12",
+  "desc": "literal master password",
+  "path": "mutants/T3/T3_M20.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M21",
+  "task": "T3",
+  "target": "T3.R13",
+  "desc": "MySQL open to VPC CIDR",
+  "path": "mutants/T3/T3_M21.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M22",
+  "task": "T3",
+  "target": "T3.R14",
+  "desc": "viewer policy allow-all",
+  "path": "mutants/T3/T3_M22.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M23",
+  "task": "T3",
+  "target": "T3.R14",
+  "desc": "origin protocol https-only",
+  "path": "mutants/T3/T3_M23.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M24",
+  "task": "T3",
+  "target": "T3.R15",
+  "desc": "fixed bucket name",
+  "path": "mutants/T3/T3_M24.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M25",
+  "task": "T3",
+  "target": "T3.R15",
+  "desc": "fixed role name",
+  "path": "mutants/T3/T3_M25.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "T3_M26",
+  "task": "T3",
+  "target": "T3.R16",
+  "desc": "no CloudFront output",
+  "path": "mutants/T3/T3_M26.yaml",
+  "source": "regenerated from gold/T3.yaml by mutate.py"
+ },
+ {
+  "id": "DES_M01",
+  "task": "DES",
+  "target": "D01",
+  "desc": "unknown price item",
+  "path": "mutants/DES/DES_M01.json",
+  "source": "regenerated from gold/DES.json by mutate.py"
+ },
+ {
+  "id": "DES_M02",
+  "task": "DES",
+  "target": "D02",
+  "desc": "arithmetic error",
+  "path": "mutants/DES/DES_M02.json",
+  "source": "regenerated from gold/DES.json by mutate.py"
+ },
+ {
+  "id": "DES_M03",
+  "task": "DES",
+  "target": "D03",
+  "desc": "original mis-priced",
+  "path": "mutants/DES/DES_M03.json",
+  "source": "regenerated from gold/DES.json by mutate.py"
+ },
+ {
+  "id": "DES_M04",
+  "task": "DES",
+  "target": "D04",
+  "desc": "over budget",
+  "path": "mutants/DES/DES_M04.json",
+  "source": "regenerated from gold/DES.json by mutate.py"
+ },
+ {
+  "id": "DES_M05",
+  "task": "DES",
+  "target": "D05",
+  "desc": "insufficient peak capacity",
+  "path": "mutants/DES/DES_M05.json",
+  "source": "regenerated from gold/DES.json by mutate.py"
+ },
+ {
+  "id": "DES_M06",
+  "task": "DES",
+  "target": "D06",
+  "desc": "single-AZ database",
+  "path": "mutants/DES/DES_M06.json",
+  "source": "regenerated from gold/DES.json by mutate.py"
+ },
+ {
+  "id": "DES_M07",
+  "task": "DES",
+  "target": "D07",
+  "desc": "no PITR",
+  "path": "mutants/DES/DES_M07.json",
+  "source": "regenerated from gold/DES.json by mutate.py"
+ },
+ {
+  "id": "DES_M08",
+  "task": "DES",
+  "target": "D08",
+  "desc": "peak hours not costed",
+  "path": "mutants/DES/DES_M08.json",
+  "source": "regenerated from gold/DES.json by mutate.py"
+ },
+ {
+  "id": "DES_M09",
+  "task": "DES",
+  "target": "D09",
+  "desc": "CDN requests not costed",
+  "path": "mutants/DES/DES_M09.json",
+  "source": "regenerated from gold/DES.json by mutate.py"
+ },
+ {
+  "id": "DES_M10",
+  "task": "DES",
+  "target": "D10",
+  "desc": "sustainability pillar omitted",
+  "path": "mutants/DES/DES_M10.json",
+  "source": "regenerated from gold/DES.json by mutate.py"
+ },
+ {
+  "id": "APP_M01",
+  "task": "APP",
+  "target": "A01",
+  "desc": "required function photo_url missing (renamed get_photo_url)",
+  "path": "mutants/APP/APP_M01.py",
+  "source": "new in v2, generated from gold/photoapp.py by mutate.py"
+ },
+ {
+  "id": "APP_M02",
+  "task": "APP",
+  "target": "A02",
+  "desc": "no AUTOINCREMENT",
+  "path": "mutants/APP/APP_M02.py",
+  "source": "archived audit/mutants_app/app_00.py (copied unchanged)"
+ },
+ {
+  "id": "APP_M03",
+  "task": "APP",
+  "target": "A03",
+  "desc": "unordered search",
+  "path": "mutants/APP/APP_M03.py",
+  "source": "archived audit/mutants_app/app_01.py (copied unchanged)"
+ },
+ {
+  "id": "APP_M04",
+  "task": "APP",
+  "target": "A04",
+  "desc": "case-sensitive search",
+  "path": "mutants/APP/APP_M04.py",
+  "source": "archived audit/mutants_app/app_02.py (copied unchanged)"
+ },
+ {
+  "id": "APP_M05",
+  "task": "APP",
+  "target": "A05",
+  "desc": "string-built INSERT",
+  "path": "mutants/APP/APP_M05.py",
+  "source": "archived audit/mutants_app/app_03.py (copied unchanged)"
+ },
+ {
+  "id": "APP_M06",
+  "task": "APP",
+  "target": "A06",
+  "desc": "string-built SELECT",
+  "path": "mutants/APP/APP_M06.py",
+  "source": "archived audit/mutants_app/app_04.py (copied unchanged)"
+ },
+ {
+  "id": "APP_M07",
+  "task": "APP",
+  "target": "A07",
+  "desc": "naive local timestamp",
+  "path": "mutants/APP/APP_M07.py",
+  "source": "archived audit/mutants_app/app_05.py (copied unchanged)"
+ },
+ {
+  "id": "APP_M08",
+  "task": "APP",
+  "target": "A08",
+  "desc": "key without uuid",
+  "path": "mutants/APP/APP_M08.py",
+  "source": "archived audit/mutants_app/app_06.py (copied unchanged)"
+ },
+ {
+  "id": "APP_M09",
+  "task": "APP",
+  "target": "A09",
+  "desc": "no filename sanitisation",
+  "path": "mutants/APP/APP_M09.py",
+  "source": "archived audit/mutants_app/app_07.py (copied unchanged)"
+ },
+ {
+  "id": "APP_M10",
+  "task": "APP",
+  "target": "A10",
+  "desc": "no content-type check",
+  "path": "mutants/APP/APP_M10.py",
+  "source": "archived audit/mutants_app/app_08.py (copied unchanged)"
+ },
+ {
+  "id": "APP_M11",
+  "task": "APP",
+  "target": "A11",
+  "desc": "size check off by one",
+  "path": "mutants/APP/APP_M11.py",
+  "source": "archived audit/mutants_app/app_09.py (copied unchanged)"
+ },
+ {
+  "id": "APP_M12",
+  "task": "APP",
+  "target": "A12",
+  "desc": "presign put_object",
+  "path": "mutants/APP/APP_M12.py",
+  "source": "archived audit/mutants_app/app_10.py (copied unchanged)"
+ },
+ {
+  "id": "APP_M13",
+  "task": "APP",
+  "target": "A13",
+  "desc": "no expiry bound",
+  "path": "mutants/APP/APP_M13.py",
+  "source": "archived audit/mutants_app/app_11.py (copied unchanged)"
+ },
+ {
+  "id": "APP_M14",
+  "task": "APP",
+  "target": "A14",
+  "desc": "no compensating delete",
+  "path": "mutants/APP/APP_M14.py",
+  "source": "archived audit/mutants_app/app_12.py (copied unchanged)"
+ },
+ {
+  "id": "APP_M15",
+  "task": "APP",
+  "target": "A15",
+  "desc": "metadata stores filename not key",
+  "path": "mutants/APP/APP_M15.py",
+  "source": "archived audit/mutants_app/app_13.py (copied unchanged)"
+ },
+ {
+  "id": "APP_M16",
+  "task": "APP",
+  "target": "A16",
+  "desc": "embedded credentials",
+  "path": "mutants/APP/APP_M16.py",
+  "source": "archived audit/mutants_app/app_14.py (copied unchanged)"
+ }
+]

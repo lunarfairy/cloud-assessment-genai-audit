@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Stage 1 web server - numeric protocol, AllowedValues instance-type parameter, Fn::Sub variable map
+Parameters:
+  SshKey:
+    Type: AWS::EC2::KeyPair::KeyName
+  SshCidr:
+    Type: String
+    Default: 192.0.2.0/24
+  AmiParam:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64
+  WebInstanceType:
+    Type: String
+    Default: t3.micro
+    AllowedValues: [t3.micro]
+Resources:
+  ServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: HTTPS and admin SSH
+      SecurityGroupIngress:
+        - IpProtocol: '6'
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref SshCidr
+        - IpProtocol: '6'
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+  WebHost:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref AmiParam
+      InstanceType: !Ref WebInstanceType
+      KeyName: !Ref SshKey
+      SecurityGroups:
+        - !Ref ServerSecurityGroup
+      UserData: !Base64
+        Fn::Join:
+          - "\n"
+          - - '#!/bin/bash'
+            - 'yum install -y httpd mod_ssl'
+            - 'echo "<html><body>Hello</body></html>" > /var/www/html/index.html'
+            - 'systemctl enable httpd'
+            - 'systemctl restart httpd'
+Outputs:
+  Dns:
+    Value: !GetAtt WebHost.PublicDnsName
+  Url:
+    Value: !Sub
+      - 'https://${Host}/'
+      - Host: !GetAtt WebHost.PublicDnsName

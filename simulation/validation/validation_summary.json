@@ -1,0 +1,19 @@
+{
+ "n_datasets": 60,
+ "n_J56": 30,
+ "n_J56_two_clusters_lost": 10,
+ "n_J28": 30,
+ "statsmodels_all_converged": false,
+ "reml_max_abs_diff_fixed_effects": 6.883985732147879e-07,
+ "reml_max_abs_diff_s2u": 1.770603472280724e-06,
+ "reml_max_abs_diff_s2e": 7.137312283411745e-07,
+ "reml_max_rel_diff_se_vs_gls_at_statsmodels_vc": 1.6107846202650933e-05,
+ "reml_max_rel_diff_se_vs_statsmodels_hessian": 0.015324084991033216,
+ "cr2_max_abs_diff_se": 1.942890293094024e-16,
+ "bm_max_abs_diff_df": 4.618527782440651e-14,
+ "hc1_max_abs_diff_se": 4.163336342344337e-16,
+ "twostage_max_abs_diff_est": 5.551115123125783e-16,
+ "twostage_max_abs_diff_se": 2.498001805406602e-16,
+ "twostage_df_match": true,
+ "statsmodels_version": "0.15.0"
+}

@@ -1,0 +1,372 @@
+{
+ "briefs": {
+  "T1": "# Assessment task: Stage 1 (Quadrant A) - Web server in the default VPC\n\nWrite an AWS CloudFormation template in YAML that deploys a Linux web server on a single Amazon EC2 instance in the account's default VPC and default subnet. The template will be deployed in a fresh account in any commercial AWS Region.\n\nRequirements:\nR1. Declare a parameter for the name of an existing EC2 key pair (type AWS::EC2::KeyPair::KeyName) and a parameter for the administrator's IPv4 CIDR block that is allowed to connect over SSH.\nR2. Resolve the latest Amazon Linux 2023 AMI at deploy time from the public AWS Systems Manager parameter /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64. Do not hard-code an AMI ID.\nR3. Use instance type t3.micro (a parameter that defaults to t3.micro is acceptable).\nR4. Create a security group that allows inbound HTTPS (TCP 443) from anywhere (0.0.0.0/0).\nR5. The same security group allows inbound SSH (TCP 22) only from the administrator CIDR parameter.\nR6. Allow no other inbound traffic: the security group must contain only the two inbound rules above.\nR7. Use EC2 user data to install the Apache HTTP Server (httpd) and mod_ssl, write an index.html page, and start httpd and enable it at boot.\nR8. Use the default VPC: the template must not create a VPC, subnet, internet gateway or route table.\nR9. Output the instance's public DNS name and an https:// URL for the website.\n\nOutput format: return the complete template in a single fenced code block marked yaml, and nothing else.\n",
+  "T2": "# Assessment task: Stage 2 (Quadrant B) - Custom VPC, database tier and launch template\n\nWrite an AWS CloudFormation template in YAML for the second stage of a photo-sharing website. The template will be deployed in a fresh account in any commercial AWS Region, possibly more than once in the same account and Region.\n\nRequirements:\nR1. Create a VPC with CIDR 10.0.0.0/16 with DNS support and DNS hostnames enabled.\nR2. Create two public subnets and two private subnets. The two public subnets must be in two different Availability Zones, and so must the two private subnets. Select Availability Zones with Fn::GetAZs (do not hard-code Availability Zone names). Public subnets must assign public IPv4 addresses on launch.\nR3. Create and attach an internet gateway. Create a public route table with a default route (0.0.0.0/0) to the internet gateway and associate it with both public subnets.\nR4. Create a private route table that has no route to the internet gateway and associate it with both private subnets.\nR5. Define the web server configuration in an AWS::EC2::LaunchTemplate (do not use a launch configuration). The launch template takes the custom AMI ID from a parameter of type AWS::EC2::Image::Id, uses instance type t3.micro, attaches the web security group, and includes user data that installs and starts httpd and PHP.\nR6. Launch one web server EC2 instance from that launch template into a public subnet, and associate an Elastic IP address with it (static public IP).\nR7. The web security group allows inbound TCP 80 and TCP 443 from anywhere and inbound TCP 22 only from an administrator CIDR parameter.\nR8. Create an Amazon RDS for MySQL instance (db.t3.micro) in a DB subnet group made of the two private subnets. It must not be publicly accessible and its storage must be encrypted.\nR9. Do not place the database master password in plain text in the template: use ManageMasterUserPassword, a Secrets Manager dynamic reference, or a NoEcho parameter.\nR10. The database security group allows inbound TCP 3306 only from the web security group (by security group reference) and has no other inbound rules.\nR11. Output the website URL (using the Elastic IP) and the database endpoint address.\n\nOutput format: return the complete template in a single fenced code block marked yaml, and nothing else.\n",
+  "T3": "# Assessment task: Stage 3 (Quadrant C) - Secure, scalable, highly available deployment\n\nWrite an AWS CloudFormation template in YAML for the third stage of a photo-sharing website. The web tier must not be publicly reachable except through the load balancer. The template will be deployed in a fresh account in any commercial AWS Region, possibly more than once in the same account and Region.\n\nRequirements:\nR1. Create a VPC (10.0.0.0/16) with two public and two private subnets; the public subnets are in two different Availability Zones and so are the private subnets. Select Availability Zones with Fn::GetAZs; do not hard-code Availability Zone names.\nR2. Create and attach an internet gateway, with a public route table whose default route (0.0.0.0/0) targets the internet gateway, associated with both public subnets.\nR3. Create a NAT gateway with an Elastic IP in a public subnet. The private subnets use route table(s) whose default route targets the NAT gateway, and they have no route to the internet gateway.\nR4. Create an internet-facing Application Load Balancer in the two public subnets, with an HTTP listener on port 80 that forwards to a target group. The target group health check uses HTTP on path /health.\nR5. The load balancer security group allows inbound TCP 80 from anywhere.\nR6. The web instance security group allows inbound TCP 80 only from the load balancer security group (by security group reference) and allows no inbound traffic from 0.0.0.0/0.\nR7. Define instances with an AWS::EC2::LaunchTemplate (not a launch configuration) that takes the custom AMI ID from a parameter of type AWS::EC2::Image::Id, uses t3.micro, attaches the web security group and an IAM instance profile, and does not assign public IP addresses.\nR8. Create an Auto Scaling group across the two private subnets using the launch template, with minimum 2, maximum 4 and desired capacity 2, registered with the target group and using ELB health checks.\nR9. Scale on load: add a target-tracking scaling policy on average CPU utilisation with a target of at most 70 percent (a step or simple scaling policy driven by a CloudWatch CPU alarm is also acceptable).\nR10. Create an S3 bucket for uploaded photos with all four S3 Block Public Access settings enabled.\nR11. Create an IAM role that EC2 can assume and an instance profile for it. The role's permissions for S3 must be limited to s3:PutObject, s3:GetObject and s3:DeleteObject on objects in the photo bucket only (no wildcard actions such as s3:*, and no Resource \"*\" for S3 actions).\nR12. Create an Amazon RDS for MySQL instance (db.t3.micro) with Multi-AZ enabled, in a DB subnet group made of the two private subnets, not publicly accessible, with encrypted storage, and with no plain-text master password (use ManageMasterUserPassword, a Secrets Manager dynamic reference, or a NoEcho parameter).\nR13. The database security group allows inbound TCP 3306 only from the web instance security group.\nR14. Create a CloudFront distribution whose origin is the load balancer's DNS name (custom origin, origin protocol http-only) and whose default cache behaviour redirects viewers from HTTP to HTTPS.\nR15. The template must be redeployable: no hard-coded AMI IDs, no hard-coded Availability Zone names, and no fixed physical names (for example a literal BucketName) that would collide on a second deployment in the same account.\nR16. Output the CloudFront domain name and the load balancer DNS name.\n\nOutput format: return the complete template in a single fenced code block marked yaml, and nothing else.\n",
+  "APP": "# Assessment task: Application tier (Stages 2 and 3) - Photo upload and search with the AWS SDK\n\nThe course allows any programming language. Write a Python 3.11 module named photoapp.py that implements the application logic of the photo-sharing website. Use only the Python standard library; the S3 client object is passed in by the caller (in production it is a boto3 S3 client created from the EC2 instance role), and the database connection is any DB-API 2.0 connection whose parameter style is qmark (\"?\"), such as sqlite3.\n\nImplement exactly these functions:\n\ninit_db(conn) -> None\n    Create the table photos if it does not exist, with columns id (INTEGER PRIMARY KEY AUTOINCREMENT), title (TEXT NOT NULL), description (TEXT), s3_key (TEXT NOT NULL) and uploaded_at (TEXT NOT NULL, an ISO 8601 UTC timestamp). Commit.\n\nsave_photo_metadata(conn, title, description, s3_key) -> int\n    Insert one row and return its id. Titles and descriptions may contain any characters, including quotes, semicolons and SQL keywords, and must be stored exactly as given. Commit.\n\nsearch_photos(conn, term) -> list[dict]\n    Return rows whose title or description contains term, case-insensitively, ordered by id ascending, as dicts with keys id, title, description, s3_key, uploaded_at. The term is untrusted user input.\n\nupload_photo(s3, bucket, filename, data, content_type) -> str\n    Validate and upload one photo and return its S3 object key. Accept only content types image/jpeg and image/png, and only data of at most 5 MiB (5 * 1024 * 1024 bytes); otherwise raise ValueError. The key must be \"photos/<32 lowercase hex characters from uuid4>/<safe name>\", where <safe name> is the base name of filename with any directory components removed and every character outside A-Z, a-z, 0-9, '.', '_' and '-' replaced by '_'. Upload with s3.put_object(Bucket=bucket, Key=key, Body=data, ContentType=content_type).\n\nphoto_url(s3, bucket, key, expires=3600) -> str\n    Return a presigned GET URL for the object by calling s3.generate_presigned_url(\"get_object\", Params={\"Bucket\": bucket, \"Key\": key}, ExpiresIn=expires). Raise ValueError if expires is not between 1 and 3600 seconds inclusive.\n\nhandle_upload(conn, s3, bucket, title, description, filename, data, content_type) -> int\n    Upload the photo, then save its metadata, and return the new row id. If saving the metadata raises an exception, delete the uploaded object with s3.delete_object(Bucket=bucket, Key=key) and re-raise the original exception.\n\nNever embed AWS credentials or create AWS clients in the module.\n\nOutput format: return the complete module in a single fenced code block marked python, and nothing else.\n",
+  "DES": "# Assessment task: Stage 4 (Quadrant D) - Evaluate, redesign and price the architecture\n\nThe photo-sharing website currently runs on the Stage 3 architecture: an internet-facing Application Load Balancer in two public subnets; an EC2 Auto Scaling group of t3.micro instances (minimum 2, maximum 4) in two private subnets; one NAT gateway; Amazon RDS for MySQL db.t3.micro with Multi-AZ; an S3 bucket for photos; and a CloudFront distribution in front of the load balancer. Its bill of materials for a typical month is:\n\n[\n {\n  \"item\": \"ec2_t3.micro_hour\",\n  \"quantity\": 1460,\n  \"note\": \"2 instances x 730 h\"\n },\n {\n  \"item\": \"alb_hour\",\n  \"quantity\": 730\n },\n {\n  \"item\": \"alb_lcu_hour\",\n  \"quantity\": 1460,\n  \"note\": \"2 LCU on average\"\n },\n {\n  \"item\": \"nat_gateway_hour\",\n  \"quantity\": 730\n },\n {\n  \"item\": \"nat_gateway_gb_processed\",\n  \"quantity\": 100\n },\n {\n  \"item\": \"rds_mysql_db.t3.micro_singleaz_hour\",\n  \"quantity\": 730,\n  \"multi_az\": true\n },\n {\n  \"item\": \"rds_storage_gb_month_singleaz\",\n  \"quantity\": 20,\n  \"multi_az\": true\n },\n {\n  \"item\": \"s3_standard_gb_month\",\n  \"quantity\": 50\n },\n {\n  \"item\": \"cloudfront_gb_out\",\n  \"quantity\": 200\n },\n {\n  \"item\": \"cloudfront_requests_per_10000\",\n  \"quantity\": 500,\n  \"note\": \"5 million requests\"\n }\n]\n\nThe business now expects the following workload and requirements:\nN1. Peak load of 1,500 requests per second for about 60 hours per month, and an average of 150 requests per second at other times. CloudFront serves 50 percent of requests from cache, so the origin web tier must sustain 750 requests per second at peak.\nN2. High availability: the web tier must run at least two instances in at least two Availability Zones at all times, and the database must fail over automatically.\nN3. Recovery point objective of at most 5 minutes and recovery time objective of at most 1 hour for the database.\nN4. Monthly CloudFront demand of 2,000 GB transferred out and 40 million requests (4,000 units of 10,000 requests), which must be costed.\nN5. A monthly budget of at most US$750 for the proposed architecture.\nN6. Keep an EC2 Auto Scaling web tier; you may change the instance type and add or change any other services in the price sheet.\n\nPrice sheet and per-instance capacities (use only these figures; capacities are requests per second per instance at 70 percent CPU):\n\n{\n \"note\": \"Fixed assessment price sheet (USD). Monthly figures assume 730 hours per month. Use only these prices.\",\n \"prices\": {\n  \"ec2_t3.micro_hour\": 0.0104,\n  \"ec2_t3.small_hour\": 0.0208,\n  \"ec2_t3.medium_hour\": 0.0416,\n  \"ec2_m6g.large_hour\": 0.077,\n  \"alb_hour\": 0.0225,\n  \"alb_lcu_hour\": 0.008,\n  \"nat_gateway_hour\": 0.045,\n  \"nat_gateway_gb_processed\": 0.045,\n  \"rds_mysql_db.t3.micro_singleaz_hour\": 0.017,\n  \"rds_mysql_db.t3.medium_singleaz_hour\": 0.068,\n  \"rds_mysql_db.r6g.large_singleaz_hour\": 0.225,\n  \"rds_multiaz_multiplier\": 2.0,\n  \"rds_storage_gb_month_singleaz\": 0.115,\n  \"rds_read_replica_note\": \"A read replica is priced as an additional single-AZ instance of the same class.\",\n  \"elasticache_cache.t3.medium_hour\": 0.068,\n  \"s3_standard_gb_month\": 0.023,\n  \"s3_put_per_1000\": 0.005,\n  \"s3_get_per_1000\": 0.0004,\n  \"cloudfront_gb_out\": 0.085,\n  \"cloudfront_requests_per_10000\": 0.01,\n  \"lambda_requests_per_million\": 0.2,\n  \"lambda_gb_second\": 1.66667e-05\n },\n \"capacity_requests_per_second_per_instance_at_70pct_cpu\": {\n  \"t3.micro\": 40,\n  \"t3.small\": 80,\n  \"t3.medium\": 160,\n  \"m6g.large\": 320\n }\n}\n\nTasks: evaluate the existing architecture for scalability, reliability and cost; design an improved architecture that meets N1 to N6; price both the original and the proposed architecture using the price sheet; and justify your design with reference to every pillar of the AWS Well-Architected Framework, comparing it with the original.\n\nOutput format: return a single fenced code block marked json containing one JSON object with exactly these keys, and nothing else:\n  \"proposed_bom\": a list of objects {\"item\": <price-sheet key>, \"quantity\": <number>, \"multi_az\": <true|false, RDS items only>, \"purpose\": <short text>};\n  \"compute\": {\"instance_type\": <one of t3.micro, t3.small, t3.medium, m6g.large>, \"asg_min\": <int>, \"asg_max\": <int>, \"availability_zones\": <int>};\n  \"database\": {\"engine\": <text>, \"instance_class\": <text>, \"multi_az\": <true|false>, \"point_in_time_recovery\": <true|false>, \"backup_retention_days\": <int>, \"read_replicas\": <int>};\n  \"stated_original_monthly_cost_usd\": <number>;\n  \"stated_proposed_monthly_cost_usd\": <number>;\n  \"justification\": <text of at most 800 words>;\n  \"comparison\": <text comparing the original and proposed architectures>.\nIn proposed_bom, quantities are monthly units of the price-sheet item (hours, GB, GB-months, or the stated request units). A Multi-AZ RDS item is priced at the single-AZ price times rds_multiaz_multiplier.\n"
+ },
+ "common": "No tools, internet access or AWS account are available to you in this conversation. Respond with the deliverable only, in exactly the output format specified at the end of the brief.",
+ "mcq": [
+  {
+   "id": "Q01",
+   "stem": "Which of the following is one of the five essential characteristics of cloud computing in the NIST definition?",
+   "options": {
+    "A": "Vendor lock-in",
+    "B": "Rapid elasticity",
+    "C": "Fixed-capacity provisioning",
+    "D": "Single-tenant hardware"
+   },
+   "key": "B",
+   "topic": "cloud concepts"
+  },
+  {
+   "id": "Q02",
+   "stem": "Under the AWS shared responsibility model, which task is the customer's responsibility when using Amazon EC2?",
+   "options": {
+    "A": "Patching the hypervisor",
+    "B": "Patching the guest operating system",
+    "C": "Physical security of data centres",
+    "D": "Replacing failed disks in the host"
+   },
+   "key": "B",
+   "topic": "shared responsibility"
+  },
+  {
+   "id": "Q03",
+   "stem": "What is an AWS Availability Zone?",
+   "options": {
+    "A": "A geographic area containing multiple Regions",
+    "B": "One or more discrete data centres with redundant power and networking within a Region",
+    "C": "An edge location used by CloudFront",
+    "D": "A logical grouping of AWS accounts"
+   },
+   "key": "B",
+   "topic": "global infrastructure"
+  },
+  {
+   "id": "Q04",
+   "stem": "A subnet is called a public subnet in Amazon VPC when:",
+   "options": {
+    "A": "Its route table has a route to an internet gateway",
+    "B": "Its CIDR block uses public IP address ranges",
+    "C": "It has a network ACL allowing all traffic",
+    "D": "It contains a NAT gateway's private IP only"
+   },
+   "key": "A",
+   "topic": "VPC"
+  },
+  {
+   "id": "Q05",
+   "stem": "Instances in a private subnet need to download software updates from the internet but must not accept inbound connections initiated from the internet. What should be added?",
+   "options": {
+    "A": "A VPC peering connection",
+    "B": "A NAT gateway in a public subnet and a default route to it from the private route table",
+    "C": "An internet gateway route in the private route table",
+    "D": "An Elastic IP on each private instance"
+   },
+   "key": "B",
+   "topic": "VPC"
+  },
+  {
+   "id": "Q06",
+   "stem": "Which statement about security groups and network ACLs is correct?",
+   "options": {
+    "A": "Security groups are stateless and network ACLs are stateful",
+    "B": "Security groups are stateful and network ACLs are stateless",
+    "C": "Both are stateless",
+    "D": "Both are stateful"
+   },
+   "key": "B",
+   "topic": "network security"
+  },
+  {
+   "id": "Q07",
+   "stem": "A security group has one inbound rule allowing TCP 80 from 0.0.0.0/0 and the default outbound rule. Which is true?",
+   "options": {
+    "A": "All inbound traffic is allowed because there is no deny rule",
+    "B": "Responses to allowed inbound HTTP requests are blocked unless an outbound rule allows them",
+    "C": "Inbound SSH is allowed by default",
+    "D": "Responses to allowed inbound HTTP requests are automatically allowed"
+   },
+   "key": "D",
+   "topic": "network security"
+  },
+  {
+   "id": "Q08",
+   "stem": "A student checks whether a web server is serving pages by running ping against it and gets no reply. Which conclusion is justified?",
+   "options": {
+    "A": "HTTP is blocked by the security group",
+    "B": "The DNS record is wrong",
+    "C": "The web server is down",
+    "D": "Nothing definite about HTTP: ping uses ICMP, which may be blocked while TCP 80/443 is allowed"
+   },
+   "key": "D",
+   "topic": "troubleshooting"
+  },
+  {
+   "id": "Q09",
+   "stem": "An IAM identity-based policy allows s3:GetObject on a bucket and another attached policy explicitly denies s3:GetObject on the same bucket. What is the result?",
+   "options": {
+    "A": "Access is denied because an explicit deny overrides any allow",
+    "B": "The most recently attached policy wins",
+    "C": "Access is allowed because an allow exists",
+    "D": "Access depends on the order of statements"
+   },
+   "key": "A",
+   "topic": "IAM"
+  },
+  {
+   "id": "Q10",
+   "stem": "What is the recommended way for an application on EC2 to obtain credentials to call Amazon S3?",
+   "options": {
+    "A": "Attach an IAM role to the instance through an instance profile",
+    "B": "Store an IAM user's access keys in the application configuration file",
+    "C": "Embed the root account keys in user data",
+    "D": "Use the S3 bucket owner's console password"
+   },
+   "key": "A",
+   "topic": "IAM"
+  },
+  {
+   "id": "Q11",
+   "stem": "Which principle states that an identity should be granted only the permissions required to perform its task?",
+   "options": {
+    "A": "Defence in depth",
+    "B": "Least privilege",
+    "C": "Separation of duties",
+    "D": "Zero trust networking"
+   },
+   "key": "B",
+   "topic": "IAM"
+  },
+  {
+   "id": "Q12",
+   "stem": "Which load balancer type operates at layer 7 and can route requests based on URL path?",
+   "options": {
+    "A": "Gateway Load Balancer",
+    "B": "Network Load Balancer",
+    "C": "Application Load Balancer",
+    "D": "Classic Load Balancer operating in TCP mode"
+   },
+   "key": "C",
+   "topic": "load balancing"
+  },
+  {
+   "id": "Q13",
+   "stem": "An Auto Scaling group uses ELB health checks. What happens when an instance fails the load balancer's target group health check?",
+   "options": {
+    "A": "Nothing; only EC2 status checks are used",
+    "B": "The Auto Scaling group marks it unhealthy and replaces it",
+    "C": "The load balancer terminates the instance directly",
+    "D": "CloudFront stops caching content"
+   },
+   "key": "B",
+   "topic": "auto scaling"
+  },
+  {
+   "id": "Q14",
+   "stem": "Which scaling policy type keeps a metric such as average CPU utilisation close to a specified value?",
+   "options": {
+    "A": "Scheduled scaling",
+    "B": "Predictive maintenance",
+    "C": "Manual scaling",
+    "D": "Target tracking scaling"
+   },
+   "key": "D",
+   "topic": "auto scaling"
+  },
+  {
+   "id": "Q15",
+   "stem": "AWS recommends which resource for defining the instance configuration used by new Auto Scaling groups?",
+   "options": {
+    "A": "Launch template",
+    "B": "Dedicated host reservation",
+    "C": "Launch configuration",
+    "D": "Placement group"
+   },
+   "key": "A",
+   "topic": "auto scaling"
+  },
+  {
+   "id": "Q16",
+   "stem": "What is the primary purpose of Amazon RDS Multi-AZ deployment (with one standby)?",
+   "options": {
+    "A": "To provide high availability with automatic failover to a standby in another Availability Zone",
+    "B": "To reduce storage costs",
+    "C": "To replicate data to another Region for analytics",
+    "D": "To scale read traffic across replicas"
+   },
+   "key": "A",
+   "topic": "databases"
+  },
+  {
+   "id": "Q17",
+   "stem": "Which option is designed mainly to offload read traffic from a primary RDS database?",
+   "options": {
+    "A": "Multi-AZ standby",
+    "B": "Automated snapshot",
+    "C": "Read replica",
+    "D": "Parameter group"
+   },
+   "key": "C",
+   "topic": "databases"
+  },
+  {
+   "id": "Q18",
+   "stem": "Which feature lets you restore an RDS DB instance to any second within the backup retention period (typically up to the last five minutes)?",
+   "options": {
+    "A": "Multi-AZ failover",
+    "B": "Manual snapshots only",
+    "C": "Point-in-time recovery using automated backups",
+    "D": "Performance Insights"
+   },
+   "key": "C",
+   "topic": "databases"
+  },
+  {
+   "id": "Q19",
+   "stem": "What is the main benefit of placing Amazon CloudFront in front of a web application?",
+   "options": {
+    "A": "It replaces the need for a database",
+    "B": "It caches content at edge locations, reducing latency and origin load",
+    "C": "It encrypts data at rest in S3",
+    "D": "It automatically scales EC2 instances"
+   },
+   "key": "B",
+   "topic": "content delivery"
+  },
+  {
+   "id": "Q20",
+   "stem": "A private S3 bucket stores photos. The web page must let a browser download one photo for a limited time without making the bucket public. What should the application generate?",
+   "options": {
+    "A": "A bucket policy allowing Principal \"*\"",
+    "B": "An IAM user for each visitor",
+    "C": "A presigned URL for the object",
+    "D": "A public ACL on the object"
+   },
+   "key": "C",
+   "topic": "storage security"
+  },
+  {
+   "id": "Q21",
+   "stem": "Which S3 feature prevents any bucket policy or ACL from granting public access?",
+   "options": {
+    "A": "S3 Block Public Access",
+    "B": "S3 Transfer Acceleration",
+    "C": "S3 Versioning",
+    "D": "S3 Inventory"
+   },
+   "key": "A",
+   "topic": "storage security"
+  },
+  {
+   "id": "Q22",
+   "stem": "In AWS CloudFormation, what does the intrinsic function Fn::GetAtt return?",
+   "options": {
+    "A": "The list of Availability Zones in the Region",
+    "B": "The stack's tags",
+    "C": "The value of a template parameter",
+    "D": "The value of an attribute of a resource in the template"
+   },
+   "key": "D",
+   "topic": "infrastructure as code"
+  },
+  {
+   "id": "Q23",
+   "stem": "Which CloudFormation feature lets you preview how proposed changes will affect running resources before you apply them?",
+   "options": {
+    "A": "Change set",
+    "B": "Stack policy",
+    "C": "Nested stack",
+    "D": "Drift detection"
+   },
+   "key": "A",
+   "topic": "infrastructure as code"
+  },
+  {
+   "id": "Q24",
+   "stem": "Why can hard-coding an AMI ID in a CloudFormation template make it fail in another Region?",
+   "options": {
+    "A": "CloudFormation does not accept AMI IDs",
+    "B": "AMI IDs are account-specific for public images in every case",
+    "C": "AMI IDs are Region-specific",
+    "D": "AMI IDs expire after 24 hours"
+   },
+   "key": "C",
+   "topic": "infrastructure as code"
+  },
+  {
+   "id": "Q25",
+   "stem": "A web application writes user input into SQL queries by string concatenation. Which practice most directly prevents SQL injection?",
+   "options": {
+    "A": "Encrypting the database at rest",
+    "B": "Enabling Multi-AZ",
+    "C": "Placing the database in a private subnet",
+    "D": "Using parameterised queries (prepared statements)"
+   },
+   "key": "D",
+   "topic": "application security"
+  },
+  {
+   "id": "Q26",
+   "stem": "How many pillars does the AWS Well-Architected Framework currently define?",
+   "options": {
+    "A": "Four",
+    "B": "Five",
+    "C": "Six",
+    "D": "Seven"
+   },
+   "key": "C",
+   "topic": "well-architected"
+  },
+  {
+   "id": "Q27",
+   "stem": "Which pairing of Well-Architected pillar and concern is correct?",
+   "options": {
+    "A": "Cost optimisation - recovering from failures",
+    "B": "Security - right-sizing instances",
+    "C": "Sustainability - minimising environmental impact of workloads",
+    "D": "Reliability - minimising carbon footprint"
+   },
+   "key": "C",
+   "topic": "well-architected"
+  },
+  {
+   "id": "Q28",
+   "stem": "Which EC2 purchasing option is generally the cheapest for fault-tolerant, interruptible batch workloads?",
+   "options": {
+    "A": "Reserved capacity in a single AZ with no commitment",
+    "B": "Dedicated Hosts",
+    "C": "Spot Instances",
+    "D": "On-Demand Instances"
+   },
+   "key": "C",
+   "topic": "cost"
+  },
+  {
+   "id": "Q29",
+   "stem": "An instance in a private subnet with a correct NAT route still cannot reach the internet, and the NAT is a self-managed NAT instance. Which setting on the NAT instance is a common cause?",
+   "options": {
+    "A": "Source/destination checking has not been disabled",
+    "B": "Termination protection is enabled",
+    "C": "The instance has an IAM role",
+    "D": "Detailed monitoring is disabled"
+   },
+   "key": "A",
+   "topic": "troubleshooting"
+  },
+  {
+   "id": "Q30",
+   "stem": "Which design best removes a single point of failure for a stateless web tier?",
+   "options": {
+    "A": "A larger EBS volume",
+    "B": "Two instances in the same subnet",
+    "C": "One large instance with an Elastic IP",
+    "D": "Instances in an Auto Scaling group spread across multiple Availability Zones behind a load balancer"
+   },
+   "key": "D",
+   "topic": "reliability"
+  }
+ ]
+}

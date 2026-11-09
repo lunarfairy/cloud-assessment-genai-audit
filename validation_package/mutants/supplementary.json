@@ -1,0 +1,10 @@
+[
+ {
+  "id": "APP_S01",
+  "task": "APP",
+  "target": "A04",
+  "desc": "case-sensitive search (targeted: instr on raw columns, term unchanged)",
+  "path": "mutants/APP/APP_S01.py",
+  "source": "supplementary (not catalogued), generated from gold/photoapp.py by mutate.py"
+ }
+]

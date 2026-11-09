@@ -1,0 +1,41 @@
+\begin{table*}[t]
+\caption{Sensitivity of the planned analysis at $J=56$ (LMM, $t$ on $J-10=46$ degrees of freedom), $d=0.3$ for B--A unless stated, $R^2=0.3$, cluster-size CV 0.3 and 10\% attrition unless varied. Marginal: Holm-adjusted power for B--A; joint: probability that both confirmatory contrasts are rejected; 1,000 replications per cell (Monte Carlo SE at most 0.016).}
+\label{tab:sensitivity}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llcccc}
+\toprule
+& & \multicolumn{2}{c}{ICC 0.05} & \multicolumn{2}{c}{ICC 0.10}\\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}
+Family & Scenario & Marginal & Joint & Marginal & Joint\\
+\midrule
+Covariate $R^2$ by level & no between-cluster $R^2$ & 0.79 & 0.69 & 0.56 & 0.44\\
+Covariate $R^2$ by level & between-cluster $R^2$ 0.6 & 0.97 & 0.95 & 0.89 & 0.83\\
+Low covariate $R^2$ & $R^2$ 0.1 & 0.82 & 0.78 & 0.70 & 0.58\\
+Low covariate $R^2$ & $R^2$ 0.2 & 0.88 & 0.84 & 0.71 & 0.61\\
+Bounded outcome & ceiling-bounded scores & 0.91 & 0.87 & 0.75 & 0.66\\
+Missing outcomes & MAR on covariate & 0.92 & 0.89 & 0.75 & 0.68\\
+Missing outcomes & MNAR on outcome & 0.92 & 0.88 & 0.74 & 0.65\\
+Missing outcomes & arm-differential attrition & 0.92 & 0.88 & 0.77 & 0.69\\
+Consent and cluster loss & consent 75\%, cluster-varying & 0.88 & 0.82 & 0.72 & 0.62\\
+Consent and cluster loss & consent differs by arm & 0.85 & 0.81 & 0.72 & 0.63\\
+Consent and cluster loss & two clusters lost & 0.90 & 0.87 & 0.73 & 0.65\\
+Unequal arm variance & SD in C 1.2 times A & 0.89 & 0.84 & 0.72 & 0.62\\
+Unequal arm effects & $d_C=0.15$ & 0.89 & 0.41 & 0.71 & 0.28\\
+Unequal arm effects & $d_C=-0.3$ & 0.94 & 0.87 & 0.78 & 0.61\\
+Unequal arm effects & $d_C=0$ & 0.89 & 0.04 & 0.72 & 0.03\\
+Offering effects & offering shift 0.3 SD & 0.92 & 0.89 & 0.78 & 0.69\\
+Offering effects & effect 0.4 vs 0.2 by offering & 0.91 & 0.88 & 0.77 & 0.68\\
+Tutor effects & tutor random effects & 0.81 & 0.75 & 0.66 & 0.56\\
+Policy non-compliance & 20\% of A use AI, $\delta=-0.3$ & 0.98 & 0.98 & 0.89 & 0.85\\
+Policy non-compliance & 20\% of A use AI, $\delta=0$ & 0.92 & 0.88 & 0.79 & 0.70\\
+Policy non-compliance & 20\% of A use AI, $\delta=+0.3$ & 0.74 & 0.67 & 0.53 & 0.41\\
+Policy non-compliance & 40\% of A use AI, $\delta=-0.3$ & 1.00 & 1.00 & 0.98 & 0.96\\
+Policy non-compliance & 40\% of A use AI, $\delta=0$ & 0.92 & 0.88 & 0.76 & 0.67\\
+Policy non-compliance & 40\% of A use AI, $\delta=+0.3$ & 0.46 & 0.35 & 0.34 & 0.24\\
+Policy non-compliance & 20\% leakage B$\to$C & 0.92 & 0.88 & 0.75 & 0.67\\
+Policy non-compliance & leakage, $d_C=0.15$ & 0.81 & 0.39 & 0.61 & 0.25\\
+Policy non-compliance & leakage, $d_C=0$ & 0.67 & 0.04 & 0.47 & 0.03\\
+\bottomrule
+\end{tabular}
+\end{table*}

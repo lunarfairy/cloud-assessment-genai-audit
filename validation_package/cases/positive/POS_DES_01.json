@@ -1,0 +1,84 @@
+{
+ "proposed_bom": [
+  {
+   "item": "ec2_m6g.large_hour",
+   "quantity": 1520,
+   "purpose": "2 baseline Graviton instances x 730 h + 1 extra for 60 peak hours"
+  },
+  {
+   "item": "alb_hour",
+   "quantity": 730,
+   "purpose": "load balancer"
+  },
+  {
+   "item": "alb_lcu_hour",
+   "quantity": 3650,
+   "purpose": "5 LCU average"
+  },
+  {
+   "item": "nat_gateway_hour",
+   "quantity": 1460,
+   "purpose": "NAT gateway in each of two AZs"
+  },
+  {
+   "item": "nat_gateway_gb_processed",
+   "quantity": 150,
+   "purpose": "egress"
+  },
+  {
+   "item": "rds_mysql_db.t3.medium_singleaz_hour",
+   "quantity": 730,
+   "multi_az": true,
+   "purpose": "Multi-AZ primary and standby"
+  },
+  {
+   "item": "rds_storage_gb_month_singleaz",
+   "quantity": 100,
+   "multi_az": true,
+   "purpose": "database storage"
+  },
+  {
+   "item": "s3_standard_gb_month",
+   "quantity": 500,
+   "purpose": "photos"
+  },
+  {
+   "item": "s3_put_per_1000",
+   "quantity": 200,
+   "purpose": "200k uploads"
+  },
+  {
+   "item": "s3_get_per_1000",
+   "quantity": 2000,
+   "purpose": "2M origin reads"
+  },
+  {
+   "item": "cloudfront_gb_out",
+   "quantity": 2000,
+   "purpose": "edge delivery"
+  },
+  {
+   "item": "cloudfront_requests_per_10000",
+   "quantity": 4000,
+   "purpose": "40 million requests"
+  }
+ ],
+ "compute": {
+  "instance_type": "m6g.large",
+  "asg_min": 2,
+  "asg_max": 4,
+  "availability_zones": 2
+ },
+ "database": {
+  "engine": "mysql",
+  "instance_class": "db.t3.medium",
+  "multi_az": true,
+  "point_in_time_recovery": true,
+  "backup_retention_days": 7,
+  "read_replicas": 0
+ },
+ "stated_original_monthly_cost_usd": 133.21,
+ "stated_proposed_monthly_cost_usd": 580.69,
+ "justification": "The original four t3.micro instances give at most 160 requests per second, far below the 750 required at the origin. The redesign uses m6g.large instances (320 requests per second each) in an Auto Scaling group of 2 to 4 across two Availability Zones, so three instances cover the peak and the fourth is headroom; there is no cache tier. Operational excellence: the stack is defined in CloudFormation and scaling is automatic. Security: instances stay in private subnets behind the load balancer and use a scoped instance role. Reliability: a NAT gateway per Availability Zone and a Multi-AZ db.t3.medium with automated backups and point-in-time recovery (RPO about 5 minutes, automatic failover well inside the 1-hour RTO). Performance efficiency: Graviton instances give the highest capacity per dollar on the sheet and CloudFront serves half of the requests. Cost optimisation: about US$581 per month, within the US$750 budget; the third instance is paid only for the 60 peak hours. Sustainability: Graviton instances use less energy per request, and scaling in after peaks avoids idle capacity.",
+ "comparison": "The original costs US$133.21 but cannot reach the peak; the proposal costs US$580.69, reaches 1,280 requests per second at maximum size and survives the loss of one Availability Zone."
+}

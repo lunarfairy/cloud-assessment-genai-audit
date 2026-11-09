@@ -1,0 +1,8 @@
+theme,n,fails,fails_gated,n_checks,student,label,n_xA09,fails_xA09,rate_HaikuFourFive,rate_SonnetFourFive,rate_SonnetFive,rate_HaikuFiveFive,rate_SonnetFiveFive,rate_OpusFiveFive,lo,hi
+th1,450,5,49,5,39,Security vs functionality behind the load balancer,450,5,0.0,0.0,0.0,0.06666666666666667,0.0,0.0,0.004755082443490748,0.025743362796427905
+th2,540,34,34,6,33,SDK coding for upload and retrieval,450,0,0.05555555555555555,0.16666666666666666,0.15555555555555556,0.0,0.0,0.0,0.0454036853914699,0.08669631858593337
+th4,270,3,39,3,13,"Auto Scaling, scaling policies, target groups",270,3,0.0,0.0,0.0,0.06666666666666667,0.0,0.0,0.003785840063429387,0.03215268773108565
+th5,180,1,13,2,17,IAM roles and policies for EC2/S3 access,180,1,0.0,0.0,0.0,0.03333333333333333,0.0,0.0,0.0009813660563752335,0.03079307109638775
+th6,180,0,0,2,9,Presigned URL for S3 access,180,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.020895498244367063
+th7,90,1,13,1,6,Private-subnet access through NAT,90,1,0.0,0.0,0.0,0.06666666666666667,0.0,0.0,0.0019640840792123256,0.06028408374483127
+th8,180,0,0,2,6,Escaping characters in SQL queries,180,0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.020895498244367063

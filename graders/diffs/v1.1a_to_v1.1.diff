@@ -1,0 +1,22 @@
+--- v1.1a/checks_iac.py
++++ v1.1/checks_iac.py
+@@ -568,7 +568,8 @@
+         img = ref_of(d.get("ImageId"))
+         c = {"ami_param": bool(img and T.param_type(img) == "AWS::EC2::Image::Id"),
+              "t3.micro": str(T.literal_or_default(d.get("InstanceType"))) == "t3.micro",
+-             "sg": bool(_lt_sgs(T, lt)) and not (d.get("NetworkInterfaces") and (d.get("SecurityGroupIds") or d.get("SecurityGroups"))),  # PATCH P16
++             "sg": bool(_lt_sgs(T, lt)),
++             "no_template_level_sg_with_network_interfaces": not (d.get("NetworkInterfaces") and (d.get("SecurityGroupIds") or d.get("SecurityGroups"))),  # PATCH P16 (EC2 rejects SecurityGroupIds alongside NetworkInterfaces)
+              "userdata": ("httpd" in flat(d.get("UserData")).lower() and "php" in flat(d.get("UserData")).lower()),
+              "no_launch_config": not lc}
+         ok5, m5 = all(c.values()), "launch template components %s" % c
+@@ -760,7 +761,8 @@
+              "t3.micro": str(T.literal_or_default(d.get("InstanceType"))) == "t3.micro" and all(  # PATCH P9
+                  lv(o.get("InstanceType")) == "t3.micro" for o in as_list(((T.props(asg).get("MixedInstancesPolicy") or {})
+                  .get("LaunchTemplate") or {}).get("Overrides")) if isinstance(o, dict) and o.get("InstanceType") is not None),
+-             "web_sg": bool(web_sgs) and not (d.get("NetworkInterfaces") and (d.get("SecurityGroupIds") or d.get("SecurityGroups"))),  # PATCH P16
++             "web_sg": bool(web_sgs),
++             "no_template_level_sg_with_network_interfaces": not (d.get("NetworkInterfaces") and (d.get("SecurityGroupIds") or d.get("SecurityGroups"))),  # PATCH P16 (EC2 rejects SecurityGroupIds alongside NetworkInterfaces)
+              "instance_profile": prof_ref in T.of("AWS::IAM::InstanceProfile"),
+              "no_public_ip": not pub_ip and (any((ni or {}).get("AssociatePublicIpAddress") is not None and not truthy((ni or {}).get("AssociatePublicIpAddress"))
+                                                   for ni in as_list(d.get("NetworkInterfaces")) if isinstance(ni, dict))

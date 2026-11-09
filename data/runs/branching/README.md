@@ -1,0 +1,1 @@
+Paired branching starts are failing first submissions. Claude Opus 5.5 had no failing first submission, so it has no folder here; Claude Sonnet 5.5's folder holds only the selection record. Branches added under grader v1.1 (keys 'branchnew@@') start from main-battery first submissions that fail under v1.1; their continuations are in ../../live/.

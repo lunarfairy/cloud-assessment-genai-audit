@@ -1,0 +1,59 @@
+--- v1.1/app_runner.py
++++ tier2/app_runner.py
+@@ -70,6 +70,11 @@
+     assert set(r[0].keys()) == {"id", "title", "description", "s3_key", "uploaded_at"}, "row keys %s" % list(r[0].keys())
+     assert r[0]["s3_key"] == "photos/a/1.jpg"
+     assert all(type(x) is dict for x in r), "rows are not dict objects"  # PATCH PA1
++    c2 = conn(); m.init_db(c2)  # PATCH PA5 (tier 2)
++    for t in ["100%", "abc", "a_b", "ab"]:
++        m.save_photo_metadata(c2, t, None, "k")
++    assert [x["title"] for x in m.search_photos(c2, "%")] == ["100%"] and [x["title"] for x in m.search_photos(c2, "_")] == ["a_b"], \
++        "wildcard characters in the term are not matched literally"
+ 
+ 
+ @test("A04")
+--- v1.1/checks_iac.py
++++ tier2/checks_iac.py
+@@ -511,6 +511,7 @@
+     res["T1.R4"] = (bool(https), "HTTPS from anywhere present" if https else "no TCP 443 rule from 0.0.0.0/0")
+     ssh = [x for x in rules if T.covers(x, 22)]
+     ssh_ok = bool(ssh) and all(x["cidr"] and x["cidr"][0] == "param" and x["from"] == 22 and x["to"] == 22 for x in ssh)
++    ssh_ok = ssh_ok and not any(flat(T.param_default(x["cidr"][1])) in ANYWHERE for x in ssh)  # PATCH P13 (tier 2)
+     res["T1.R5"] = (ssh_ok, "SSH rules: %s" % ssh[:3])
+     other = [x for x in rules if x not in https and x not in ssh]
+     wide_ssh = [x for x in ssh if not (x["cidr"] and x["cidr"][0] == "param")]
+@@ -639,6 +640,14 @@
+           any("${%s.PublicIp}" % i in o for i in insts for o in outs)
+     dbo = any("${%s.Endpoint.Address}" % d in o for d in dbs for o in outs)
+     res["T2.R11"] = (url and dbo, "website URL output %s; DB endpoint output %s" % (url, dbo))
++    for lid, r in T.R.items():  # PATCH P17 (tier 2)
++        prop = FIXED_NAME_PROPS.get(r.get("Type")) if isinstance(r, dict) else None
++        v = (r.get("Properties") or {}).get(prop) if prop else None
++        if v is None or "AWS::StackName" in flat(v) or "AWS::StackId" in flat(v) or ref_of(v) in T.P:
++            continue
++        k = {"AWS::EC2::LaunchTemplate": "T2.R5", "AWS::RDS::DBInstance": "T2.R8", "AWS::RDS::DBSubnetGroup": "T2.R8"}.get(r.get("Type"))
++        if k:
++            res[k] = (False, "fixed physical name %s.%s=%s collides on a second deployment" % (lid, prop, flat(v)[:40]))
+     return res
+ 
+ # ----------------------------------------------------------------------------- T3
+@@ -931,7 +940,9 @@
+         o_ok = any(alb and flat(o.get("DomainName")) == "${%s.DNSName}" % alb and
+                    flat((o.get("CustomOriginConfig") or {}).get("OriginProtocolPolicy")) == "http-only" for o in origins)
+         vpp = flat((cfg.get("DefaultCacheBehavior") or {}).get("ViewerProtocolPolicy"))
+-        ok14, m14 = o_ok and vpp == "redirect-to-https", "ALB custom origin http-only %s; viewer policy %s" % (o_ok, vpp)
++        vpp_all = all(flat(cb.get("ViewerProtocolPolicy")) in ("redirect-to-https", "https-only")  # PATCH P10
++                      for cb in as_list(cfg.get("CacheBehaviors")) if isinstance(cb, dict))
++        ok14, m14 = o_ok and vpp == "redirect-to-https" and vpp_all, "ALB custom origin http-only %s; viewer policy %s" % (o_ok, vpp)
+         if ok14:
+             break
+     res["T3.R14"] = (ok14, m14)
+@@ -945,7 +956,7 @@
+         if prop and p.get(prop) is not None:
+             v = p.get(prop)
+             fv = flat(v)
+-            fj = json.dumps(v)  # PATCH P21 (v1.1): stack-derived names inside Select/Split expressions
++            fj = json.dumps(v)  # PATCH P21 (v1.1)
+             if not ("AWS::StackName" in fv or "AWS::StackId" in fv or "AWS::StackName" in fj or "AWS::StackId" in fj or (ref_of(v) in T.P)):
+                 issues.append("%s.%s fixed name '%s'" % (lid, prop, fv[:40]))
+         for x in _walk(p):

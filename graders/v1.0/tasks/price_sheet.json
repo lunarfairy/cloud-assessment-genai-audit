@@ -1,0 +1,82 @@
+{
+ "price_sheet": {
+  "note": "Fixed assessment price sheet (USD). Monthly figures assume 730 hours per month. Use only these prices.",
+  "prices": {
+   "ec2_t3.micro_hour": 0.0104,
+   "ec2_t3.small_hour": 0.0208,
+   "ec2_t3.medium_hour": 0.0416,
+   "ec2_m6g.large_hour": 0.077,
+   "alb_hour": 0.0225,
+   "alb_lcu_hour": 0.008,
+   "nat_gateway_hour": 0.045,
+   "nat_gateway_gb_processed": 0.045,
+   "rds_mysql_db.t3.micro_singleaz_hour": 0.017,
+   "rds_mysql_db.t3.medium_singleaz_hour": 0.068,
+   "rds_mysql_db.r6g.large_singleaz_hour": 0.225,
+   "rds_multiaz_multiplier": 2.0,
+   "rds_storage_gb_month_singleaz": 0.115,
+   "rds_read_replica_note": "A read replica is priced as an additional single-AZ instance of the same class.",
+   "elasticache_cache.t3.medium_hour": 0.068,
+   "s3_standard_gb_month": 0.023,
+   "s3_put_per_1000": 0.005,
+   "s3_get_per_1000": 0.0004,
+   "cloudfront_gb_out": 0.085,
+   "cloudfront_requests_per_10000": 0.01,
+   "lambda_requests_per_million": 0.2,
+   "lambda_gb_second": 1.66667e-05
+  },
+  "capacity_requests_per_second_per_instance_at_70pct_cpu": {
+   "t3.micro": 40,
+   "t3.small": 80,
+   "t3.medium": 160,
+   "m6g.large": 320
+  }
+ },
+ "original_bom": [
+  {
+   "item": "ec2_t3.micro_hour",
+   "quantity": 1460,
+   "note": "2 instances x 730 h"
+  },
+  {
+   "item": "alb_hour",
+   "quantity": 730
+  },
+  {
+   "item": "alb_lcu_hour",
+   "quantity": 1460,
+   "note": "2 LCU on average"
+  },
+  {
+   "item": "nat_gateway_hour",
+   "quantity": 730
+  },
+  {
+   "item": "nat_gateway_gb_processed",
+   "quantity": 100
+  },
+  {
+   "item": "rds_mysql_db.t3.micro_singleaz_hour",
+   "quantity": 730,
+   "multi_az": true
+  },
+  {
+   "item": "rds_storage_gb_month_singleaz",
+   "quantity": 20,
+   "multi_az": true
+  },
+  {
+   "item": "s3_standard_gb_month",
+   "quantity": 50
+  },
+  {
+   "item": "cloudfront_gb_out",
+   "quantity": 200
+  },
+  {
+   "item": "cloudfront_requests_per_10000",
+   "quantity": 500,
+   "note": "5 million requests"
+  }
+ ]
+}

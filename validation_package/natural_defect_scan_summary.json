@@ -1,0 +1,177 @@
+{
+ "all_turns|APP|claude-haiku-4-5-20251001": {
+  "n": 16,
+  "S4_like_wildcards": 16,
+  "S4_posix_basename": 5
+ },
+ "all_turns|APP|claude-opus-5-5": {
+  "n": 15
+ },
+ "all_turns|APP|claude-sonnet-4-5-20250929": {
+  "n": 21,
+  "S4_like_wildcards": 21,
+  "S4_posix_basename": 18
+ },
+ "all_turns|APP|claude-sonnet-5": {
+  "n": 15,
+  "S4_like_wildcards": 15,
+  "S4_posix_basename": 14
+ },
+ "all_turns|T1|claude-haiku-4-5-20251001": {
+  "n": 21,
+  "S3_importvalue": 3
+ },
+ "all_turns|T1|claude-opus-5-5": {
+  "n": 15
+ },
+ "all_turns|T1|claude-sonnet-4-5-20250929": {
+  "n": 15
+ },
+ "all_turns|T1|claude-sonnet-5": {
+  "n": 15
+ },
+ "all_turns|T2|claude-haiku-4-5-20251001": {
+  "n": 18,
+  "S1_fixed_name_T2": 16
+ },
+ "all_turns|T2|claude-opus-5-5": {
+  "n": 15
+ },
+ "all_turns|T2|claude-sonnet-4-5-20250929": {
+  "n": 15,
+  "S1_fixed_name_T2": 10
+ },
+ "all_turns|T2|claude-sonnet-5": {
+  "n": 15,
+  "S1_fixed_name_T2": 1
+ },
+ "all_turns|T3|claude-haiku-4-5-20251001": {
+  "n": 24,
+  "S2_lt_ni_and_sg": 10
+ },
+ "all_turns|T3|claude-opus-5-5": {
+  "n": 15
+ },
+ "all_turns|T3|claude-sonnet-4-5-20250929": {
+  "n": 15,
+  "S2_lt_ni_and_sg": 15
+ },
+ "all_turns|T3|claude-sonnet-5": {
+  "n": 15
+ },
+ "round1_all_pass|APP|claude-haiku-4-5-20251001": {
+  "n": 11,
+  "S4_like_wildcards": 11,
+  "S4_posix_basename": 1
+ },
+ "round1_all_pass|APP|claude-opus-5-5": {
+  "n": 15
+ },
+ "round1_all_pass|APP|claude-sonnet-5": {
+  "n": 15,
+  "S4_like_wildcards": 15,
+  "S4_posix_basename": 14
+ },
+ "round1_all_pass|T1|claude-haiku-4-5-20251001": {
+  "n": 3,
+  "S3_importvalue": 3
+ },
+ "round1_all_pass|T1|claude-opus-5-5": {
+  "n": 15
+ },
+ "round1_all_pass|T1|claude-sonnet-4-5-20250929": {
+  "n": 15
+ },
+ "round1_all_pass|T1|claude-sonnet-5": {
+  "n": 14
+ },
+ "round1_all_pass|T2|claude-haiku-4-5-20251001": {
+  "n": 11,
+  "S1_fixed_name_T2": 9
+ },
+ "round1_all_pass|T2|claude-opus-5-5": {
+  "n": 15
+ },
+ "round1_all_pass|T2|claude-sonnet-4-5-20250929": {
+  "n": 15,
+  "S1_fixed_name_T2": 10
+ },
+ "round1_all_pass|T2|claude-sonnet-5": {
+  "n": 15,
+  "S1_fixed_name_T2": 1
+ },
+ "round1_all_pass|T3|claude-haiku-4-5-20251001": {
+  "n": 3,
+  "S2_lt_ni_and_sg": 3
+ },
+ "round1_all_pass|T3|claude-opus-5-5": {
+  "n": 15
+ },
+ "round1_all_pass|T3|claude-sonnet-4-5-20250929": {
+  "n": 15,
+  "S2_lt_ni_and_sg": 15
+ },
+ "round1_all_pass|T3|claude-sonnet-5": {
+  "n": 15
+ },
+ "round1|APP|claude-haiku-4-5-20251001": {
+  "n": 15,
+  "S4_like_wildcards": 15,
+  "S4_posix_basename": 5
+ },
+ "round1|APP|claude-opus-5-5": {
+  "n": 15
+ },
+ "round1|APP|claude-sonnet-4-5-20250929": {
+  "n": 15,
+  "S4_like_wildcards": 15,
+  "S4_posix_basename": 13
+ },
+ "round1|APP|claude-sonnet-5": {
+  "n": 15,
+  "S4_like_wildcards": 15,
+  "S4_posix_basename": 14
+ },
+ "round1|T1|claude-haiku-4-5-20251001": {
+  "n": 15,
+  "S3_importvalue": 3
+ },
+ "round1|T1|claude-opus-5-5": {
+  "n": 15
+ },
+ "round1|T1|claude-sonnet-4-5-20250929": {
+  "n": 15
+ },
+ "round1|T1|claude-sonnet-5": {
+  "n": 14
+ },
+ "round1|T2|claude-haiku-4-5-20251001": {
+  "n": 15,
+  "S1_fixed_name_T2": 13
+ },
+ "round1|T2|claude-opus-5-5": {
+  "n": 15
+ },
+ "round1|T2|claude-sonnet-4-5-20250929": {
+  "n": 15,
+  "S1_fixed_name_T2": 10
+ },
+ "round1|T2|claude-sonnet-5": {
+  "n": 15,
+  "S1_fixed_name_T2": 1
+ },
+ "round1|T3|claude-haiku-4-5-20251001": {
+  "n": 15,
+  "S2_lt_ni_and_sg": 7
+ },
+ "round1|T3|claude-opus-5-5": {
+  "n": 15
+ },
+ "round1|T3|claude-sonnet-4-5-20250929": {
+  "n": 15,
+  "S2_lt_ni_and_sg": 15
+ },
+ "round1|T3|claude-sonnet-5": {
+  "n": 15
+ }
+}

@@ -1,0 +1,74 @@
+{
+"main@@claude-haiku-4-5-20251001|T3|A|1": {
+"r": 1,
+"gkey": "main@@claude-haiku-4-5-20251001|T3|A|1#r1"
+},
+"main@@claude-haiku-4-5-20251001|T3|A|3": {
+"r": 1,
+"gkey": "main@@claude-haiku-4-5-20251001|T3|A|3#r1"
+},
+"main@@claude-sonnet-4-5-20250929|T3|A|0": {
+"r": 1,
+"gkey": "main@@claude-sonnet-4-5-20250929|T3|A|0#r1"
+},
+"main@@claude-sonnet-4-5-20250929|T3|A|1": {
+"r": 1,
+"gkey": "main@@claude-sonnet-4-5-20250929|T3|A|1#r1"
+},
+"main@@claude-sonnet-4-5-20250929|T3|A|2": {
+"r": 1,
+"gkey": "main@@claude-sonnet-4-5-20250929|T3|A|2#r1"
+},
+"main@@claude-sonnet-4-5-20250929|T3|A|3": {
+"r": 1,
+"gkey": "main@@claude-sonnet-4-5-20250929|T3|A|3#r1"
+},
+"main@@claude-sonnet-4-5-20250929|T3|A|4": {
+"r": 1,
+"gkey": "main@@claude-sonnet-4-5-20250929|T3|A|4#r1"
+},
+"branch@@claude-haiku-4-5-20251001::claude-haiku-4-5-20251001|T3|A|3|A": {
+"r": 1,
+"gkey": "branch@@claude-haiku-4-5-20251001::claude-haiku-4-5-20251001|T3|A|3|A#r1"
+},
+"branch@@claude-haiku-4-5-20251001::claude-haiku-4-5-20251001|T3|P|3|A": {
+"r": 1,
+"gkey": "branch@@claude-haiku-4-5-20251001::claude-haiku-4-5-20251001|T3|P|3|A#r1"
+},
+"branch@@claude-haiku-4-5-20251001::claude-haiku-4-5-20251001|T3|S|0|A": {
+"r": 1,
+"gkey": "branch@@claude-haiku-4-5-20251001::claude-haiku-4-5-20251001|T3|S|0|A#r1"
+},
+"branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|P|1|A": {
+"r": 1,
+"gkey": "branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|P|1|A#r1"
+},
+"branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|S|4|A": {
+"r": 1,
+"gkey": "branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|S|4|A#r1"
+},
+"branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|A|0|A": {
+"r": 1,
+"gkey": "branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|A|0|A#r1"
+},
+"branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|P|2|A": {
+"r": 1,
+"gkey": "branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|P|2|A#r1"
+},
+"branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|A|1|A": {
+"r": 1,
+"gkey": "branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|A|1|A#r1"
+},
+"branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|P|4|A": {
+"r": 1,
+"gkey": "branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|P|4|A#r1"
+},
+"branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|P|0|A": {
+"r": 1,
+"gkey": "branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|P|0|A#r1"
+},
+"branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|S|0|A": {
+"r": 1,
+"gkey": "branchnew@@claude-sonnet-4-5-20250929::claude-sonnet-4-5-20250929|T3|S|0|A#r1"
+}
+}

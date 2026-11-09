@@ -1,0 +1,11 @@
+response,flags_n1_n4_inconsistency,costed_n4
+claude-haiku-4-5-20251001|DES|A|3#r2,False,True
+claude-haiku-4-5-20251001|DES|A|2#r3,False,True
+claude-haiku-4-5-20251001|DES|A|3#r3,False,True
+claude-haiku-4-5-20251001|DES|A|2#r5,False,True
+claude-haiku-5-5|DES|S|3#r1,True,True
+claude-haiku-5-5|DES|S|4#r1,True,True
+claude-haiku-5-5|DES|A|0#r1,True,True
+claude-haiku-5-5|DES|A|1#r1,True,True
+claude-opus-5-5|DES|A|0#r1,True,True
+claude-sonnet-5-5|DES|S|0#r1,True,True
